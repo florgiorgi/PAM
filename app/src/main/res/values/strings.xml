@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Travel Buddy</string>
+    <string name="days_left">days left ></string>
+    <string name="title">BARCELONA</string>
+    <string name="secondary_text">Apr 8th - 14th</string>
+    <string name="text_label_1">Upcoming</string>
+    <string name="text_label_2">History</string>
+    <string name="text_label_3">Settings</string>
+
 </resources>

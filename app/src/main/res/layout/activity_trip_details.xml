@@ -36,15 +36,74 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <TextView
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/date1"
                     android:layout_width="match_parent"
-                    android:layout_height="28dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:background="#EEEEEE"
-                    android:gravity="center"
-                    android:text="2020"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textColor="#777777" />
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="8dp"
+                                android:text="@string/title4"
+                                android:textAppearance="?attr/textAppearanceHeadline5" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:text="@string/secondary_text4"
+                                android:textAppearance="?attr/textAppearanceHeadline6"
+                                android:textColor="?android:attr/textColorSecondary" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="end"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:text="@string/random_flight"
+                                android:textAppearance="?attr/textAppearanceBody2" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="8dp"
+                                android:text="@string/random_date"
+                                android:textAppearance="?attr/textAppearanceBody2"
+                                android:textColor="?android:attr/textColorSecondary" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card4"
@@ -63,39 +122,29 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="0.8"
                             android:orientation="vertical"
-                            android:padding="16dp">
-
+                            android:padding="14dp">
 
                             <!-- Title, secondary and supporting text -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/title4"
+                                android:text="@string/day1"
                                 android:textAppearance="?attr/textAppearanceHeadline6" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="@string/secondary_text4"
-                                android:textAppearance="?attr/textAppearanceBody2"
-                                android:textColor="?android:attr/textColorSecondary" />
 
                         </LinearLayout>
 
                         <!-- Buttons -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp">
+                            android:layout_margin="4dp">
 
                             <com.google.android.material.button.MaterialButton
                                 style="?attr/borderlessButtonStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="8dp"
-                                android:text="@string/expand" />
+                                android:text="@string/expand_down"
+                                android:textSize="20sp" />
 
                         </LinearLayout>
 
@@ -120,39 +169,29 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="0.8"
                             android:orientation="vertical"
-                            android:padding="16dp">
-
+                            android:padding="14dp">
 
                             <!-- Title, secondary and supporting text -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/title5"
+                                android:text="@string/day2"
                                 android:textAppearance="?attr/textAppearanceHeadline6" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="@string/secondary_text2"
-                                android:textAppearance="?attr/textAppearanceBody2"
-                                android:textColor="?android:attr/textColorSecondary" />
 
                         </LinearLayout>
 
                         <!-- Buttons -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp">
+                            android:layout_margin="4dp">
 
                             <com.google.android.material.button.MaterialButton
                                 style="?attr/borderlessButtonStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="8dp"
-                                android:text="@string/expand" />
+                                android:text="@string/expand_down"
+                                android:textSize="20sp" />
 
                         </LinearLayout>
 
@@ -177,56 +216,35 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="0.8"
                             android:orientation="vertical"
-                            android:padding="16dp">
-
+                            android:padding="14dp">
 
                             <!-- Title, secondary and supporting text -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/title6"
+                                android:text="@string/day3"
                                 android:textAppearance="?attr/textAppearanceHeadline6" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="@string/secondary_text6"
-                                android:textAppearance="?attr/textAppearanceBody2"
-                                android:textColor="?android:attr/textColorSecondary" />
 
                         </LinearLayout>
 
                         <!-- Buttons -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp">
+                            android:layout_margin="4dp">
 
                             <com.google.android.material.button.MaterialButton
                                 style="?attr/borderlessButtonStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="8dp"
-                                android:text="@string/expand" />
+                                android:text="@string/expand_down"
+                                android:textSize="20sp" />
 
                         </LinearLayout>
 
                     </LinearLayout>
 
                 </com.google.android.material.card.MaterialCardView>
-
-
-                <TextView
-                    android:id="@+id/date2"
-                    android:layout_width="match_parent"
-                    android:layout_height="28dp"
-                    android:background="#EEEEEE"
-                    android:gravity="center"
-                    android:text="2019"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textColor="#777777" />
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card7"
@@ -245,39 +263,29 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="0.8"
                             android:orientation="vertical"
-                            android:padding="16dp">
-
+                            android:padding="14dp">
 
                             <!-- Title, secondary and supporting text -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/title7"
+                                android:text="@string/day4"
                                 android:textAppearance="?attr/textAppearanceHeadline6" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="@string/secondary_text7"
-                                android:textAppearance="?attr/textAppearanceBody2"
-                                android:textColor="?android:attr/textColorSecondary" />
 
                         </LinearLayout>
 
                         <!-- Buttons -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp">
+                            android:layout_margin="4dp">
 
                             <com.google.android.material.button.MaterialButton
                                 style="?attr/borderlessButtonStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="8dp"
-                                android:text="@string/expand" />
+                                android:text="@string/expand_down"
+                                android:textSize="20sp" />
 
                         </LinearLayout>
 
@@ -302,39 +310,29 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="0.8"
                             android:orientation="vertical"
-                            android:padding="16dp">
-
+                            android:padding="14dp">
 
                             <!-- Title, secondary and supporting text -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/title8"
+                                android:text="@string/day5"
                                 android:textAppearance="?attr/textAppearanceHeadline6" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="@string/secondary_text8"
-                                android:textAppearance="?attr/textAppearanceBody2"
-                                android:textColor="?android:attr/textColorSecondary" />
 
                         </LinearLayout>
 
                         <!-- Buttons -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
-                            android:layout_margin="8dp">
+                            android:layout_margin="4dp">
 
                             <com.google.android.material.button.MaterialButton
                                 style="?attr/borderlessButtonStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="8dp"
-                                android:text="@string/expand" />
+                                android:text="@string/expand_down"
+                                android:textSize="20sp" />
 
                         </LinearLayout>
 
@@ -342,62 +340,6 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card9"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    app:cardElevation="3dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:baselineAligned="false">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.8"
-                            android:orientation="vertical"
-                            android:padding="16dp">
-
-
-                            <!-- Title, secondary and supporting text -->
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/title9"
-                                android:textAppearance="?attr/textAppearanceHeadline6" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
-                                android:text="@string/secondary_text9"
-                                android:textAppearance="?attr/textAppearanceBody2"
-                                android:textColor="?android:attr/textColorSecondary" />
-
-                        </LinearLayout>
-
-                        <!-- Buttons -->
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp">
-
-                            <com.google.android.material.button.MaterialButton
-                                style="?attr/borderlessButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginEnd="8dp"
-                                android:text="@string/expand" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

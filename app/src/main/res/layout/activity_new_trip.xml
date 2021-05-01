@@ -70,7 +70,7 @@
                             android:id="@+id/from"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingTop="15dp"
+                            android:paddingTop="20dp"
                             android:text="@string/from"
                             android:textAppearance="?attr/textAppearanceHeadline6" />
 
@@ -96,7 +96,7 @@
                             android:id="@+id/to"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingTop="15dp"
+                            android:paddingTop="20dp"
                             android:text="@string/to"
                             android:textAppearance="?attr/textAppearanceHeadline6" />
 
@@ -116,7 +116,7 @@
                     android:id="@+id/how_are_you_traveling"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
+                    android:paddingTop="20dp"
                     android:text="@string/how_are_you_traveling"
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
@@ -132,7 +132,7 @@
                     android:id="@+id/flight_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
+                    android:paddingTop="20dp"
                     android:text="@string/flight_number"
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
@@ -149,7 +149,7 @@
                     android:id="@+id/date_time_of_departure"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="15dp"
+                    android:paddingTop="20dp"
                     android:text="@string/date_time"
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 

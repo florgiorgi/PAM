@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TravelBuddy</string>
+    <string name="days_left1">faltan 20 días ></string>
+    <string name="days_left2">faltan 39 días ></string>
+    <string name="days_left3">faltan 141 días ></string>
+    <string name="expand"> ></string>
+    <string name="title1">MUNICH</string>
+    <string name="title2">SUDÁFRICA</string>
+    <string name="title3">BARILOCHE</string>
+    <string name="title4">CANCÚN</string>
+    <string name="title5">SANTO DOMINGO</string>
+    <string name="title6">CÓRDOBA</string>
+    <string name="title7">LOS ANGELES</string>
+    <string name="title8">VILLA LA ANGOSTURA</string>
+    <string name="title9">HONG KONG</string>
+    <string name="secondary_text1">May 18 - Jun 5</string>
+    <string name="secondary_text2">Jun 6 - Jun 11</string>
+    <string name="secondary_text3">Sep 16 - Sep 22</string>
+    <string name="secondary_text4">Feb 12 - Feb 23</string>
+    <string name="secondary_text5">Ene 25 - Feb 11</string>
+    <string name="secondary_text6">Oct 18 - Oct 25</string>
+    <string name="secondary_text7">Nov 26 - Dic 10</string>
+    <string name="secondary_text8">Ago 5 - Ago 13</string>
+    <string name="secondary_text9">May 2 - May 25</string>
+    <string name="text_label_1">Próximos</string>
+    <string name="text_label_2">Historial</string>
+    <string name="text_label_3">Configuración</string>
+    <string name="where_are_you_going">¿Dónde vas?</string>
+    <string name="from">Desde</string>
+    <string name="to">Hasta</string>
+    <string name="how_are_you_traveling">¿Cómo viajás?</string>
+    <string name="flight_number">Número de vuelo</string>
+    <string name="date_time">Fecha y hora de salida</string>
+    <string name="where_are_you_going_hint">Ingresá la ciudad de destino</string>
+    <string name="from_hint">Desde</string>
+    <string name="to_hint">Hasta</string>
+    <string name="flight_number_hint">Ingresá el número de vuelo</string>
+    <string name="date_time_hint">Ingresá la fecha y hora de salida</string>
+    <string name="expand_down">^</string>
+    <string name="day1">Día 1</string>
+    <string name="day2">Día 2</string>
+    <string name="day3">Día 3</string>
+    <string name="day4">Día 4</string>
+    <string name="day5">Día 5</string>
+    <string name="random_date">Feb 12 8.32pm</string>
+    <string name="random_flight">Vuelo #2349</string>
+    <string name="climate1">20/21</string>
+    <string name="climate2">21/27</string>
+    <string name="climate3">18/22</string>
+    <string name="climate4">15/19</string>
+    <string name="climate5">17/21</string>
+    <string name="sunny">Soleado</string>
+    <string name="cloudy">Nublado</string>
+    <string name="rainy">Lluvioso</string>
+    <string name="partially_cloudy">Parcialmente nublado</string>
+    <string name="night_mode">Modo noche</string>
+    <string name="language">Idioma</string>
+
+    <string-array name="transport_options">
+        <item>Avión</item>
+        <item>Bus</item>
+        <item>Tren</item>
+        <item>Auto</item>
+        <item>Barco</item>
+        <item>Bicicleta</item>
+        <item>Caminando</item>
+        <item>Otro</item>
+    </string-array>
+
+    <string-array name="language_options">
+        <item>English</item>
+        <item>Español</item>
+    </string-array>
+
+</resources>

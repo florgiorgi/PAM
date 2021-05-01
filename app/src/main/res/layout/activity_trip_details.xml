@@ -37,7 +37,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/date1"
+                    android:id="@+id/trip_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -106,7 +106,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card4"
+                    android:id="@+id/day1_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -124,7 +124,6 @@
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Title, secondary and supporting text -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -133,6 +132,41 @@
 
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingStart="10dp"
+                            android:paddingTop="14dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="14dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/climate1"
+                                android:textAppearance="?attr/textAppearanceHeadline6"
+                                android:textColor="?android:attr/textColorSecondary" />
+                            />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/sunny"
+                                android:src="@drawable/sunny"
+                                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+                        </LinearLayout>
+
                         <!-- Buttons -->
                         <LinearLayout
                             android:layout_width="50dp"
@@ -153,7 +187,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card5"
+                    android:id="@+id/day2_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -171,7 +205,6 @@
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Title, secondary and supporting text -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -180,6 +213,41 @@
 
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingStart="10dp"
+                            android:paddingTop="14dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="14dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/climate2"
+                                android:textAppearance="?attr/textAppearanceHeadline6"
+                                android:textColor="?android:attr/textColorSecondary" />
+                            />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/sunny"
+                                android:src="@drawable/sunny"
+                                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+                        </LinearLayout>
+
                         <!-- Buttons -->
                         <LinearLayout
                             android:layout_width="50dp"
@@ -200,7 +268,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card6"
+                    android:id="@+id/day3_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -218,7 +286,6 @@
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Title, secondary and supporting text -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -227,49 +294,37 @@
 
                         </LinearLayout>
 
-                        <!-- Buttons -->
                         <LinearLayout
-                            android:layout_width="50dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_margin="4dp">
-
-                            <com.google.android.material.button.MaterialButton
-                                style="?attr/borderlessButtonStyle"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/expand_down"
-                                android:textSize="20sp" />
-
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card7"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    app:cardElevation="3dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:baselineAligned="false">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.8"
                             android:orientation="vertical"
-                            android:padding="14dp">
+                            android:paddingStart="10dp"
+                            android:paddingTop="14dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="14dp">
 
-                            <!-- Title, secondary and supporting text -->
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/day4"
+                                android:text="@string/climate3"
+                                android:textAppearance="?attr/textAppearanceHeadline6"
+                                android:textColor="?android:attr/textColorSecondary" />
+                            />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingTop="17dp"
+                            android:paddingBottom="17dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/partially_cloudy"
+                                android:src="@drawable/partly_cloudy"
                                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
                         </LinearLayout>
@@ -294,7 +349,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card8"
+                    android:id="@+id/day4_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -312,11 +367,126 @@
                             android:orientation="vertical"
                             android:padding="14dp">
 
-                            <!-- Title, secondary and supporting text -->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/day4"
+                                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingStart="10dp"
+                            android:paddingTop="14dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="14dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/climate4"
+                                android:textAppearance="?attr/textAppearanceHeadline6"
+                                android:textColor="?android:attr/textColorSecondary" />
+                            />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/rainy"
+                                android:src="@drawable/rainy"
+                                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+                        </LinearLayout>
+
+                        <!-- Buttons -->
+                        <LinearLayout
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="4dp">
+
+                            <com.google.android.material.button.MaterialButton
+                                style="?attr/borderlessButtonStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/expand_down"
+                                android:textSize="20sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/day5_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    app:cardElevation="3dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:baselineAligned="false">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.8"
+                            android:orientation="vertical"
+                            android:padding="14dp">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/day5"
+                                android:textAppearance="?attr/textAppearanceHeadline6" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingStart="10dp"
+                            android:paddingTop="14dp"
+                            android:paddingEnd="10dp"
+                            android:paddingBottom="14dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/climate5"
+                                android:textAppearance="?attr/textAppearanceHeadline6"
+                                android:textColor="?android:attr/textColorSecondary" />
+                            />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingTop="17dp"
+                            android:paddingBottom="17dp">
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:contentDescription="@string/cloudy"
+                                android:src="@drawable/cloudy"
                                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
                         </LinearLayout>

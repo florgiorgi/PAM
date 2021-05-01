@@ -44,6 +44,15 @@
     <string name="day5">Day 5</string>
     <string name="random_date">Feb 12 8.32pm</string>
     <string name="random_flight">Flight #2349</string>
+    <string name="climate1">20/21</string>
+    <string name="climate2">21/27</string>
+    <string name="climate3">18/22</string>
+    <string name="climate4">15/19</string>
+    <string name="climate5">17/21</string>
+    <string name="sunny">Sunny</string>
+    <string name="cloudy">Cloudy</string>
+    <string name="rainy">Rainy</string>
+    <string name="partially_cloudy">Partially cloudy</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

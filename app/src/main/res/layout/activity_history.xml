@@ -37,7 +37,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/date1"
+                    android:id="@+id/year1"
                     android:layout_width="match_parent"
                     android:layout_height="28dp"
                     android:background="#EEEEEE"
@@ -47,7 +47,7 @@
                     android:textColor="#777777" />
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card4"
+                    android:id="@+id/trip1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -85,7 +85,7 @@
 
                         <!-- Buttons -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp">
 
@@ -104,7 +104,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card5"
+                    android:id="@+id/trip2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -142,7 +142,7 @@
 
                         <!-- Buttons -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp">
 
@@ -161,7 +161,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card6"
+                    android:id="@+id/trip3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -199,7 +199,7 @@
 
                         <!-- Buttons -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp">
 
@@ -219,7 +219,7 @@
 
 
                 <TextView
-                    android:id="@+id/date2"
+                    android:id="@+id/year2"
                     android:layout_width="match_parent"
                     android:layout_height="28dp"
                     android:background="#EEEEEE"
@@ -229,7 +229,7 @@
                     android:textColor="#777777" />
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card7"
+                    android:id="@+id/trip4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -267,7 +267,7 @@
 
                         <!-- Buttons -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp">
 
@@ -286,7 +286,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card8"
+                    android:id="@+id/trip5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -324,7 +324,7 @@
 
                         <!-- Buttons -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp">
 
@@ -343,7 +343,7 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card9"
+                    android:id="@+id/trip6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -381,7 +381,7 @@
 
                         <!-- Buttons -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp">
 

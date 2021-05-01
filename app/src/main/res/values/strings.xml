@@ -53,6 +53,8 @@
     <string name="cloudy">Cloudy</string>
     <string name="rainy">Rainy</string>
     <string name="partially_cloudy">Partially cloudy</string>
+    <string name="night_mode">Night mode</string>
+    <string name="language">Language</string>
 
     <string-array name="transport_options">
         <item>Plane</item>
@@ -60,6 +62,11 @@
         <item>Train</item>
         <item>Car</item>
         <item>Ship</item>
+    </string-array>
+
+    <string-array name="language_options">
+        <item>English</item>
+        <item>Español</item>
     </string-array>
 
 </resources>

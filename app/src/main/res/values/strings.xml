@@ -25,5 +25,24 @@
     <string name="text_label_1">Upcoming</string>
     <string name="text_label_2">History</string>
     <string name="text_label_3">Settings</string>
+    <string name="where_are_you_going">Where are you going?</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="how_are_you_traveling">How are you traveling?</string>
+    <string name="flight_number">Flight number</string>
+    <string name="date_time">Date &amp; time of departure</string>
+    <string name="where_are_you_going_hint">Enter city</string>
+    <string name="from_hint">From</string>
+    <string name="to_hint">To</string>
+    <string name="flight_number_hint">Enter your flight number</string>
+    <string name="date_time_hint">Enter date &amp; time of departure</string>
+
+    <string-array name="transport_options">
+        <item>Plane</item>
+        <item>Bus</item>
+        <item>Train</item>
+        <item>Car</item>
+        <item>Ship</item>
+    </string-array>
 
 </resources>

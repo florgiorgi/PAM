@@ -28,6 +28,6 @@ public interface ActivityDao {
     void delete(Activity activity);
 
     @Update
-    Activity update(Activity activity);
+    void update(Activity activity);
 
 }

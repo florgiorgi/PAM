@@ -1,12 +1,14 @@
 package ar.edu.itba.pam.travelapp.model.activity;
 
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+import ar.edu.itba.pam.travelapp.model.DateConverter;
 
 @Entity
 public class Activity {
@@ -22,10 +24,12 @@ public class Activity {
     @Nullable
     private String description;
 
-    private LocalDate start;
+    @TypeConverters({DateConverter.class})
+    private Date start;
 
     @Nullable
-    private LocalDate end;
+    @TypeConverters({DateConverter.class})
+    private Date end;
 
     public long getId() {
         return id;
@@ -60,20 +64,20 @@ public class Activity {
         this.description = description;
     }
 
-    public LocalDate getStart() {
+    public Date getStart() {
         return start;
     }
 
-    public void setStart(LocalDate start) {
+    public void setStart(Date start) {
         this.start = start;
     }
 
     @Nullable
-    public LocalDate getEnd() {
+    public Date getEnd() {
         return end;
     }
 
-    public void setEnd(@Nullable LocalDate end) {
+    public void setEnd(@Nullable Date end) {
         this.end = end;
     }
 }

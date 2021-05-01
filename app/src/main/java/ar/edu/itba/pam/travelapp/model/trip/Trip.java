@@ -1,11 +1,14 @@
 package ar.edu.itba.pam.travelapp.model.trip;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
+import ar.edu.itba.pam.travelapp.model.DateConverter;
 
 
 @Entity
@@ -19,15 +22,20 @@ public class Trip {
     private long id;
     private String name;
     private String location;
-    private LocalDate startDate;
-    private LocalDate endDate;
+
+    @TypeConverters({DateConverter.class})
+    private Date startDate;
+
+    @TypeConverters({DateConverter.class})
+    private Date endDate;
     private TRAVEL_METHOD travelMethod;
 
     @Nullable
     private String description;
 
     @Nullable
-    private LocalDateTime departureTime;
+    @TypeConverters({DateConverter.class})
+    private Date departureTime;
 
     @Nullable
     private String flightNumber;
@@ -62,19 +70,19 @@ public class Trip {
         this.location = location;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -96,11 +104,11 @@ public class Trip {
     }
 
     @Nullable
-    public LocalDateTime getDepartureTime() {
+    public Date getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(@Nullable LocalDateTime departureTime) {
+    public void setDepartureTime(@Nullable Date departureTime) {
         this.departureTime = departureTime;
     }
 

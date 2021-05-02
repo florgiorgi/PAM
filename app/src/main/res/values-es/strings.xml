@@ -56,6 +56,10 @@
     <string name="partially_cloudy">Parcialmente nublado</string>
     <string name="night_mode">Modo noche</string>
     <string name="language">Idioma</string>
+    <string name="ftu_begin">Comenzar</string>
+    <string name="ftu_description">Bienvenido/a, organiza tus proximos viajes para aprovechar mejor tus aventuras!</string>
+    <string name="ftu_app">Travel Buddy</string>
+    <string name="app_logo">App logo</string>
 
     <string-array name="transport_options">
         <item>Avión</item>

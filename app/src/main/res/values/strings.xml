@@ -56,6 +56,10 @@
     <string name="partially_cloudy">Partially cloudy</string>
     <string name="night_mode">Night mode</string>
     <string name="language">Language</string>
+    <string name="ftu_begin">Start</string>
+    <string name="ftu_description">Welcome, here you can keep track of your incoming trips and activities!</string>
+    <string name="ftu_app">Travel Buddy</string>
+    <string name="app_logo">App logo</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

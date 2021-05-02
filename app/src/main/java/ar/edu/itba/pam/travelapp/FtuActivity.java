@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import ar.edu.itba.pam.travelapp.main.MainActivity;
 
 public class FtuActivity extends AppCompatActivity {
 

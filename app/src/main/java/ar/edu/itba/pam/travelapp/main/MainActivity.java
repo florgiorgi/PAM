@@ -5,6 +5,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ViewFlipper;
 
@@ -13,6 +15,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import ar.edu.itba.pam.travelapp.FtuActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;
@@ -22,6 +28,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int TRIPS = 0;
     private static final int HISTORY = 1;
     private static final int CONFIG = 2;
+
+
+    private static final String FTU = "ftu";
+    private static final String SP_ID = "travel-buddy-sp";
 
     private RecyclerView view;
     private TripListAdapter adapter;
@@ -37,8 +47,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
+
         setContentView(R.layout.activity_active_trips);
+
+        final SharedPreferences sp = getSharedPreferences(SP_ID, MODE_PRIVATE);
+        if (sp.getBoolean(FTU, true)) {
+            sp.edit().putBoolean(FTU, false).apply();
+            startActivity(new Intent(this, FtuActivity.class));
+        }
 
         setUpList();
         setUpView();

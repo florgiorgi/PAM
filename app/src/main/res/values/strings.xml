@@ -56,6 +56,7 @@
     <string name="partially_cloudy">Partially cloudy</string>
     <string name="night_mode">Night mode</string>
     <string name="language">Language</string>
+    <string name="add_trip">Add trip</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

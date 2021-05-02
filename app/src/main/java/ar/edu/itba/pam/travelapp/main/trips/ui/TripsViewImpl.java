@@ -10,26 +10,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.TripListAdapter;
-//import ar.edu.itba.pam.travelapp.main.trips.TripListAdapter;
+
 
 public class TripsViewImpl extends RecyclerView implements TripsView {
     public TripsViewImpl(@NonNull Context context) {
-        super(context);
+        this(context,null);
     }
 
     public TripsViewImpl(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs,0);
     }
 
     public TripsViewImpl(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
     }
 
     @Override
     public void bind(TripListAdapter adapter) {
-        findViewById(R.id.trip_list);
+        //findViewById(R.id.trip_list);
         setHasFixedSize(true);
-        setLayoutManager(new LinearLayoutManager(getContext(), VERTICAL, false));
+        setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         setAdapter(adapter);
     }
 

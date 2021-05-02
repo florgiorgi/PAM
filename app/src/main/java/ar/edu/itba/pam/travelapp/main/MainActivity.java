@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.FtuActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
+import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;
 import ar.edu.itba.pam.travelapp.main.trips.ui.TripsView;
 
@@ -34,7 +35,9 @@ public class MainActivity extends AppCompatActivity {
     private static final String SP_ID = "travel-buddy-sp";
 
     private RecyclerView view;
+    private RecyclerView view2;
     private TripListAdapter adapter;
+    private HistoryListAdapter historyAdapter;
 
     private ViewFlipper flipper;
 
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setUpList();
+        setUpHistory();
         setUpView();
         setUpBottomNavigation();
     }
@@ -98,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpView() {
         flipper = findViewById(R.id.flipper);
         setUpTripsView();
+        setUpHistoryView();
         setUpConfigView();
     }
 
@@ -106,10 +111,13 @@ public class MainActivity extends AppCompatActivity {
         configView.bind();
     }
 
+    private void setUpHistoryView() {
+        historyView = findViewById(R.id.history);
+    }
+
     private void setUpTripsView() {
         tripsView = findViewById(R.id.trip_list);
     }
-
 
     private void setUpList() {
         view = findViewById(R.id.trip_list);
@@ -119,10 +127,31 @@ public class MainActivity extends AppCompatActivity {
         view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
+    private void setUpHistory() {
+        view2 = findViewById(R.id.history);
+        view2.setHasFixedSize(true);
+        historyAdapter = new HistoryListAdapter(createDataSet2());
+        view2.setAdapter(historyAdapter);
+        view2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    }
+
     //Aca hay que traer la data de los trips de la bd
     private List<String> createDataSet() {
         final List<String> list = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
+            list.add("BUENOS AIRES");
+        }
+        return list;
+    }
+
+    private List<String> createDataSet2() {
+        final List<String> list = new ArrayList<>();
+        list.add("2020");
+        for (int i = 0; i < 5; i++) {
+            list.add("BUENOS AIRES");
+        }
+        list.add("2019");
+        for (int i = 0; i < 5; i++) {
             list.add("BUENOS AIRES");
         }
         return list;

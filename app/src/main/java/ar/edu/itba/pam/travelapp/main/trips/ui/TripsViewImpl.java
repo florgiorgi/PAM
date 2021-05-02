@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.TripListAdapter;
 
 

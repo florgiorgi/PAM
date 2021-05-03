@@ -32,9 +32,4 @@ public class TripsViewImpl extends RecyclerView implements TripsView {
         setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         setAdapter(adapter);
     }
-
-//        listView = findViewById(R.id.trip_list);    // todo ???
-//        listView.setHasFixedSize(true);
-//        listView.setAdapter(adapter);
-//        listView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 }

@@ -18,6 +18,7 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import ar.edu.itba.pam.travelapp.FtuActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
@@ -34,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String FTU = "ftu";
     private static final String SP_ID = "travel-buddy-sp";
 
-    private RecyclerView view;
-    private RecyclerView view2;
+    private RecyclerView tripsRecyclerView;
+    private RecyclerView historyRecyclerView;
     private TripListAdapter adapter;
     private HistoryListAdapter historyAdapter;
 
@@ -82,15 +83,12 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.trips_tab:
-                    System.out.println("pepito4");
                     flipper.setDisplayedChild(TRIPS);
                     return true;
                 case R.id.history_tab:
-                    System.out.println("pepito5");
                     flipper.setDisplayedChild(HISTORY);
                     return true;
                 case R.id.config_tab:
-                    System.out.println("pepito6");
                     flipper.setDisplayedChild(CONFIG);
                     return true;
                 default:
@@ -120,19 +118,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpList() {
-        view = findViewById(R.id.trip_list);
-        view.setHasFixedSize(true);
+        tripsRecyclerView = findViewById(R.id.trip_list);
+        tripsRecyclerView.setHasFixedSize(true);
         adapter = new TripListAdapter(createDataSet());
-        view.setAdapter(adapter);
-        view.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        tripsRecyclerView.setAdapter(adapter);
+        tripsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
     private void setUpHistory() {
-        view2 = findViewById(R.id.history);
-        view2.setHasFixedSize(true);
+        historyRecyclerView = findViewById(R.id.history);
+        historyRecyclerView.setHasFixedSize(true);
         historyAdapter = new HistoryListAdapter(createDataSet2());
-        view2.setAdapter(historyAdapter);
-        view2.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        historyRecyclerView.setAdapter(historyAdapter);
+        historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
     //Aca hay que traer la data de los trips de la bd

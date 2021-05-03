@@ -16,13 +16,7 @@ public class FtuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ftu);
         Button button = (Button) findViewById(R.id.button_ftu);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-            }
-        });
+        button.setOnClickListener(v -> startActivity(new Intent(getApplicationContext(), MainActivity.class)));
     }
-
 
 }

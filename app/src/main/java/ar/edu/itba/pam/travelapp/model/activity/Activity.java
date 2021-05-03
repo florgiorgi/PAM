@@ -1,6 +1,7 @@
 package ar.edu.itba.pam.travelapp.model.activity;
 
 
+import java.util.Calendar;
 import java.util.Date;
 
 import androidx.annotation.Nullable;
@@ -8,7 +9,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
-import ar.edu.itba.pam.travelapp.model.DateConverter;
+import ar.edu.itba.pam.travelapp.model.CalendarConverter;
+
 
 @Entity
 public class Activity {
@@ -24,12 +26,12 @@ public class Activity {
     @Nullable
     private String description;
 
-    @TypeConverters({DateConverter.class})
-    private Date start;
+    @TypeConverters({CalendarConverter.class})
+    private Calendar start;
 
     @Nullable
-    @TypeConverters({DateConverter.class})
-    private Date end;
+    @TypeConverters({CalendarConverter.class})
+    private Calendar end;
 
     public long getId() {
         return id;
@@ -64,20 +66,20 @@ public class Activity {
         this.description = description;
     }
 
-    public Date getStart() {
+    public Calendar getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(Calendar start) {
         this.start = start;
     }
 
     @Nullable
-    public Date getEnd() {
+    public Calendar getEnd() {
         return end;
     }
 
-    public void setEnd(@Nullable Date end) {
+    public void setEnd(@Nullable Calendar end) {
         this.end = end;
     }
 }

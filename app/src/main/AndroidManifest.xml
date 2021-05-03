@@ -22,6 +22,8 @@
 
         <activity android:name=".FtuActivity"/>
 
+        <activity android:name=".main.trips.CreateTripActivity"/>
+
     </application>
 
 </manifest>

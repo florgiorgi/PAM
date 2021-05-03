@@ -1,50 +1,64 @@
 package ar.edu.itba.pam.travelapp.model.trip;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.Calendar;
 
 import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
-import ar.edu.itba.pam.travelapp.model.DateConverter;
+import ar.edu.itba.pam.travelapp.model.CalendarConverter;
 
 
 @Entity
 public class Trip {
 
-    public static enum TRAVEL_METHOD {
+    public static enum TravelMethod {
         AIRPLANE, BOAT, CAR, TRAIN, BICYCLE, FOOT, OTHER
     }
 
     @PrimaryKey(autoGenerate = true)
+
     private long id;
-    private String name;
+
+    @ColumnInfo(name = "location")
     private String location;
 
-    @TypeConverters({DateConverter.class})
-    private Date startDate;
+    @ColumnInfo(name = "startDate")
+    @TypeConverters({CalendarConverter.class})
+    private Calendar from;
 
-    @TypeConverters({DateConverter.class})
-    private Date endDate;
-    private TRAVEL_METHOD travelMethod;
+    @ColumnInfo(name = "endDate")
+    @TypeConverters({CalendarConverter.class})
+    private Calendar to;
 
-    @Nullable
+    @ColumnInfo(name = "departure_time")
+    @TypeConverters({CalendarConverter.class})
+    private Calendar departureTime;
+
+    @ColumnInfo(name = "travel_method")
+    private TravelMethod travelMethod;
+
+    @ColumnInfo(name = "description")
     private String description;
 
-    @Nullable
-    @TypeConverters({DateConverter.class})
-    private Date departureTime;
-
-    @Nullable
+    @ColumnInfo(name = "flight_number")
     private String flightNumber;
 
-    @Nullable
+    @ColumnInfo(name = "seat_number")
     private String seat;
 
-    @Nullable
+    @ColumnInfo(name = "google_id")
     private String googleId;
+
+    public Trip(String location, Calendar from, Calendar to, TravelMethod travelMethod, String flightNumber, Calendar departureTime){
+        this.location = location;
+        this.from = from;
+        this.to = to;
+        this.travelMethod = travelMethod;
+        this.flightNumber = flightNumber;
+        this.departureTime = departureTime;
+    }
 
     public long getId() {
         return id;
@@ -52,14 +66,6 @@ public class Trip {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getLocation() {
@@ -70,72 +76,68 @@ public class Trip {
         this.location = location;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Calendar getFrom() {
+        return from;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setFrom(Calendar from) {
+        this.from = from;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Calendar getTo() {
+        return to;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setTo(Calendar to) {
+        this.to = to;
     }
 
-    public TRAVEL_METHOD getTravelMethod() {
+    public Calendar getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(Calendar departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public TravelMethod getTravelMethod() {
         return travelMethod;
     }
 
-    public void setTravelMethod(TRAVEL_METHOD travelMethod) {
+    public void setTravelMethod(TravelMethod travelMethod) {
         this.travelMethod = travelMethod;
     }
 
-    @Nullable
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(@Nullable String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    @Nullable
-    public Date getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(@Nullable Date departureTime) {
-        this.departureTime = departureTime;
-    }
-
-    @Nullable
     public String getFlightNumber() {
         return flightNumber;
     }
 
-    public void setFlightNumber(@Nullable String flightNumber) {
+    public void setFlightNumber(String flightNumber) {
         this.flightNumber = flightNumber;
     }
 
-    @Nullable
     public String getSeat() {
         return seat;
     }
 
-    public void setSeat(@Nullable String seat) {
+    public void setSeat(String seat) {
         this.seat = seat;
     }
 
-    @Nullable
     public String getGoogleId() {
         return googleId;
     }
 
-    public void setGoogleId(@Nullable String googleId) {
+    public void setGoogleId(String googleId) {
         this.googleId = googleId;
     }
+
 }

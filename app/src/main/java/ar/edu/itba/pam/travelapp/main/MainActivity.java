@@ -15,10 +15,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import ar.edu.itba.pam.travelapp.FtuActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
@@ -120,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     private void setUpList() {
         tripsRecyclerView = findViewById(R.id.trip_list);
         tripsRecyclerView.setHasFixedSize(true);
-        adapter = new TripListAdapter(createDataSet());
+        adapter = new TripListAdapter(createDataSetUpcoming(), this);
         tripsRecyclerView.setAdapter(adapter);
         tripsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
@@ -128,13 +124,13 @@ public class MainActivity extends AppCompatActivity {
     private void setUpHistory() {
         historyRecyclerView = findViewById(R.id.history);
         historyRecyclerView.setHasFixedSize(true);
-        historyAdapter = new HistoryListAdapter(createDataSet2());
+        historyAdapter = new HistoryListAdapter(createDataSetHistory(), this);
         historyRecyclerView.setAdapter(historyAdapter);
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
-    //Aca hay que traer la data de los trips de la bd
-    private List<String> createDataSet() {
+    //Aca hay que traer la data de los upcoming trips de la bd
+    private List<String> createDataSetUpcoming() {
         final List<String> list = new ArrayList<>();
         for (int i = 0; i < 15; i++) {
             list.add("BUENOS AIRES");
@@ -142,7 +138,8 @@ public class MainActivity extends AppCompatActivity {
         return list;
     }
 
-    private List<String> createDataSet2() {
+    //Aca hay que traer la data de los trips viejos de la bd
+    private List<String> createDataSetHistory() {
         final List<String> list = new ArrayList<>();
         list.add("2020");
         for (int i = 0; i < 5; i++) {

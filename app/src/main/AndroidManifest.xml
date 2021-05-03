@@ -21,6 +21,7 @@
         </activity>
 
         <activity android:name=".FtuActivity"/>
+        <activity android:name=".main.details.DetailsActivity"/>
 
     </application>
 

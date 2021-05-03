@@ -19,7 +19,6 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-
             <!-- Title, secondary and supporting text -->
             <TextView
                 android:id="@+id/title"
@@ -39,20 +38,26 @@
         </LinearLayout>
 
         <!-- Buttons -->
-        <LinearLayout
+        <TextView
+            android:id="@+id/expand"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
 
-            <TextView
-                android:id="@+id/expand"
-                style="?attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/days_left1" />
 
-        </LinearLayout>
+            android:text="@string/days_left1"
+            android:textAppearance="?attr/textAppearanceButton"
+            android:textColor="#3980A1" />
+
+        <ImageView
+            android:id="@+id/arrow_right"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/arrow_right" />
+
 
     </LinearLayout>
 

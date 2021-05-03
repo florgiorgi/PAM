@@ -27,6 +27,7 @@ import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;
+import ar.edu.itba.pam.travelapp.main.trips.CreateTripActivity;
 import ar.edu.itba.pam.travelapp.main.trips.ui.TripsView;
 
 public class MainActivity extends AppCompatActivity {
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private HistoryView historyView;
     private ConfigView configView;
 
+    private FloatingActionButton floatingButtonCreate;
+
     private BottomNavigationView navView;
 
     @Override
@@ -62,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
             sp.edit().putBoolean(FTU, false).apply();
             startActivity(new Intent(this, FtuActivity.class));
         }
+
+        this.floatingButtonCreate = findViewById(R.id.floating_action_button_trip);
+        floatingButtonCreate.setOnClickListener(view -> {
+            startActivity(new Intent(MainActivity.this, CreateTripActivity.class));
+        });
 
         setUpList();
         setUpHistory();
@@ -82,21 +90,19 @@ public class MainActivity extends AppCompatActivity {
     private void setUpBottomNavigation() {
         navView = findViewById(R.id.bottom_navigation);
         navView.setSelectedItemId(R.id.trips_tab);
-        FloatingActionButton floatingButton = findViewById(R.id.floating_action_button_trip);
-
         navView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.trips_tab:
                     flipper.setDisplayedChild(TRIPS);
-                    floatingButton.setVisibility(View.VISIBLE);
+                    floatingButtonCreate.setVisibility(View.VISIBLE);
                     return true;
                 case R.id.history_tab:
                     flipper.setDisplayedChild(HISTORY);
-                    floatingButton.setVisibility(View.GONE);
+                    floatingButtonCreate.setVisibility(View.GONE);
                     return true;
                 case R.id.config_tab:
                     flipper.setDisplayedChild(CONFIG);
-                    floatingButton.setVisibility(View.GONE);
+                    floatingButtonCreate.setVisibility(View.GONE);
                     return true;
                 default:
                     return false;

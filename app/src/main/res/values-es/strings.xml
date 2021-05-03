@@ -31,8 +31,8 @@
     <string name="to">Hasta</string>
     <string name="how_are_you_traveling">¿Cómo viajás?</string>
     <string name="flight_number">Número de vuelo</string>
-    <string name="date_time">Fecha y hora de salida</string>
-    <string name="where_are_you_going_hint">Ingresá la ciudad de destino</string>
+    <string name="date_time">Fecha de salida</string>
+    <string name="where_are_you_going_hint">Ingresá tu destino</string>
     <string name="from_hint">Desde</string>
     <string name="to_hint">Hasta</string>
     <string name="flight_number_hint">Ingresá el número de vuelo</string>
@@ -61,6 +61,7 @@
     <string name="ftu_description">Bienvenido/a, organiza tus proximos viajes para aprovechar mejor tus aventuras!</string>
     <string name="ftu_app">Travel Buddy</string>
     <string name="app_logo">App logo</string>
+    <string name="create">Crear</string>
 
     <string-array name="transport_options">
         <item>Avión</item>

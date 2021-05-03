@@ -31,8 +31,8 @@
     <string name="to">To</string>
     <string name="how_are_you_traveling">How are you traveling?</string>
     <string name="flight_number">Flight number</string>
-    <string name="date_time">Date &amp; time of departure</string>
-    <string name="where_are_you_going_hint">Enter city</string>
+    <string name="date_time">Departure time</string>
+    <string name="where_are_you_going_hint">Enter destination</string>
     <string name="from_hint">From</string>
     <string name="to_hint">To</string>
     <string name="flight_number_hint">Enter your flight number</string>
@@ -61,6 +61,7 @@
     <string name="ftu_description">Welcome, here you can keep track of your incoming trips and activities!</string>
     <string name="ftu_app">Travel Buddy</string>
     <string name="app_logo">App logo</string>
+    <string name="create">Create</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

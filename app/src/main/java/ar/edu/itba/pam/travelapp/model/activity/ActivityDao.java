@@ -19,7 +19,7 @@ public interface ActivityDao {
     List<Activity> findByTripId(long tripId);
 
     @Query("SELECT * FROM activity WHERE activity.id = :id")
-    Trip findById(long id);
+    Activity findById(long id);
 
     @Insert
     void insert(Activity activity);

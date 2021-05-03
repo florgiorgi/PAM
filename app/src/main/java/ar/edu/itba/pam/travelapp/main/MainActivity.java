@@ -8,9 +8,12 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ViewFlipper;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,17 +82,21 @@ public class MainActivity extends AppCompatActivity {
     private void setUpBottomNavigation() {
         navView = findViewById(R.id.bottom_navigation);
         navView.setSelectedItemId(R.id.trips_tab);
+        FloatingActionButton floatingButton = findViewById(R.id.floating_action_button_trip);
 
         navView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.trips_tab:
                     flipper.setDisplayedChild(TRIPS);
+                    floatingButton.setVisibility(View.VISIBLE);
                     return true;
                 case R.id.history_tab:
                     flipper.setDisplayedChild(HISTORY);
+                    floatingButton.setVisibility(View.GONE);
                     return true;
                 case R.id.config_tab:
                     flipper.setDisplayedChild(CONFIG);
+                    floatingButton.setVisibility(View.GONE);
                     return true;
                 default:
                     return false;

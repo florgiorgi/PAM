@@ -1,41 +1,41 @@
 package ar.edu.itba.pam.travelapp.model.trip;
 
-import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.Calendar;
 
 import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
-import ar.edu.itba.pam.travelapp.model.DateConverter;
+import ar.edu.itba.pam.travelapp.model.CalendarConverter;
 
 
 @Entity
 public class Trip {
 
-    public static enum TRAVEL_METHOD {
+    public static enum TravelMethod {
         AIRPLANE, BOAT, CAR, TRAIN, BICYCLE, FOOT, OTHER
     }
 
     @PrimaryKey(autoGenerate = true)
     private long id;
+
     private String name;
     private String location;
 
-    @TypeConverters({DateConverter.class})
-    private Date startDate;
+    @TypeConverters({CalendarConverter.class})
+    private Calendar from;
 
-    @TypeConverters({DateConverter.class})
-    private Date endDate;
-    private TRAVEL_METHOD travelMethod;
+    @TypeConverters({CalendarConverter.class})
+    private Calendar to;
+
+    private TravelMethod travelMethod;
 
     @Nullable
     private String description;
 
     @Nullable
-    @TypeConverters({DateConverter.class})
-    private Date departureTime;
+    @TypeConverters({CalendarConverter.class})
+    private Calendar departureTime;
 
     @Nullable
     private String flightNumber;
@@ -45,6 +45,16 @@ public class Trip {
 
     @Nullable
     private String googleId;
+
+    public Trip(String name, String location, Calendar from, Calendar to, TravelMethod travelMethod, @Nullable String flightNumber, @Nullable Calendar departureTime){
+        this.name = name;
+        this.location = location;
+        this.from = from;
+        this.to = to;
+        this.travelMethod = travelMethod;
+        this.flightNumber = flightNumber;
+        this.departureTime = departureTime;
+    }
 
     public long getId() {
         return id;
@@ -70,27 +80,36 @@ public class Trip {
         this.location = location;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Calendar getFrom() {
+        return from;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setFrom(Calendar from) {
+        this.from = from;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public Calendar getTo() {
+        return to;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setTo(Calendar to) {
+        this.to = to;
     }
 
-    public TRAVEL_METHOD getTravelMethod() {
+    @Nullable
+    public Calendar getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(@Nullable Calendar departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public TravelMethod getTravelMethod() {
         return travelMethod;
     }
 
-    public void setTravelMethod(TRAVEL_METHOD travelMethod) {
+    public void setTravelMethod(TravelMethod travelMethod) {
         this.travelMethod = travelMethod;
     }
 
@@ -101,15 +120,6 @@ public class Trip {
 
     public void setDescription(@Nullable String description) {
         this.description = description;
-    }
-
-    @Nullable
-    public Date getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(@Nullable Date departureTime) {
-        this.departureTime = departureTime;
     }
 
     @Nullable

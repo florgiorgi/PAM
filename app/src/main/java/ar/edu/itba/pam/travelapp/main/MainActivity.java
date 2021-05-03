@@ -31,11 +31,10 @@ import ar.edu.itba.pam.travelapp.main.trips.CreateTripActivity;
 import ar.edu.itba.pam.travelapp.main.trips.ui.TripsView;
 
 public class MainActivity extends AppCompatActivity {
+
     private static final int TRIPS = 0;
     private static final int HISTORY = 1;
     private static final int CONFIG = 2;
-
-
     private static final String FTU = "ftu";
     private static final String SP_ID = "travel-buddy-sp";
 

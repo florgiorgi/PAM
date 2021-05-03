@@ -3,6 +3,7 @@ package ar.edu.itba.pam.travelapp.main.trips;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -31,6 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 import ar.edu.itba.pam.travelapp.R;
+import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.AppDatabase;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripDao;
@@ -60,7 +62,9 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     private Calendar fromCalendar;
     private Calendar toCalendar;
+
     private Calendar departureTimeCalendar;
+    private boolean hasDepartureTime;
 
     private AppDatabase database;
 
@@ -94,6 +98,8 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
                 // do nothing :)
             }
         });
+
+        this.hasDepartureTime = false;
 
         this.destination = findViewById(R.id.destination_input);
         this.flightNumber = findViewById(R.id.flight_number_input);
@@ -148,6 +154,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
                 departureTimeCalendar.set(Calendar.HOUR_OF_DAY, hour);
                 departureTimeCalendar.set(Calendar.MINUTE, minute);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
+                this.hasDepartureTime = true;
                 inputView.setText(dateFormat.format(departureTimeCalendar.getTime()));
             };
 
@@ -163,13 +170,16 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     }
 
     private void createTrip() {
-        Trip trip = new Trip("Name", this.destination.getText().toString(), fromCalendar, toCalendar, travelMethod, flightNumber.getText().toString(), departureTimeCalendar);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
-        
+
+        if (!this.hasDepartureTime) {
+            this.departureTimeCalendar = null;
+        }
+
+        Trip trip = new Trip(this.destination.getText().toString(), fromCalendar, toCalendar, travelMethod, flightNumber.getText().toString(), departureTimeCalendar);
         // Can't access db on Main Thread
         AsyncTask.execute(() -> {
             database.tripDao().insert(trip);
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
         });
 
     }

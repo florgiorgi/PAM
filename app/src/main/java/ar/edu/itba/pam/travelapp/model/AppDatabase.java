@@ -11,7 +11,7 @@ import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripDao;
 
 
-@Database(entities = {Trip.class, Activity.class}, version = 1, exportSchema = false)
+@Database(entities = {Trip.class, Activity.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;

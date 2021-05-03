@@ -3,6 +3,7 @@ package ar.edu.itba.pam.travelapp.model.trip;
 import java.util.Calendar;
 
 import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
@@ -17,37 +18,40 @@ public class Trip {
     }
 
     @PrimaryKey(autoGenerate = true)
+
     private long id;
 
-    private String name;
+    @ColumnInfo(name = "location")
     private String location;
 
+    @ColumnInfo(name = "startDate")
     @TypeConverters({CalendarConverter.class})
     private Calendar from;
 
+    @ColumnInfo(name = "endDate")
     @TypeConverters({CalendarConverter.class})
     private Calendar to;
 
-    private TravelMethod travelMethod;
-
-    @Nullable
-    private String description;
-
-    @Nullable
+    @ColumnInfo(name = "departure_time")
     @TypeConverters({CalendarConverter.class})
     private Calendar departureTime;
 
-    @Nullable
+    @ColumnInfo(name = "travel_method")
+    private TravelMethod travelMethod;
+
+    @ColumnInfo(name = "description")
+    private String description;
+
+    @ColumnInfo(name = "flight_number")
     private String flightNumber;
 
-    @Nullable
+    @ColumnInfo(name = "seat_number")
     private String seat;
 
-    @Nullable
+    @ColumnInfo(name = "google_id")
     private String googleId;
 
-    public Trip(String name, String location, Calendar from, Calendar to, TravelMethod travelMethod, @Nullable String flightNumber, @Nullable Calendar departureTime){
-        this.name = name;
+    public Trip(String location, Calendar from, Calendar to, TravelMethod travelMethod, String flightNumber, Calendar departureTime){
         this.location = location;
         this.from = from;
         this.to = to;
@@ -62,14 +66,6 @@ public class Trip {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getLocation() {
@@ -96,12 +92,11 @@ public class Trip {
         this.to = to;
     }
 
-    @Nullable
     public Calendar getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(@Nullable Calendar departureTime) {
+    public void setDepartureTime(Calendar departureTime) {
         this.departureTime = departureTime;
     }
 
@@ -113,52 +108,36 @@ public class Trip {
         this.travelMethod = travelMethod;
     }
 
-    @Nullable
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(@Nullable String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    @Nullable
     public String getFlightNumber() {
         return flightNumber;
     }
 
-    public void setFlightNumber(@Nullable String flightNumber) {
+    public void setFlightNumber(String flightNumber) {
         this.flightNumber = flightNumber;
     }
 
-    @Nullable
     public String getSeat() {
         return seat;
     }
 
-    public void setSeat(@Nullable String seat) {
+    public void setSeat(String seat) {
         this.seat = seat;
     }
 
-    @Nullable
     public String getGoogleId() {
         return googleId;
     }
 
-    public void setGoogleId(@Nullable String googleId) {
+    public void setGoogleId(String googleId) {
         this.googleId = googleId;
     }
 
-    @Override
-    public String toString() {
-        return "Trip{" +
-                "name='" + name + '\'' +
-                ", location='" + location + '\'' +
-                ", from=" + from +
-                ", to=" + to +
-                ", travelMethod=" + travelMethod +
-                ", departureTime=" + departureTime +
-                ", flightNumber='" + flightNumber + '\'' +
-                '}';
-    }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TravelBuddy</string>
-    <string name="days_left1">faltan 20 días ></string>
-    <string name="days_left2">faltan 39 días ></string>
-    <string name="days_left3">faltan 141 días ></string>
+    <string name="days_left1">faltan 20 días</string>
+    <string name="days_left2">faltan 39 días</string>
+    <string name="days_left3">faltan 141 días</string>
     <string name="expand"> ></string>
     <string name="title1">BUENOS AIRES</string>
     <string name="secondary_text1">May 18 - Jun 5</string>
@@ -15,12 +15,12 @@
     <string name="to">Hasta</string>
     <string name="how_are_you_traveling">¿Cómo viajás?</string>
     <string name="flight_number">Número de vuelo</string>
-    <string name="date_time">Fecha de salida</string>
+    <string name="date_time">Fecha y hora de salida</string>
     <string name="where_are_you_going_hint">Ingresá tu destino</string>
-    <string name="from_hint">Desde</string>
-    <string name="to_hint">Hasta</string>
+    <string name="from_hint">dd/mm/aaaa</string>
+    <string name="to_hint">dd/mm/aaaa</string>
     <string name="flight_number_hint">Ingresá el número de vuelo</string>
-    <string name="date_time_hint">Ingresá la fecha y hora de salida</string>
+    <string name="date_time_hint">dd/mm/aaaa hh:mm</string>
     <string name="expand_down">^</string>
     <string name="day1">Día 1</string>
     <string name="day2">Día 2</string>
@@ -46,6 +46,9 @@
     <string name="ftu_app">Travel Buddy</string>
     <string name="app_logo">App logo</string>
     <string name="create">Crear</string>
+    <string name="activity1">Ir al Central Park</string>
+    <string name="add_activity">Agregar actividad</string>
+    <string name="expand_card">Expandir card</string>
 
     <string-array name="transport_options">
         <item>Avión</item>

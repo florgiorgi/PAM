@@ -1,5 +1,6 @@
 package ar.edu.itba.pam.travelapp.main;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,11 @@ import ar.edu.itba.pam.travelapp.R;
 public class TripListAdapter extends RecyclerView.Adapter<TripViewHolder> {
 
     private List<String> dataset;
+    private Context context;
     
-    public TripListAdapter(List<String> dataset) {
+    public TripListAdapter(List<String> dataset, Context context) {
         this.dataset = dataset;
+        this.context = context;
     }
 
     @NonNull
@@ -24,7 +27,7 @@ public class TripListAdapter extends RecyclerView.Adapter<TripViewHolder> {
     public TripViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_trip, parent, false);
 
-        return new TripViewHolder(view);
+        return new TripViewHolder(view, context);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ar.edu.itba.pam.travelapp.main.history;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,11 @@ import ar.edu.itba.pam.travelapp.R;
 public class HistoryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<String> dataset;
+    private Context context;
 
-    public HistoryListAdapter(List<String> dataset) {
+    public HistoryListAdapter(List<String> dataset, Context context) {
         this.dataset = dataset;
-        System.out.println("hola");
+        this.context = context;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class HistoryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 return new YearViewHolder(view_year);
             default:
                 final View view_trip = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_trip, parent, false);
-                return new TripViewHolder(view_trip);
+                return new TripViewHolder(view_trip, context);
         }
     }
 

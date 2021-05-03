@@ -3,6 +3,7 @@ package ar.edu.itba.pam.travelapp.main.trips;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -70,7 +71,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         initView();
 
         // Get database Instance
-        database = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, "database-name").build();
+        database = AppDatabase.getInstance(getApplicationContext());
 
         // Setup input validations
         validator = new Validator(this);
@@ -101,13 +102,13 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         this.from = findViewById(R.id.from_input);
         this.from.setShowSoftInputOnFocus(false);
         this.fromCalendar = Calendar.getInstance();
-        this.from.setOnClickListener(view -> showDateDialog(from));
+        this.from.setOnClickListener(view -> showDateDialog(from, fromCalendar));
 
         // To Date
         this.to = findViewById(R.id.to_input);
         this.to.setShowSoftInputOnFocus(false);
         this.toCalendar = Calendar.getInstance();
-        this.to.setOnClickListener(view -> showDateDialog(to));
+        this.to.setOnClickListener(view -> showDateDialog(to, toCalendar));
 
         // Departure date and time
         this.departureTime = findViewById(R.id.date_time_of_departure_input);
@@ -118,17 +119,16 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         // Submit button
         this.submitButton = findViewById(R.id.create_btn);
         this.submitButton.setOnClickListener(view -> validator.validate());
-
     }
 
-    private void showDateDialog(EditText inputView) {
+    private void showDateDialog(EditText inputView, Calendar outputCalendar) {
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
-            calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, month);
-            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            outputCalendar.set(Calendar.YEAR, year);
+            outputCalendar.set(Calendar.MONTH, month);
+            outputCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-            inputView.setText(dateFormat.format(calendar.getTime()));
+            inputView.setText(dateFormat.format(outputCalendar.getTime()));
         };
 
         new DatePickerDialog(CreateTripActivity.this, dateSetListener,
@@ -140,15 +140,15 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     private void showDateTimeDialog(EditText inputView) {
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
-            calendar.set(Calendar.YEAR, year);
-            calendar.set(Calendar.MONTH, month);
-            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            departureTimeCalendar.set(Calendar.YEAR, year);
+            departureTimeCalendar.set(Calendar.MONTH, month);
+            departureTimeCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
             TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hour, minute) -> {
-                calendar.set(Calendar.HOUR_OF_DAY, hour);
-                calendar.set(Calendar.MINUTE, minute);
+                departureTimeCalendar.set(Calendar.HOUR_OF_DAY, hour);
+                departureTimeCalendar.set(Calendar.MINUTE, minute);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
-                inputView.setText(dateFormat.format(calendar.getTime()));
+                inputView.setText(dateFormat.format(departureTimeCalendar.getTime()));
             };
 
             new TimePickerDialog(CreateTripActivity.this, timeSetListener,
@@ -156,7 +156,6 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
                     calendar.get(Calendar.MINUTE),
                     false).show();
         };
-        System.out.println("Creating date picker dialog");
         new DatePickerDialog(CreateTripActivity.this, dateSetListener,
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -165,13 +164,20 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     private void createTrip() {
         Trip trip = new Trip("Name", this.destination.getText().toString(), fromCalendar, toCalendar, travelMethod, flightNumber.getText().toString(), departureTimeCalendar);
-        database.tripDao().insert(trip);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
+        
+        // Can't access db on Main Thread
+        AsyncTask.execute(() -> {
+            database.tripDao().insert(trip);
+        });
+
     }
 
     @Override
     public void onValidationSucceeded() {
         Toast.makeText(this, "Validation Success", Toast.LENGTH_SHORT).show();
-        //createTrip();
+        createTrip();
     }
 
     @Override

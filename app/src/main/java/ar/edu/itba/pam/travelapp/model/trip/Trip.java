@@ -148,4 +148,17 @@ public class Trip {
     public void setGoogleId(@Nullable String googleId) {
         this.googleId = googleId;
     }
+
+    @Override
+    public String toString() {
+        return "Trip{" +
+                "name='" + name + '\'' +
+                ", location='" + location + '\'' +
+                ", from=" + from +
+                ", to=" + to +
+                ", travelMethod=" + travelMethod +
+                ", departureTime=" + departureTime +
+                ", flightNumber='" + flightNumber + '\'' +
+                '}';
+    }
 }

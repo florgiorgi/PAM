@@ -2,33 +2,27 @@ package ar.edu.itba.pam.travelapp.model.trip;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
-
-import androidx.room.ColumnInfo;
-import androidx.room.TypeConverters;
-import ar.edu.itba.pam.travelapp.model.CalendarConverter;
 
 public class Trip {
-
 
     private String location;
     private LocalDate from;
     private LocalDate to;
-    private TripEntity.TravelMethod travelMethod;
+    private TravelMethod travelMethod;
     private LocalDateTime departureTime;
     private String description;
     private String flightNumber;
     private String seat;
     private String googleApiId;
 
-    public Trip(String location, LocalDate from, LocalDate to, TripEntity.TravelMethod travelMethod) {
+    public Trip(String location, LocalDate from, LocalDate to, TravelMethod travelMethod) {
         this.location = location;
         this.from = from;
         this.to = to;
         this.travelMethod = travelMethod;
     }
 
-    public Trip(String location, LocalDate from, LocalDate to, TripEntity.TravelMethod travelMethod, LocalDateTime departureTime, String flightNumber) {
+    public Trip(String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime, String flightNumber) {
         this.location = location;
         this.from = from;
         this.to = to;
@@ -61,11 +55,11 @@ public class Trip {
         this.to = to;
     }
 
-    public TripEntity.TravelMethod getTravelMethod() {
+    public TravelMethod getTravelMethod() {
         return travelMethod;
     }
 
-    public void setTravelMethod(TripEntity.TravelMethod travelMethod) {
+    public void setTravelMethod(TravelMethod travelMethod) {
         this.travelMethod = travelMethod;
     }
 

@@ -1,6 +1,7 @@
 package ar.edu.itba.pam.travelapp.model.trip;
 
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -20,15 +21,15 @@ public class TripEntity {
 
     @ColumnInfo(name = "startDate")
     @TypeConverters({LocalDateConverter.class})
-    private Calendar from;
+    private LocalDate from;
 
     @ColumnInfo(name = "endDate")
     @TypeConverters({LocalDateConverter.class})
-    private Calendar to;
+    private LocalDate to;
 
     @ColumnInfo(name = "departure_time")
     @TypeConverters({LocalDateTimeConverter.class})
-    private Calendar departureTime;
+    private LocalDateTime departureTime;
 
     @ColumnInfo(name = "travel_method")
     private TravelMethod travelMethod;
@@ -45,13 +46,20 @@ public class TripEntity {
     @ColumnInfo(name = "google_id")
     private String googleId;
 
-    public TripEntity(String location, Calendar from, Calendar to, TravelMethod travelMethod, String flightNumber, Calendar departureTime){
+    public TripEntity(String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber){
         this.location = location;
         this.from = from;
         this.to = to;
         this.travelMethod = travelMethod;
         this.flightNumber = flightNumber;
         this.departureTime = departureTime;
+    }
+
+    public TripEntity(String location, LocalDate from, LocalDate to, TravelMethod travelMethod){
+        this.location = location;
+        this.from = from;
+        this.to = to;
+        this.travelMethod = travelMethod;
     }
 
     public long getId() {
@@ -70,27 +78,27 @@ public class TripEntity {
         this.location = location;
     }
 
-    public Calendar getFrom() {
+    public LocalDate getFrom() {
         return from;
     }
 
-    public void setFrom(Calendar from) {
+    public void setFrom(LocalDate from) {
         this.from = from;
     }
 
-    public Calendar getTo() {
+    public LocalDate getTo() {
         return to;
     }
 
-    public void setTo(Calendar to) {
+    public void setTo(LocalDate to) {
         this.to = to;
     }
 
-    public Calendar getDepartureTime() {
+    public LocalDateTime getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(Calendar departureTime) {
+    public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
 

@@ -28,6 +28,12 @@ public class ActivityEntity {
     @ColumnInfo(name = "date")
     private LocalDate date;
 
+    public ActivityEntity(String name, long tripId, LocalDate date) {
+        this.name = name;
+        this.tripId = tripId;
+        this.date = date;
+    }
+
     public long getId() {
         return id;
     }

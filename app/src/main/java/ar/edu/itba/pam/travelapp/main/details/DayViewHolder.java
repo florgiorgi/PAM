@@ -14,6 +14,7 @@ import ar.edu.itba.pam.travelapp.R;
 public class DayViewHolder extends RecyclerView.ViewHolder {
 
     public View view;
+    public View titleView;
     private LinearLayout activityList;
     private View divider;
     private ImageView arrow;
@@ -21,7 +22,8 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     public DayViewHolder(@NonNull View itemView) {
         super(itemView);
         view = itemView;
-        view.setOnClickListener(new View.OnClickListener() {
+        titleView = view.findViewById(R.id.day_card_title);
+        titleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 divider = view.findViewById(R.id.divider);

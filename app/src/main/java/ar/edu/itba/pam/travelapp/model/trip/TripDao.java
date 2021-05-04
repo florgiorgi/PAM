@@ -12,13 +12,13 @@ import androidx.room.Update;
 @Dao
 public interface TripDao {
 
-    @Query("SELECT * FROM TripEntity")
+    @Query("SELECT * FROM trips")
     List<TripEntity> getAll();
 
-    @Query("SELECT * FROM TripEntity as t WHERE t.location LIKE :location")
+    @Query("SELECT * FROM trips WHERE location LIKE :location")
     List<TripEntity> findByLocation(String location);
 
-    @Query("SELECT * FROM TripEntity as t WHERE t.id = :id")
+    @Query("SELECT * FROM trips WHERE id = :id")
     Trip findById(long id);
 
     @Insert

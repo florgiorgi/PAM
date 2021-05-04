@@ -10,7 +10,8 @@ import androidx.room.TypeConverters;
 import ar.edu.itba.pam.travelapp.model.converters.LocalDateConverter;
 import ar.edu.itba.pam.travelapp.model.converters.LocalDateTimeConverter;
 
-@Entity
+
+@Entity(tableName = "trips")
 public class TripEntity {
 
     @PrimaryKey(autoGenerate = true)

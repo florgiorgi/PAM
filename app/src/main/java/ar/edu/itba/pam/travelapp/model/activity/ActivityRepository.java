@@ -8,9 +8,9 @@ public interface ActivityRepository {
 
     Flowable<List<Activity>> getActivities();
 
-    Flowable<List<ActivityEntity>> findByTripId(long tripId);
+    Flowable<List<Activity>> findByTripId(long tripId);
 
-    Flowable<ActivityEntity> findById(long id);
+    Flowable<Activity> findById(long id);
 
     void insert(Activity activity);
 

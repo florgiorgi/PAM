@@ -1,7 +1,10 @@
 package ar.edu.itba.pam.travelapp.model.trip;
 
+import android.os.Build;
+
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
 import io.reactivex.Flowable;
 
 public class TripRoomRepository implements TripRepository{
@@ -9,38 +12,47 @@ public class TripRoomRepository implements TripRepository{
     private final TripDao dao;
     private final TripMapper mapper;
 
+    private Flowable<List<Trip>> trips;
+
     public TripRoomRepository(final TripDao dao, TripMapper mapper) {
         this.dao = dao;
         this.mapper = mapper;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public Flowable<List<Trip>> getTrips() {
-        return null;
+        if (trips == null) {
+            trips = dao.getTrips().map(mapper::toModel);
+        }
+        return trips;
     }
 
     @Override
     public Flowable<Trip> findById(long tripId) {
-        return null;
+        return dao.findById(tripId).map(mapper::toModel);
     }
 
     @Override
     public Flowable<List<Trip>> findByLocation(String location) {
-        return null;
+        return dao.findByLocation(location).map(mapper::toModel);
     }
 
     @Override
     public void insertTrip(Trip trip) {
-        // this.dao.insert();
+        this.trips = null;
+        dao.insert(mapper.toEntity(trip));
     }
 
     @Override
     public void updateTrip(Trip trip) {
-
+        this.trips = null;
+        dao.update(mapper.toEntity(trip));
     }
 
     @Override
     public void deleteTrip(Trip trip) {
-
+        this.trips = null;
+        dao.delete(mapper.toEntity(trip));
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TravelBuddy</string>
-    <string name="days_left1">20 days left ></string>
-    <string name="days_left2">39 days left ></string>
-    <string name="days_left3">141 days left ></string>
+    <string name="days_left1">days left ></string>
+    <string name="days_left2">days left ></string>
+    <string name="days_left3">days left ></string>
     <string name="expand"> ></string>
     <string name="title1">BUENOS AIRES</string>
     <string name="secondary_text1">May 18 - June 5</string>

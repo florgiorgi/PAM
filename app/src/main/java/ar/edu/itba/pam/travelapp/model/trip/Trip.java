@@ -1,71 +1,40 @@
 package ar.edu.itba.pam.travelapp.model.trip;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
-import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import ar.edu.itba.pam.travelapp.model.CalendarConverter;
 
-
-@Entity
 public class Trip {
 
-    public static enum TravelMethod {
-        AIRPLANE, BOAT, CAR, TRAIN, BICYCLE, FOOT, OTHER
-    }
 
-    @PrimaryKey(autoGenerate = true)
-
-    private long id;
-
-    @ColumnInfo(name = "location")
     private String location;
-
-    @ColumnInfo(name = "startDate")
-    @TypeConverters({CalendarConverter.class})
-    private Calendar from;
-
-    @ColumnInfo(name = "endDate")
-    @TypeConverters({CalendarConverter.class})
-    private Calendar to;
-
-    @ColumnInfo(name = "departure_time")
-    @TypeConverters({CalendarConverter.class})
-    private Calendar departureTime;
-
-    @ColumnInfo(name = "travel_method")
-    private TravelMethod travelMethod;
-
-    @ColumnInfo(name = "description")
+    private LocalDate from;
+    private LocalDate to;
+    private TripEntity.TravelMethod travelMethod;
+    private LocalDateTime departureTime;
     private String description;
-
-    @ColumnInfo(name = "flight_number")
     private String flightNumber;
-
-    @ColumnInfo(name = "seat_number")
     private String seat;
+    private String googleApiId;
 
-    @ColumnInfo(name = "google_id")
-    private String googleId;
-
-    public Trip(String location, Calendar from, Calendar to, TravelMethod travelMethod, String flightNumber, Calendar departureTime){
+    public Trip(String location, LocalDate from, LocalDate to, TripEntity.TravelMethod travelMethod) {
         this.location = location;
         this.from = from;
         this.to = to;
         this.travelMethod = travelMethod;
-        this.flightNumber = flightNumber;
+    }
+
+    public Trip(String location, LocalDate from, LocalDate to, TripEntity.TravelMethod travelMethod, LocalDateTime departureTime, String flightNumber) {
+        this.location = location;
+        this.from = from;
+        this.to = to;
+        this.travelMethod = travelMethod;
         this.departureTime = departureTime;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+        this.flightNumber = flightNumber;
     }
 
     public String getLocation() {
@@ -76,36 +45,36 @@ public class Trip {
         this.location = location;
     }
 
-    public Calendar getFrom() {
+    public LocalDate getFrom() {
         return from;
     }
 
-    public void setFrom(Calendar from) {
+    public void setFrom(LocalDate from) {
         this.from = from;
     }
 
-    public Calendar getTo() {
+    public LocalDate getTo() {
         return to;
     }
 
-    public void setTo(Calendar to) {
+    public void setTo(LocalDate to) {
         this.to = to;
     }
 
-    public Calendar getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(Calendar departureTime) {
-        this.departureTime = departureTime;
-    }
-
-    public TravelMethod getTravelMethod() {
+    public TripEntity.TravelMethod getTravelMethod() {
         return travelMethod;
     }
 
-    public void setTravelMethod(TravelMethod travelMethod) {
+    public void setTravelMethod(TripEntity.TravelMethod travelMethod) {
         this.travelMethod = travelMethod;
+    }
+
+    public LocalDateTime getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(LocalDateTime departureTime) {
+        this.departureTime = departureTime;
     }
 
     public String getDescription() {
@@ -132,12 +101,11 @@ public class Trip {
         this.seat = seat;
     }
 
-    public String getGoogleId() {
-        return googleId;
+    public String getGoogleApiId() {
+        return googleApiId;
     }
 
-    public void setGoogleId(String googleId) {
-        this.googleId = googleId;
+    public void setGoogleApiId(String googleApiId) {
+        this.googleApiId = googleApiId;
     }
-
 }

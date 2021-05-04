@@ -11,19 +11,16 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ViewFlipper;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +29,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import ar.edu.itba.pam.travelapp.FtuActivity;
+import ar.edu.itba.pam.travelapp.landing.FtuActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
@@ -155,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
         tripsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setHistoryList(List<Trip> historyTrips) {
         historyRecyclerView = findViewById(R.id.history);
         historyRecyclerView.setHasFixedSize(true);
@@ -163,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private List<Object> parsedHistoryTrips(List<Trip> dataset) {
         Map<String, List<Trip>> tripsMap = new HashMap<>();
         Map<Trip, String> auxMap = new HashMap<>();
@@ -171,17 +170,13 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
 
         //create map with trips as keys and their year as values
         for (Trip trip : dataset) {
-            //System.out.println(dateFormat.format(trip.getFrom().getTime()));
-            auxMap.put(trip, dateFormat.format(trip.getFrom().getTime()));
+            LocalDate date = trip.getFrom();
+            String year = String.valueOf(date.getYear());
+            auxMap.put(trip, year);
         }
 
         //create set with years based on the map's values
-        Collection<String> years = auxMap.values();
-        SortedSet<String> yearsSet = new TreeSet<>();
-
-        for (String year : years) {
-            yearsSet.add(year);
-        }
+        SortedSet<String> yearsSet = new TreeSet<>(auxMap.values());
 
         //create map with year as key and a list of trips from that year as value
         for (String year : yearsSet) {
@@ -218,12 +213,12 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
     }
 
     // This gets called once the async task is finished
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void processFinish(List<Trip> trips) {
-        Calendar today = Calendar.getInstance();
-        List<Trip> upcomingTrips = trips.stream().filter(t -> !t.getTo().before(today)).collect(Collectors.toList());
-        List<Trip> historyTrips = trips.stream().filter(t -> t.getTo().before(today)).collect(Collectors.toList());
+        LocalDate today = LocalDate.now();
+        List<Trip> upcomingTrips = trips.stream().filter(t -> t.getFrom().isBefore(today) || t.getFrom().isEqual(today)).collect(Collectors.toList());
+        List<Trip> historyTrips = trips.stream().filter(t -> t.getTo().isBefore(today)).collect(Collectors.toList());
         setUpcomingList(upcomingTrips);
         setHistoryList(historyTrips);
     }

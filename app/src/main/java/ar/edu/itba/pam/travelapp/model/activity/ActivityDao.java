@@ -12,22 +12,22 @@ import ar.edu.itba.pam.travelapp.model.trip.Trip;
 @Dao
 public interface ActivityDao {
 
-    @Query("SELECT * FROM activity")
-    List<Activity> getAll();
+    @Query("SELECT * FROM ActivityEntity")
+    List<ActivityEntity> getAll();
 
-    @Query("SELECT * FROM activity WHERE activity.trip_id = :tripId")
-    List<Activity> findByTripId(long tripId);
+    @Query("SELECT * FROM ActivityEntity as a WHERE a.trip_id = :tripId")
+    List<ActivityEntity> findByTripId(long tripId);
 
-    @Query("SELECT * FROM activity WHERE activity.id = :id")
-    Activity findById(long id);
+    @Query("SELECT * FROM ActivityEntity as a WHERE a.id = :id")
+    ActivityEntity findById(long id);
 
     @Insert
-    void insert(Activity activity);
+    void insert(ActivityEntity activity);
 
     @Delete
-    void delete(Activity activity);
+    void delete(ActivityEntity activity);
 
     @Update
-    void update(Activity activity);
+    void update(ActivityEntity activity);
 
 }

@@ -11,13 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import ar.edu.itba.pam.travelapp.R;
+import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 public class TripListAdapter extends RecyclerView.Adapter<TripViewHolder> {
 
-    private List<String> dataset;
+    private List<Trip> dataset;
     private Context context;
     
-    public TripListAdapter(List<String> dataset, Context context) {
+    public TripListAdapter(List<Trip> dataset, Context context) {
         this.dataset = dataset;
         this.context = context;
     }

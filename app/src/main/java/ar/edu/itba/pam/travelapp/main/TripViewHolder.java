@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.details.DetailsActivity;
+import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 public class TripViewHolder extends RecyclerView.ViewHolder {
 
@@ -30,9 +31,9 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void bind(final String text) {
+    public void bind(final Trip trip) {
         final TextView textView = itemView.findViewById(R.id.title);
-
-        textView.setText(text);
+        // TODO: show trip atributes in view
+        textView.setText(trip.getLocation());
     }
 }

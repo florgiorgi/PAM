@@ -1,5 +1,6 @@
 package ar.edu.itba.pam.travelapp.main;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,7 +18,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import ar.edu.itba.pam.travelapp.FtuActivity;
 import ar.edu.itba.pam.travelapp.R;
@@ -25,8 +29,10 @@ import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;
 import ar.edu.itba.pam.travelapp.main.trips.CreateTripActivity;
 import ar.edu.itba.pam.travelapp.main.trips.ui.TripsView;
+import ar.edu.itba.pam.travelapp.model.AppDatabase;
+import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TripsAsyncTask.AsyncResponse {
 
     private static final int TRIPS = 0;
     private static final int HISTORY = 1;
@@ -48,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton floatingButtonCreate;
 
     private BottomNavigationView navView;
+    private AppDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +73,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, CreateTripActivity.class));
         });
 
-        setUpList();
-        setUpHistory();
+        this.database = AppDatabase.getInstance(MainActivity.this);
+        this.getTripsFromDb();
+
         setUpView();
         setUpBottomNavigation();
     }
@@ -75,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
 //        final TripListAdapter adapter = new TripListAdapter(createDataSet());
 //        adapter.setOnClickListener();
 //        tripsView.bind(adapter);
@@ -125,22 +132,8 @@ public class MainActivity extends AppCompatActivity {
         tripsView = findViewById(R.id.trip_list);
     }
 
-    private void setUpList() {
-        tripsRecyclerView = findViewById(R.id.trip_list);
-        tripsRecyclerView.setHasFixedSize(true);
-        adapter = new TripListAdapter(createDataSetUpcoming(), this);
-        tripsRecyclerView.setAdapter(adapter);
-        tripsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-    }
 
-    private void setUpHistory() {
-        historyRecyclerView = findViewById(R.id.history);
-        historyRecyclerView.setHasFixedSize(true);
-        historyAdapter = new HistoryListAdapter(createDataSetHistory(), this);
-        historyRecyclerView.setAdapter(historyAdapter);
-        historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-    }
-
+    // TODO: remove
     //Aca hay que traer la data de los upcoming trips de la bd
     private List<String> createDataSetUpcoming() {
         final List<String> list = new ArrayList<>();
@@ -150,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         return list;
     }
 
+    // TODO: remove
     //Aca hay que traer la data de los trips viejos de la bd
     private List<String> createDataSetHistory() {
         final List<String> list = new ArrayList<>();
@@ -167,5 +161,37 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    private void setUpcomingList(List<Trip> upcomingTrips) {
+        tripsRecyclerView = findViewById(R.id.trip_list);
+        tripsRecyclerView.setHasFixedSize(true);
+        adapter = new TripListAdapter(upcomingTrips, this);
+        tripsRecyclerView.setAdapter(adapter);
+        tripsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    }
+
+    private void setHistoryList(List<Trip> historyTrips) {
+        historyRecyclerView = findViewById(R.id.history);
+        historyRecyclerView.setHasFixedSize(true);
+        historyAdapter = new HistoryListAdapter(historyTrips, this);
+        historyRecyclerView.setAdapter(historyAdapter);
+        historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    }
+
+    private void getTripsFromDb() {
+        //execute the async task -> processFinish will be called after finished
+        new TripsAsyncTask(this, database).execute();
+    }
+
+    // This gets called once the async task is finished
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public void processFinish(List<Trip> trips) {
+        Calendar today = Calendar.getInstance();
+        List<Trip> upcomingTrips = trips.stream().filter(t -> !t.getFrom().before(today)).collect(Collectors.toList());
+        List<Trip> historyTrips = trips.stream().filter(t -> t.getFrom().before(today)).collect(Collectors.toList());
+        setUpcomingList(upcomingTrips);
+        setHistoryList(historyTrips);
     }
 }

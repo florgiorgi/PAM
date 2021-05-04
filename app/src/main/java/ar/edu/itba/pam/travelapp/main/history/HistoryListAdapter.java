@@ -11,14 +11,15 @@ import java.util.List;
 
 import ar.edu.itba.pam.travelapp.main.TripViewHolder;
 import ar.edu.itba.pam.travelapp.R;
+import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 
 public class HistoryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> dataset;
+    private List<Trip> dataset;
     private Context context;
 
-    public HistoryListAdapter(List<String> dataset, Context context) {
+    public HistoryListAdapter(List<Trip> dataset, Context context) {
         this.dataset = dataset;
         this.context = context;
     }
@@ -30,25 +31,21 @@ public class HistoryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case 0:
-                final View view_year = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_year, parent, false);
-                return new YearViewHolder(view_year);
-            default:
-                final View view_trip = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_trip, parent, false);
-                return new TripViewHolder(view_trip, context);
+        if (viewType == 0) {
+            final View view_year = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_year, parent, false);
+            return new YearViewHolder(view_year);
         }
+        final View view_trip = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_trip, parent, false);
+        return new TripViewHolder(view_trip, context);
     }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        switch (getItemViewType(position)) {
-            case 0:
-                ((YearViewHolder) holder).bind(dataset.get(position));
-                break;
-            default:
-                ((TripViewHolder) holder).bind(dataset.get(position));
-                break;
+        if (getItemViewType(position) == 0) {
+            // TODO: get year instead of location
+            ((YearViewHolder) holder).bind(dataset.get(position).getLocation());
+        } else {
+            ((TripViewHolder) holder).bind(dataset.get(position));
         }
     }
 

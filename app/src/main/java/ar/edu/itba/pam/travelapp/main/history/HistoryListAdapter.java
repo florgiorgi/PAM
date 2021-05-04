@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+
 
 import ar.edu.itba.pam.travelapp.main.TripViewHolder;
 import ar.edu.itba.pam.travelapp.R;
@@ -16,17 +18,17 @@ import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 public class HistoryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Trip> dataset;
+    private List<Object> dataset;
     private Context context;
 
-    public HistoryListAdapter(List<Trip> dataset, Context context) {
+    public HistoryListAdapter(List<Object> dataset, Context context) {
         this.dataset = dataset;
         this.context = context;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position % 6;
+        return dataset.get(position).getClass().equals(String.class) ? 0 : 1;
     }
 
     @Override
@@ -42,10 +44,10 @@ public class HistoryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position) == 0) {
-            // TODO: get year instead of location
-            ((YearViewHolder) holder).bind(dataset.get(position).getLocation());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+            ((YearViewHolder) holder).bind((String) dataset.get(position));
         } else {
-            ((TripViewHolder) holder).bind(dataset.get(position));
+            ((TripViewHolder) holder).bind((Trip) dataset.get(position));
         }
     }
 

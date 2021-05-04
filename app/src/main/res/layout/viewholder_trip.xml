@@ -43,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
-            android:text="@string/days_left1"
             android:textAppearance="?attr/textAppearanceButton"
             android:textColor="#3980A1" />
 

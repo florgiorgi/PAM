@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,16 +37,23 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         final TextView date = itemView.findViewById(R.id.date);
         final TextView days_left = itemView.findViewById(R.id.expand);
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd");
-        String days_left_string = view.getResources().getString(R.string.days_left1);
+        String days_left_string = view.getResources().getString(R.string.days_left);
+        String current_trip = view.getResources().getString(R.string.current_trip);
 
         String date_from = dateFormat.format(trip.getFrom().getTime());
         String date_to = dateFormat.format(trip.getTo().getTime());
 
-        // TODO: show trip atributes in view
         title.setText(trip.getLocation());
         date.setText(date_from + " - " + date_to);
-        days_left.setText(calculateDaysDifference(trip.getFrom()) + " " + days_left_string);
 
+        long dayDifferenceBeginning = calculateDaysDifference(trip.getFrom());
+        long dayDifferenceEnd = calculateDaysDifference(trip.getTo());
+
+        if (dayDifferenceBeginning >= 0) {
+            days_left.setText(dayDifferenceBeginning + " " + days_left_string);
+        } else if (dayDifferenceEnd >= 0) {
+            days_left.setText(current_trip);
+        }
     }
 
     private long calculateDaysDifference(Calendar thatDay) {
@@ -55,6 +61,6 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         long diff = thatDay.getTimeInMillis() - today.getTimeInMillis();
         long days = diff / (24 * 60 * 60 * 1000);
 
-        return days+1;
+        return days + 1;
     }
 }

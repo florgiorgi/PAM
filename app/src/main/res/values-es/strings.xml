@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TravelBuddy</string>
-    <string name="days_left1">faltan 20 días</string>
-    <string name="days_left2">faltan 39 días</string>
-    <string name="days_left3">faltan 141 días</string>
+    <string name="days_left"> días</string>
+    <string name="current_trip">ahora</string>
     <string name="expand"> ></string>
     <string name="title1">BUENOS AIRES</string>
     <string name="secondary_text1">May 18 - Jun 5</string>

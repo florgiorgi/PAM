@@ -17,9 +17,19 @@ import android.widget.ViewFlipper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import ar.edu.itba.pam.travelapp.FtuActivity;
@@ -132,32 +142,6 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
         tripsView = findViewById(R.id.trip_list);
     }
 
-
-    // TODO: remove
-    //Aca hay que traer la data de los upcoming trips de la bd
-    private List<String> createDataSetUpcoming() {
-        final List<String> list = new ArrayList<>();
-        for (int i = 0; i < 15; i++) {
-            list.add("BUENOS AIRES");
-        }
-        return list;
-    }
-
-    // TODO: remove
-    //Aca hay que traer la data de los trips viejos de la bd
-    private List<String> createDataSetHistory() {
-        final List<String> list = new ArrayList<>();
-        list.add("2020");
-        for (int i = 0; i < 5; i++) {
-            list.add("BUENOS AIRES");
-        }
-        list.add("2019");
-        for (int i = 0; i < 5; i++) {
-            list.add("BUENOS AIRES");
-        }
-        return list;
-    }
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -174,9 +158,58 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
     private void setHistoryList(List<Trip> historyTrips) {
         historyRecyclerView = findViewById(R.id.history);
         historyRecyclerView.setHasFixedSize(true);
-        historyAdapter = new HistoryListAdapter(historyTrips, this);
+        historyAdapter = new HistoryListAdapter(parsedHistoryTrips(historyTrips), this);
         historyRecyclerView.setAdapter(historyAdapter);
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    }
+
+    private List<Object> parsedHistoryTrips(List<Trip> dataset) {
+        Map<String, List<Trip>> tripsMap = new HashMap<>();
+        Map<Trip, String> auxMap = new HashMap<>();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+
+        //create map with trips as keys and their year as values
+        for (Trip trip : dataset) {
+            //System.out.println(dateFormat.format(trip.getFrom().getTime()));
+            auxMap.put(trip, dateFormat.format(trip.getFrom().getTime()));
+        }
+
+        //create set with years based on the map's values
+        Collection<String> years = auxMap.values();
+        SortedSet<String> yearsSet = new TreeSet<>();
+
+        for (String year : years) {
+            yearsSet.add(year);
+        }
+
+        //create map with year as key and a list of trips from that year as value
+        for (String year : yearsSet) {
+            List<Trip> trips = new ArrayList<>();
+            for (Map.Entry e : auxMap.entrySet()) {
+                if (e.getValue().equals(year)) {
+                    trips.add((Trip) e.getKey());
+                }
+            }
+            tripsMap.put(year, trips);
+        }
+
+        //reverse order the years in the set
+        Set<String> auxSet = tripsMap.keySet();
+        List list = new ArrayList(auxSet);
+        Collections.sort(list, Collections.reverseOrder());
+        Set<String> orderedYearsSet = new LinkedHashSet(list);
+
+        //create list with years and trips at the same level to pass to the adapter
+        List<Object> parsedData = new ArrayList<>();
+
+        for (String k : orderedYearsSet) {
+            parsedData.add(k);
+            for (Trip t : tripsMap.get(k)) {
+                parsedData.add(t);
+            }
+        }
+        return parsedData;
     }
 
     private void getTripsFromDb() {
@@ -189,8 +222,8 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
     @Override
     public void processFinish(List<Trip> trips) {
         Calendar today = Calendar.getInstance();
-        List<Trip> upcomingTrips = trips.stream().filter(t -> !t.getFrom().before(today)).collect(Collectors.toList());
-        List<Trip> historyTrips = trips.stream().filter(t -> t.getFrom().before(today)).collect(Collectors.toList());
+        List<Trip> upcomingTrips = trips.stream().filter(t -> !t.getTo().before(today)).collect(Collectors.toList());
+        List<Trip> historyTrips = trips.stream().filter(t -> t.getTo().before(today)).collect(Collectors.toList());
         setUpcomingList(upcomingTrips);
         setHistoryList(historyTrips);
     }

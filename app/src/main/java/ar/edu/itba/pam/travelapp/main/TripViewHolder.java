@@ -28,7 +28,6 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(context,"hola",Toast.LENGTH_LONG).show();
                 context.startActivity(new Intent(context, DetailsActivity.class));
             }
         });

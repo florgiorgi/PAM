@@ -40,6 +40,11 @@ public class ConfigViewImpl extends LinearLayout implements ConfigView {
         // todo
     }
 
+    @Override
+    public void handleNightModeSwitch(int mode) {
+        // todo
+    }
+
 //    private void setUpList() {
 //        view = findViewById(R.id.trip_list);
 //        view.setHasFixedSize(true);

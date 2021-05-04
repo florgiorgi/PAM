@@ -1,6 +1,7 @@
 package ar.edu.itba.pam.travelapp.main;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,10 +11,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ViewFlipper;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CONFIG = 2;
     private static final String FTU = "ftu";
     private static final String SP_ID = "travel-buddy-sp";
+    private static final String NIGHT_MODE = "night-mode";
 
     private RecyclerView tripsRecyclerView;
     private RecyclerView historyRecyclerView;
@@ -46,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private ConfigView configView;
 
     private FloatingActionButton floatingButtonCreate;
-
+    private SwitchMaterial nightModeSwitch;
     private BottomNavigationView navView;
 
     @Override
@@ -115,6 +119,31 @@ public class MainActivity extends AppCompatActivity {
     private void setUpConfigView() {
         configView = findViewById(R.id.config);
         configView.bind();
+        setUpNightModeSwitch();
+    }
+
+    private void setUpNightModeSwitch() {
+        //        sp.edit().putBoolean(NIGHT_MODE, false).apply();
+        int currentNightModeSetting = AppCompatDelegate.getDefaultNightMode();
+        System.out.println("yes: " + AppCompatDelegate.MODE_NIGHT_YES);
+        System.out.println("no: " + AppCompatDelegate.MODE_NIGHT_NO);
+        System.out.println("no: " + AppCompatDelegate.MODE_NIGHT_UNSPECIFIED);
+        nightModeSwitch = findViewById(R.id.switch_night_mode);
+        nightModeSwitch.setChecked(true);
+        if (currentNightModeSetting == AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
+                || currentNightModeSetting == AppCompatDelegate.MODE_NIGHT_NO) {
+            System.out.println("set false: ");
+            nightModeSwitch.setChecked(false);
+        }
+        nightModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                buttonView.setChecked(true);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                buttonView.setChecked(false);
+            }
+        });
     }
 
     private void setUpHistoryView() {

@@ -194,7 +194,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onValidationSucceeded() {
-        Toast.makeText(this, "Validation Success", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Trip created successfully", Toast.LENGTH_SHORT).show();
         createTrip();
     }
 

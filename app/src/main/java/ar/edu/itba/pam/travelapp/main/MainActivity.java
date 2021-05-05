@@ -137,13 +137,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-
-        tripsRecyclerView = findViewById(R.id.trip_list);
-        tripsRecyclerView.setHasFixedSize(true);
-
-        historyRecyclerView = findViewById(R.id.history);
-        historyRecyclerView.setHasFixedSize(true);
-
         flipper = findViewById(R.id.flipper);
         // Upcoming
         tripsView = findViewById(R.id.trip_list);
@@ -156,6 +149,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setUpcomingList(List<Trip> upcomingTrips) {
+        tripsRecyclerView = findViewById(R.id.trip_list);
+        tripsRecyclerView.setHasFixedSize(true);
         adapter = new TripListAdapter(upcomingTrips, this);
         tripsRecyclerView.setAdapter(adapter);
         tripsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -163,6 +158,8 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setHistoryList(List<Trip> historyTrips) {
+        historyRecyclerView = findViewById(R.id.history);
+        historyRecyclerView.setHasFixedSize(true);
         historyAdapter = new HistoryListAdapter(parsedHistoryTrips(historyTrips), this);
         historyRecyclerView.setAdapter(historyAdapter);
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -186,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void onTripsError(final Throwable error) {
         // explain error to the user
-        Toast.makeText(MainActivity.this, "Error: couldn't fetch trips from database", Toast.LENGTH_LONG);
+        Toast.makeText(MainActivity.this, "Error: couldn't fetch trips from database", Toast.LENGTH_LONG).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

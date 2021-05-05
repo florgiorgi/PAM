@@ -26,11 +26,11 @@
                 android:textAppearance="?attr/textAppearanceHeadline6" />
 
             <TextView
+                android:id="@+id/trip_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="@string/secondary_text1"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:textColor="?android:attr/textColorSecondary" />
 
@@ -49,20 +49,20 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/trip_departure_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/random_flight"
-                android:textAppearance="?attr/textAppearanceBody2" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:text="@string/random_date"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary" />
+
+            <TextView
+                android:id="@+id/trip_flight_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
         </LinearLayout>
 

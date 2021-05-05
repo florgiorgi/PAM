@@ -5,13 +5,13 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityDao;
-import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.model.activity.ActivityEntity;
 import ar.edu.itba.pam.travelapp.model.trip.TripDao;
+import ar.edu.itba.pam.travelapp.model.trip.TripEntity;
 
 
-@Database(entities = {Trip.class, Activity.class}, version = 3, exportSchema = false)
+@Database(entities = {TripEntity.class, ActivityEntity.class}, version = 7, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase instance;
@@ -28,5 +28,4 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract TripDao tripDao();
     public abstract ActivityDao activityDao();
-
 }

@@ -1,12 +1,12 @@
-package ar.edu.itba.pam.travelapp;
+package ar.edu.itba.pam.travelapp.landing;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
 
 public class FtuActivity extends AppCompatActivity {

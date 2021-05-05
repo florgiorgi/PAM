@@ -1,54 +1,56 @@
 package ar.edu.itba.pam.travelapp.main.history;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+
 
 import ar.edu.itba.pam.travelapp.main.TripViewHolder;
 import ar.edu.itba.pam.travelapp.R;
+import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 
 public class HistoryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> dataset;
+    private List<Object> dataset;
     private Context context;
 
-    public HistoryListAdapter(List<String> dataset, Context context) {
+    public HistoryListAdapter(List<Object> dataset, Context context) {
         this.dataset = dataset;
         this.context = context;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position % 6;
+        return dataset.get(position).getClass().equals(String.class) ? 0 : 1;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case 0:
-                final View view_year = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_year, parent, false);
-                return new YearViewHolder(view_year);
-            default:
-                final View view_trip = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_trip, parent, false);
-                return new TripViewHolder(view_trip, context);
+        if (viewType == 0) {
+            final View view_year = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_year, parent, false);
+            return new YearViewHolder(view_year);
         }
+        final View view_trip = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_trip, parent, false);
+        return new TripViewHolder(view_trip, context);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
-        switch (getItemViewType(position)) {
-            case 0:
-                ((YearViewHolder) holder).bind(dataset.get(position));
-                break;
-            default:
-                ((TripViewHolder) holder).bind(dataset.get(position));
-                break;
+        if (getItemViewType(position) == 0) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+            ((YearViewHolder) holder).bind((String) dataset.get(position));
+        } else {
+            ((TripViewHolder) holder).bind((Trip) dataset.get(position));
         }
     }
 

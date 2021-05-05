@@ -13,7 +13,7 @@ import io.reactivex.Flowable;
 @Dao
 public interface TripDao {
 
-    @Query("SELECT * FROM trips")
+    @Query("SELECT * FROM trips ORDER BY startDate")
     Flowable<List<TripEntity>> getTrips();
 
     @Query("SELECT * FROM trips WHERE location LIKE :location")

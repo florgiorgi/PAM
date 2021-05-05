@@ -1,16 +1,24 @@
 package ar.edu.itba.pam.travelapp.main;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -33,6 +41,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.landing.FtuActivity;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
+import ar.edu.itba.pam.travelapp.main.config.NightModeSharedPref;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;
 import ar.edu.itba.pam.travelapp.main.trips.CreateTripActivity;
@@ -71,11 +80,14 @@ public class MainActivity extends AppCompatActivity {
     private ConfigView configView;
 
     private FloatingActionButton floatingButtonCreate;
-
+    private SwitchMaterial nightModeSwitch;
     private BottomNavigationView navView;
+
+    NightModeSharedPref nightModeSharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        nightModeSharedPref = new NightModeSharedPref(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_trips);
 
@@ -117,6 +129,11 @@ public class MainActivity extends AppCompatActivity {
     private void setUpBottomNavigation() {
         navView = findViewById(R.id.bottom_navigation);
         navView.setSelectedItemId(R.id.trips_tab);
+        if (nightModeSharedPref.loadNightModeState()) {
+            navView.setSelectedItemId(R.id.config_tab);
+            flipper.setDisplayedChild(CONFIG);
+            nightModeSharedPref.setNightModeState(false);
+        }
         navView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.trips_tab:
@@ -146,6 +163,25 @@ public class MainActivity extends AppCompatActivity {
         // Configuration
         configView = findViewById(R.id.config);
         configView.bind();
+        setUpNightModeSwitch();
+    }
+
+    private void setUpNightModeSwitch() {
+        int currentNightModeSetting = AppCompatDelegate.getDefaultNightMode();
+        nightModeSwitch = findViewById(R.id.switch_night_mode);
+        nightModeSwitch.setChecked(true);
+        if (currentNightModeSetting == AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
+                || currentNightModeSetting == AppCompatDelegate.MODE_NIGHT_NO) {
+            nightModeSwitch.setChecked(false);
+        }
+        nightModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            nightModeSharedPref.setNightModeState(true);
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        });
     }
 
 

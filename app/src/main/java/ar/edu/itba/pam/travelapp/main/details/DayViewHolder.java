@@ -54,7 +54,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         buttons = view.findViewById(R.id.new_activity_buttons);
 
         setUpClickOnCardToExpand();
-        //setUpAddButton();
     }
 
     private void setUpActivities(List<Activity> activities) {
@@ -74,9 +73,9 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(final List<Activity> activities, final int position, LocalDate date, Trip trip) {
-        final TextView day_num = itemView.findViewById(R.id.day_number);
+        final TextView dayNum = itemView.findViewById(R.id.day_number);
         //day_num.setText("Day " + position + " " + date);
-        day_num.setText("Day " + position);
+        dayNum.setText("Day " + position);
 
         setUpActivities(activities);
         setUpAddButton(date, trip);
@@ -115,8 +114,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 buttons.setVisibility(View.VISIBLE);
                 editText.setVisibility(View.VISIBLE);
 
-                //aca se tendria que guardar la activity en la bd
-                //el LocalDate correspondiente a la activity esta guardado en la variable date
                 confirm.setOnClickListener(v1 -> {
                     String text = editText.getText().toString();
                     if (!text.equals("")) {

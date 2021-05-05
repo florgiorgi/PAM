@@ -8,7 +8,6 @@ import android.widget.Toast;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -28,8 +27,6 @@ import ar.edu.itba.pam.travelapp.model.activity.ActivityRoomRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import io.reactivex.disposables.Disposable;
-
-import static java.time.temporal.ChronoUnit.DAYS;
 
 public class DetailsActivity extends AppCompatActivity {
 

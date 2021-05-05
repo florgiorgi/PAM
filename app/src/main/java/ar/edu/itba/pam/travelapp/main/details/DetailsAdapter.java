@@ -1,6 +1,5 @@
 package ar.edu.itba.pam.travelapp.main.details;
 
-import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,11 +43,11 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0) {
-            final View view_details = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_trip_details, parent, false);
-            return new DetailsViewHolder(view_details);
+            final View viewDetails = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_trip_details, parent, false);
+            return new DetailsViewHolder(viewDetails);
         }
-        final View view_day = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_day, parent, false);
-        return new DayViewHolder(view_day, context);
+        final View viewDay = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_day, parent, false);
+        return new DayViewHolder(viewDay, context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

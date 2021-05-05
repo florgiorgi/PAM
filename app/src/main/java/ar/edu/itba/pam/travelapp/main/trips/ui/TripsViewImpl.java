@@ -27,7 +27,6 @@ public class TripsViewImpl extends RecyclerView implements TripsView {
 
     @Override
     public void bind(TripListAdapter adapter) {
-        //findViewById(R.id.trip_list);
         setHasFixedSize(true);
         setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         setAdapter(adapter);

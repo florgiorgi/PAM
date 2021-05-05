@@ -8,9 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ar.edu.itba.pam.travelapp.main.TripListAdapter;
-import ar.edu.itba.pam.travelapp.main.trips.ui.TripsView;
-
 public class DetailsViewImpl extends RecyclerView implements DetailsView {
     public DetailsViewImpl(@NonNull Context context) {
         this(context, null);

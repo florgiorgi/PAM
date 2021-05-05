@@ -11,8 +11,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -22,7 +20,6 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,9 +32,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.landing.FtuActivity;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
@@ -227,8 +221,6 @@ public class MainActivity extends AppCompatActivity {
     private List<Object> parsedHistoryTrips(List<Trip> dataset) {
         Map<String, List<Trip>> tripsMap = new HashMap<>();
         Map<Trip, String> auxMap = new HashMap<>();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
 
         //create map with trips as keys and their year as values
         for (Trip trip : dataset) {

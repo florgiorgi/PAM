@@ -8,8 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import ar.edu.itba.pam.travelapp.main.TripListAdapter;
-
 public class HistoryViewImpl extends RecyclerView implements HistoryView {
     public HistoryViewImpl(@NonNull Context context) {
         this(context,null);
@@ -25,7 +23,6 @@ public class HistoryViewImpl extends RecyclerView implements HistoryView {
 
     @Override
     public void bind(HistoryListAdapter adapter) {
-        //findViewById(R.id.trip_list);
         setHasFixedSize(true);
         setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         setAdapter(adapter);

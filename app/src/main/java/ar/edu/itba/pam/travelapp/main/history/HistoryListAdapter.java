@@ -36,18 +36,17 @@ public class HistoryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == 0) {
-            final View view_year = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_year, parent, false);
-            return new YearViewHolder(view_year);
+            final View viewYear = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_year, parent, false);
+            return new YearViewHolder(viewYear);
         }
-        final View view_trip = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_trip, parent, false);
-        return new TripViewHolder(view_trip, context);
+        final View viewTrip = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_trip, parent, false);
+        return new TripViewHolder(viewTrip, context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position) == 0) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
             ((YearViewHolder) holder).bind((String) dataset.get(position));
         } else {
             ((TripViewHolder) holder).bind((Trip) dataset.get(position));

@@ -48,6 +48,9 @@
     <string name="activity1">Go to Central Park</string>
     <string name="add_activity">Add activity</string>
     <string name="expand_card">Expand card</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="enter_activity">Enter activity</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

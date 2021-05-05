@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.color.MaterialColors;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +30,10 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     private LinearLayout activityAndButtonList;
     private View divider;
     private ImageView arrow;
-
+    private EditText editText;
+    private Button confirm;
+    private Button cancel;
+    private LinearLayout buttons;
 
     public DayViewHolder(@NonNull View itemView, Context context) {
         super(itemView);
@@ -38,6 +43,10 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         activityList = view.findViewById(R.id.list_of_activities);
         titleView = view.findViewById(R.id.day_card_title);
         addButton = (ImageButton) view.findViewById(R.id.add_button);
+        editText = view.findViewById(R.id.enter_new_activity);
+        confirm = view.findViewById(R.id.confirm);
+        cancel = view.findViewById(R.id.cancel);
+        buttons = view.findViewById(R.id.new_activity_buttons);
 
         setUpClickOnCardToExpand();
         setUpActivities();
@@ -50,7 +59,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         names.add("Go to moma");
         names.add("Go to met");
         names.add("Chill with friends");
-
 
         for (String s : names) {
             TextView textView = new TextView(context);
@@ -88,7 +96,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                     divider.setVisibility(View.GONE);
                     activityAndButtonList.setVisibility(View.GONE);
                     arrow.setImageResource(R.drawable.arrow_up);
-
                 }
             }
         });
@@ -99,29 +106,15 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(context,"prueba",Toast.LENGTH_SHORT).show();
                 addButton.setVisibility(View.GONE);
 
-                EditText editText = new EditText(context);
-                editText.setHint("Enter new activity");
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT
-                );
-                params.setMargins(2, 2, 2, 2);
-                editText.setLayoutParams(params);
-                editText.setTextSize(1, 15);
-                activityList.addView(editText);
+                EditText editText = view.findViewById(R.id.enter_new_activity);
+                Button confirm = view.findViewById(R.id.confirm);
+                Button cancel = view.findViewById(R.id.cancel);
+                LinearLayout buttons = view.findViewById(R.id.new_activity_buttons);
 
-                Button confirm = new Button(context);
-                confirm.setText("Add");
-                confirm.setTextColor(Color.WHITE);
-                activityList.addView(confirm);
-
-                Button cancel = new Button(context);
-                cancel.setText("Cancel");
-                cancel.setTextColor(Color.WHITE);
-                activityList.addView(cancel);
+                buttons.setVisibility(View.VISIBLE);
+                editText.setVisibility(View.VISIBLE);
 
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -130,10 +123,10 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                         if (!text.equals("")) {
                             addActivity(text);
 
-                            activityList.removeView(editText);
-                            activityList.removeView(confirm);
-                            activityList.removeView(cancel);
-
+                            buttons.setVisibility(View.GONE);
+                            editText.setText("");
+                            editText.setHintTextColor(Color.GRAY);
+                            editText.setVisibility(View.GONE);
                             addButton.setVisibility(View.VISIBLE);
                         } else {
                             editText.setHintTextColor(Color.RED);
@@ -145,10 +138,11 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        activityList.removeView(editText);
-                        activityList.removeView(confirm);
-                        activityList.removeView(cancel);
 
+                        buttons.setVisibility(View.GONE);
+                        editText.setText("");
+                        editText.setHintTextColor(Color.GRAY);
+                        editText.setVisibility(View.GONE);
                         addButton.setVisibility(View.VISIBLE);
                     }
                 });

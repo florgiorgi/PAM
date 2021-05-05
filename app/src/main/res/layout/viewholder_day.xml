@@ -113,7 +113,7 @@
                 android:id="@+id/list_of_activities"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"/>
+                android:orientation="vertical" />
 
             <ImageButton
                 android:id="@+id/add_button"
@@ -122,6 +122,39 @@
                 android:layout_marginTop="6dp"
                 android:background="@drawable/plus_sign_yellow"
                 android:contentDescription="@string/add_activity" />
+
+            <EditText
+                android:id="@+id/enter_new_activity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_activity"
+                android:textSize="15sp"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/new_activity_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/confirm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="0.5"
+                    android:text="@string/confirm" />
+
+
+                <Button
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="0.5"
+                    android:text="@string/cancel" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

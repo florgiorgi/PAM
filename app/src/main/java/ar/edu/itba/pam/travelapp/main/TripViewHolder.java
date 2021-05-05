@@ -3,11 +3,14 @@ package ar.edu.itba.pam.travelapp.main;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 
 import androidx.annotation.NonNull;
@@ -28,12 +31,6 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         this.context = context;
         view = itemView;
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(new Intent(context, DetailsActivity.class));
-            }
-        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -42,15 +39,16 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         final TextView date = itemView.findViewById(R.id.date);
         final TextView days_left = itemView.findViewById(R.id.expand);
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd");
         String days_left_string = view.getResources().getString(R.string.days_left);
         String current_trip = view.getResources().getString(R.string.current_trip);
 
-        String date_from = trip.getFrom().format(dateFormatter);
-        String date_to = trip.getTo().format(dateFormatter);
+        String date_from_month = trip.getFrom().getMonth().toString().substring(0,1).concat(trip.getFrom().getMonth().toString().substring(1,3).toLowerCase());
+        int date_from_day = trip.getFrom().getDayOfMonth();
+        String date_to_month = trip.getTo().getMonth().toString().substring(0,1).concat(trip.getTo().getMonth().toString().substring(1,3).toLowerCase());
+        int date_to_day = trip.getTo().getDayOfMonth();
 
         title.setText(trip.getLocation());
-        date.setText(date_from + " - " + date_to);
+        date.setText(date_from_month + " " + date_from_day + " - " + date_to_month + " " + date_to_day);
 
         LocalDate today = LocalDate.now();
 
@@ -62,13 +60,17 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         } else if (dayDifferenceEnd >= 0) {
             days_left.setText(current_trip);
         }
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //context.startActivity(new Intent(context, DetailsActivity.class));
+
+                Intent i = new Intent(context, DetailsActivity.class);
+                i.putExtra("trip",trip);
+                context.startActivity(i);
+            }
+        });
     }
 
-    private long calculateDaysDifference(Calendar thatDay) {
-        Calendar today = Calendar.getInstance();
-        long diff = thatDay.getTimeInMillis() - today.getTimeInMillis();
-        long days = diff / (24 * 60 * 60 * 1000);
-
-        return days + 1;
-    }
 }

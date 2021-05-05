@@ -21,13 +21,7 @@
     <string name="flight_number_hint">Ingresá el número de vuelo</string>
     <string name="date_time_hint">dd/mm/aaaa hh:mm</string>
     <string name="expand_down">^</string>
-    <string name="day1">Día 1</string>
-    <string name="day2">Día 2</string>
-    <string name="day3">Día 3</string>
-    <string name="day4">Día 4</string>
-    <string name="day5">Día 5</string>
-    <string name="random_date">Feb 12 8.32pm</string>
-    <string name="random_flight">Vuelo #2349</string>
+    <string name="flight_title">Vuelo #</string>
     <string name="climate1">20/21</string>
     <string name="climate2">21/27</string>
     <string name="climate3">18/22</string>

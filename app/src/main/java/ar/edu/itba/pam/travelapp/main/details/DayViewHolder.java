@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.color.MaterialColors;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.itba.pam.travelapp.R;
+import ar.edu.itba.pam.travelapp.model.activity.Activity;
 
 public class DayViewHolder extends RecyclerView.ViewHolder {
 
@@ -49,35 +51,32 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         buttons = view.findViewById(R.id.new_activity_buttons);
 
         setUpClickOnCardToExpand();
-        setUpActivities();
-        setUpAddButton();
+        //setUpAddButton();
     }
 
-    private void setUpActivities() {
-        List<String> names = new ArrayList<>();
+    private void setUpActivities(List<Activity> activities) {
 
-        names.add("Go to moma");
-        names.add("Go to met");
-        names.add("Chill with friends");
-
-        for (String s : names) {
+        for (Activity a : activities) {
             TextView textView = new TextView(context);
-            textView.setText(s);
+            textView.setText(a.getName());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT
             );
-            params.setMargins(2, 2, 2, 2);
+            params.setMargins(2, 4, 2, 4);
             textView.setLayoutParams(params);
-            textView.setTextSize(1, 15);
+            textView.setTextSize(1, 16);
             activityList.addView(textView);
         }
     }
 
-    public void bind(final String text) {
-        final TextView textView = itemView.findViewById(R.id.day_number);
+    public void bind(final List<Activity> activities, final int position, LocalDate date) {
+        final TextView day_num = itemView.findViewById(R.id.day_number);
+        //day_num.setText("Day " + position + " " + date);
+        day_num.setText("Day " + position);
 
-        textView.setText(text);
+        setUpActivities(activities);
+        setUpAddButton(date);
     }
 
     private void setUpClickOnCardToExpand() {
@@ -101,7 +100,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    private void setUpAddButton() {
+    private void setUpAddButton(LocalDate date) {
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,12 +115,18 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 buttons.setVisibility(View.VISIBLE);
                 editText.setVisibility(View.VISIBLE);
 
+                //aca se tendria que guardar la activity en la bd
+                //el LocalDate correspondiente a la activity esta guardado en la variable date
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         String text = editText.getText().toString();
                         if (!text.equals("")) {
                             addActivity(text);
+
+                            //exactamente aca hay que guardarlo en la db
+                            //el nombre de la activity es --> text
+                            //el dia de la activity es --> date
 
                             buttons.setVisibility(View.GONE);
                             editText.setText("");

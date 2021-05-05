@@ -1,26 +1,39 @@
 package ar.edu.itba.pam.travelapp.main.details;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
+import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 
 public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<Activity> dataset;
+    private List<LocalDate> dataset;
+    private Map<LocalDate, List<Activity>> allData;
     private Context context;
+    private Trip trip;
+    private int datasetSize;
 
-    public DetailsAdapter(List<Activity> dataset, Context context) {
-        this.dataset = dataset;
+    public DetailsAdapter(Set<LocalDate> dataset, Map<LocalDate, List<Activity>> allData, Context context, Trip trip) {
+        this.dataset = new ArrayList<>(dataset);
+        this.allData = allData;
         this.context = context;
+        this.trip = trip;
+        this.datasetSize = dataset.size();
     }
 
     @Override
@@ -38,12 +51,13 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return new DayViewHolder(view_day, context);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if (getItemViewType(position) == 0) {
-            ((DetailsViewHolder) holder).bind(dataset.get(position).getName());
+            ((DetailsViewHolder) holder).bind(trip);
         } else {
-            ((DayViewHolder) holder).bind(dataset.get(position).getName());
+            ((DayViewHolder) holder).bind(allData.get(dataset.get(position)), position, dataset.get(position));
         }
     }
 

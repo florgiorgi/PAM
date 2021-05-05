@@ -1,9 +1,10 @@
 package ar.edu.itba.pam.travelapp.model.trip;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Trip {
+public class Trip implements Serializable {
 
     private long id;
     private String location;

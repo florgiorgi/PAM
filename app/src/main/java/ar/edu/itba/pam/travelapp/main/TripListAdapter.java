@@ -1,11 +1,13 @@
 package ar.edu.itba.pam.travelapp.main;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -31,6 +33,7 @@ public class TripListAdapter extends RecyclerView.Adapter<TripViewHolder> {
         return new TripViewHolder(view, context);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull TripViewHolder holder, int position) {
         holder.bind(dataset.get(position));

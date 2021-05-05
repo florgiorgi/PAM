@@ -1,10 +1,5 @@
 package ar.edu.itba.pam.travelapp.main;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,8 +25,12 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import ar.edu.itba.pam.travelapp.landing.FtuActivity;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.R;
+import ar.edu.itba.pam.travelapp.landing.FtuActivity;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;
@@ -43,7 +42,6 @@ import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
-import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
 public class MainActivity extends AppCompatActivity {
@@ -139,6 +137,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
+
+        tripsRecyclerView = findViewById(R.id.trip_list);
+        tripsRecyclerView.setHasFixedSize(true);
+
+        historyRecyclerView = findViewById(R.id.history);
+        historyRecyclerView.setHasFixedSize(true);
+
         flipper = findViewById(R.id.flipper);
         // Upcoming
         tripsView = findViewById(R.id.trip_list);
@@ -151,8 +156,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setUpcomingList(List<Trip> upcomingTrips) {
-        tripsRecyclerView = findViewById(R.id.trip_list);
-        tripsRecyclerView.setHasFixedSize(true);
         adapter = new TripListAdapter(upcomingTrips, this);
         tripsRecyclerView.setAdapter(adapter);
         tripsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -160,8 +163,6 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setHistoryList(List<Trip> historyTrips) {
-        historyRecyclerView = findViewById(R.id.history);
-        historyRecyclerView.setHasFixedSize(true);
         historyAdapter = new HistoryListAdapter(parsedHistoryTrips(historyTrips), this);
         historyRecyclerView.setAdapter(historyAdapter);
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

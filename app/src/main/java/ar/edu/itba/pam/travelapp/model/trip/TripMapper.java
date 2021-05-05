@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi;
 public class TripMapper {
 
     public Trip toModel(TripEntity entity) {
-        return new Trip(entity.getLocation(), entity.getFrom(), entity.getTo(), entity.getTravelMethod(), entity.getDepartureTime(), entity.getFlightNumber());
+        return new Trip(entity.getId(), entity.getLocation(), entity.getFrom(), entity.getTo(), entity.getTravelMethod(), entity.getDepartureTime(), entity.getFlightNumber());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -21,7 +21,7 @@ public class TripMapper {
     }
 
     public TripEntity toEntity(Trip trip) {
-        return new TripEntity(trip.getLocation(), trip.getFrom(), trip.getTo(), trip.getTravelMethod(), trip.getDepartureTime(), trip.getFlightNumber());
+        return new TripEntity(trip.getId(), trip.getLocation(), trip.getFrom(), trip.getTo(), trip.getTravelMethod(), trip.getDepartureTime(), trip.getFlightNumber());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -30,7 +30,5 @@ public class TripMapper {
         trips.forEach(t -> entities.add(toEntity(t)));
         return entities;
     }
-
-
 
 }

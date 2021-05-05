@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import ar.edu.itba.pam.travelapp.model.converters.LocalDateConverter;
@@ -47,7 +48,18 @@ public class TripEntity {
     @ColumnInfo(name = "google_id")
     private String googleId;
 
-    public TripEntity(String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber){
+    public TripEntity(String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber) {
+        this.location = location;
+        this.from = from;
+        this.to = to;
+        this.travelMethod = travelMethod;
+        this.flightNumber = flightNumber;
+        this.departureTime = departureTime;
+    }
+
+    @Ignore
+    public TripEntity(long id, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber) {
+        this.id = id;
         this.location = location;
         this.from = from;
         this.to = to;

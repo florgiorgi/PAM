@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 public class Trip {
 
+    private long id;
     private String location;
     private LocalDate from;
     private LocalDate to;
@@ -29,6 +30,24 @@ public class Trip {
         this.travelMethod = travelMethod;
         this.departureTime = departureTime;
         this.flightNumber = flightNumber;
+    }
+
+    public Trip(long id, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime, String flightNumber) {
+        this.id = id;
+        this.location = location;
+        this.from = from;
+        this.to = to;
+        this.travelMethod = travelMethod;
+        this.departureTime = departureTime;
+        this.flightNumber = flightNumber;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getLocation() {

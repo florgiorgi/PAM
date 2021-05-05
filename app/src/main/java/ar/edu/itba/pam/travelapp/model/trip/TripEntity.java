@@ -56,13 +56,6 @@ public class TripEntity {
         this.departureTime = departureTime;
     }
 
-    public TripEntity(String location, LocalDate from, LocalDate to, TravelMethod travelMethod){
-        this.location = location;
-        this.from = from;
-        this.to = to;
-        this.travelMethod = travelMethod;
-    }
-
     public long getId() {
         return id;
     }

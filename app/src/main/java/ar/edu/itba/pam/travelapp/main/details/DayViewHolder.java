@@ -2,6 +2,7 @@ package ar.edu.itba.pam.travelapp.main.details;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +30,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     public View view;
     public View titleView;
     public ImageButton addButton;
-    private Context context;
+    private DetailsActivity context;
     private LinearLayout activityList;
     private LinearLayout activityAndButtonList;
     private View divider;
@@ -38,7 +40,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     private Button cancel;
     private LinearLayout buttons;
 
-    public DayViewHolder(@NonNull View itemView, Context context) {
+    public DayViewHolder(@NonNull View itemView, DetailsActivity context) {
         super(itemView);
         this.view = itemView;
         this.context = context;
@@ -82,21 +84,18 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
 
     private void setUpClickOnCardToExpand() {
 
-        titleView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                divider = view.findViewById(R.id.divider);
-                arrow = view.findViewById(R.id.arrow_down);
+        titleView.setOnClickListener(v -> {
+            divider = view.findViewById(R.id.divider);
+            arrow = view.findViewById(R.id.arrow_down);
 
-                if (divider.getVisibility() == View.GONE) {
-                    divider.setVisibility(View.VISIBLE);
-                    activityAndButtonList.setVisibility(View.VISIBLE);
-                    arrow.setImageResource(R.drawable.arrow_down);
-                } else {
-                    divider.setVisibility(View.GONE);
-                    activityAndButtonList.setVisibility(View.GONE);
-                    arrow.setImageResource(R.drawable.arrow_up);
-                }
+            if (divider.getVisibility() == View.GONE) {
+                divider.setVisibility(View.VISIBLE);
+                activityAndButtonList.setVisibility(View.VISIBLE);
+                arrow.setImageResource(R.drawable.arrow_down);
+            } else {
+                divider.setVisibility(View.GONE);
+                activityAndButtonList.setVisibility(View.GONE);
+                arrow.setImageResource(R.drawable.arrow_up);
             }
         });
     }
@@ -118,39 +117,31 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
 
                 //aca se tendria que guardar la activity en la bd
                 //el LocalDate correspondiente a la activity esta guardado en la variable date
-                confirm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        String text = editText.getText().toString();
-                        if (!text.equals("")) {
-                            addActivity(text);
+                confirm.setOnClickListener(v1 -> {
+                    String text = editText.getText().toString();
+                    if (!text.equals("")) {
+                        addActivity(text);
 
-                            //exactamente aca hay que guardarlo en la db
-                            //el nombre de la activity es --> text
-                            //el dia de la activity es --> date
-
-                            buttons.setVisibility(View.GONE);
-                            editText.setText("");
-                            editText.setHintTextColor(Color.GRAY);
-                            editText.setVisibility(View.GONE);
-                            addButton.setVisibility(View.VISIBLE);
-                        } else {
-                            editText.setHintTextColor(Color.RED);
-                        }
-
-                    }
-                });
-
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                        context.createActivity(text, date);
 
                         buttons.setVisibility(View.GONE);
                         editText.setText("");
                         editText.setHintTextColor(Color.GRAY);
                         editText.setVisibility(View.GONE);
                         addButton.setVisibility(View.VISIBLE);
+                    } else {
+                        editText.setHintTextColor(Color.RED);
                     }
+
+                });
+
+                cancel.setOnClickListener(v12 -> {
+
+                    buttons.setVisibility(View.GONE);
+                    editText.setText("");
+                    editText.setHintTextColor(Color.GRAY);
+                    editText.setVisibility(View.GONE);
+                    addButton.setVisibility(View.VISIBLE);
                 });
             }
 

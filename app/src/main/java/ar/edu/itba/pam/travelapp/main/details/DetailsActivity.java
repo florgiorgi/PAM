@@ -1,5 +1,6 @@
 package ar.edu.itba.pam.travelapp.main.details;
 
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -85,6 +86,14 @@ public class DetailsActivity extends AppCompatActivity {
         this.activityMapper = new ActivityMapper();
         this.activityRepository = new ActivityRoomRepository(database.activityDao(), activityMapper);
         this.schedulerProvider = new AndroidSchedulerProvider();
+    }
+
+    public void createActivity(String name, LocalDate date) {
+        AsyncTask.execute(() -> {
+            Activity activity = new Activity(name, this.trip.getId(), date);
+            this.activityRepository.insert(activity);
+        });
+        Toast.makeText(this, "Activity created successfully", Toast.LENGTH_SHORT).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

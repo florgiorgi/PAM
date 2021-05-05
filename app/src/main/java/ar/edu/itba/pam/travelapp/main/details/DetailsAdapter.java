@@ -24,11 +24,11 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private List<LocalDate> dataset;
     private Map<LocalDate, List<Activity>> allData;
-    private Context context;
+    private DetailsActivity context;
     private Trip trip;
     private int datasetSize;
 
-    public DetailsAdapter(Set<LocalDate> dataset, Map<LocalDate, List<Activity>> allData, Context context, Trip trip) {
+    public DetailsAdapter(Set<LocalDate> dataset, Map<LocalDate, List<Activity>> allData, DetailsActivity context, Trip trip) {
         this.dataset = new ArrayList<>(dataset);
         this.allData = allData;
         this.context = context;

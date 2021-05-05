@@ -1,7 +1,6 @@
 package ar.edu.itba.pam.travelapp.main.trips;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,32 +9,27 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
-import com.mobsandgeeks.saripaar.annotation.Digits;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.AppDatabase;
+import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
-import ar.edu.itba.pam.travelapp.model.trip.TripDao;
 
 public class CreateTripActivity extends AppCompatActivity implements Validator.ValidationListener {
 
@@ -54,7 +48,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     private EditText departureTime;
 
     private Spinner travelMethodSpinner;
-    private Trip.TravelMethod travelMethod;
+    private TravelMethod travelMethod;
 
     private Button submitButton;
 
@@ -86,11 +80,11 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
         // Spinner
         this.travelMethodSpinner = findViewById(R.id.transport_spinner);
-        this.travelMethodSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Trip.TravelMethod.values()));
+        this.travelMethodSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, TravelMethod.values()));
         this.travelMethodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                travelMethod = (Trip.TravelMethod) adapterView.getItemAtPosition(i);
+                travelMethod = (TravelMethod) adapterView.getItemAtPosition(i);
             }
 
             @Override

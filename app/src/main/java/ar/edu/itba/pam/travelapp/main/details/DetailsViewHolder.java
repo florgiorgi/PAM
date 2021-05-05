@@ -30,7 +30,7 @@ public class DetailsViewHolder extends RecyclerView.ViewHolder {
         final TextView tripDepartureDate = itemView.findViewById(R.id.trip_departure_date);
 
         DateTimeFormatter dateFormatter =  DateTimeFormatter.ofPattern("MMM dd");
-        DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("MMM dd HH:mm");
+        DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
         String departureTime = "";
 
         if (trip.getDepartureTime() != null) {

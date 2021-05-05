@@ -24,6 +24,7 @@ import java.util.List;
 import ar.edu.itba.pam.travelapp.FtuActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
+import ar.edu.itba.pam.travelapp.main.config.NightModeSharedPref;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;
 import ar.edu.itba.pam.travelapp.main.trips.CreateTripActivity;
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int CONFIG = 2;
     private static final String FTU = "ftu";
     private static final String SP_ID = "travel-buddy-sp";
-    private static final String NIGHT_MODE = "night-mode";
 
     private RecyclerView tripsRecyclerView;
     private RecyclerView historyRecyclerView;
@@ -53,8 +53,11 @@ public class MainActivity extends AppCompatActivity {
     private SwitchMaterial nightModeSwitch;
     private BottomNavigationView navView;
 
+    NightModeSharedPref nightModeSharedPref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        nightModeSharedPref = new NightModeSharedPref(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_active_trips);
@@ -89,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
     private void setUpBottomNavigation() {
         navView = findViewById(R.id.bottom_navigation);
         navView.setSelectedItemId(R.id.trips_tab);
+        if (nightModeSharedPref.loadNightModeState()) {
+            navView.setSelectedItemId(R.id.config_tab);
+            flipper.setDisplayedChild(CONFIG);
+            nightModeSharedPref.setNightModeState(false);
+        }
         navView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.trips_tab:
@@ -123,25 +131,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpNightModeSwitch() {
-        //        sp.edit().putBoolean(NIGHT_MODE, false).apply();
         int currentNightModeSetting = AppCompatDelegate.getDefaultNightMode();
-        System.out.println("yes: " + AppCompatDelegate.MODE_NIGHT_YES);
-        System.out.println("no: " + AppCompatDelegate.MODE_NIGHT_NO);
-        System.out.println("no: " + AppCompatDelegate.MODE_NIGHT_UNSPECIFIED);
         nightModeSwitch = findViewById(R.id.switch_night_mode);
         nightModeSwitch.setChecked(true);
         if (currentNightModeSetting == AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
                 || currentNightModeSetting == AppCompatDelegate.MODE_NIGHT_NO) {
-            System.out.println("set false: ");
             nightModeSwitch.setChecked(false);
         }
         nightModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            nightModeSharedPref.setNightModeState(true);
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                buttonView.setChecked(true);
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                buttonView.setChecked(false);
             }
         });
     }

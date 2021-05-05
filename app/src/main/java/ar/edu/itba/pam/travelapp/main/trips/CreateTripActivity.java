@@ -22,6 +22,8 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -39,6 +41,7 @@ import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class CreateTripActivity extends AppCompatActivity implements Validator.ValidationListener {
 
     @NotEmpty
@@ -70,7 +73,12 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     private AppDatabase database;
     private TripRepository tripRepository;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    private StringBuilder dateTimeBuilder;
+
+    private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +94,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         validator.setValidationListener(this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initView() {
-
         // Spinner
         this.travelMethodSpinner = findViewById(R.id.transport_spinner);
         this.travelMethodSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, TravelMethod.values()));
@@ -132,57 +138,67 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         this.submitButton.setOnClickListener(view -> validator.validate());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void showDateDialog(EditText inputView, Calendar outputCalendar) {
-        Calendar calendar = Calendar.getInstance();
+
+        LocalDate date = LocalDate.now();
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
-            outputCalendar.set(Calendar.YEAR, year);
-            outputCalendar.set(Calendar.MONTH, month);
-            outputCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-            inputView.setText(dateFormat.format(outputCalendar.getTime()));
+            LocalDate chosenDate = LocalDate.of(year, month + 1, dayOfMonth);
+            inputView.setText(chosenDate.format(dateFormatter));
         };
 
         new DatePickerDialog(CreateTripActivity.this, dateSetListener,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)).show();
+                date.getYear(),
+                date.getMonthValue() - 1,
+                date.getDayOfMonth())
+                .show();
     }
 
     private void showDateTimeDialog(EditText inputView) {
-        Calendar calendar = Calendar.getInstance();
+
+        LocalDateTime now = LocalDateTime.now();
+        dateTimeBuilder = new StringBuilder();
+
+        //Calendar calendar = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
-            departureTimeCalendar.set(Calendar.YEAR, year);
-            departureTimeCalendar.set(Calendar.MONTH, month);
-            departureTimeCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+            LocalDate chosenDate = LocalDate.of(year, month + 1, dayOfMonth);
+            String dateString = chosenDate.format(dateFormatter);
+            dateTimeBuilder.append(dateString).append(" ");
 
             TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hour, minute) -> {
-                departureTimeCalendar.set(Calendar.HOUR_OF_DAY, hour);
-                departureTimeCalendar.set(Calendar.MINUTE, minute);
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.US);
+                LocalDateTime chosenTime = LocalDateTime.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), hour, minute);
+                String timeString = chosenTime.format(timeFormatter);
+                dateTimeBuilder.append(timeString);
                 this.hasDepartureTime = true;
-                inputView.setText(dateFormat.format(departureTimeCalendar.getTime()));
+                inputView.setText(dateTimeBuilder.toString());
             };
 
             new TimePickerDialog(CreateTripActivity.this, timeSetListener,
-                    calendar.get(Calendar.HOUR_OF_DAY),
-                    calendar.get(Calendar.MINUTE),
+                    now.getHour(),
+                    now.getMinute(),
                     false).show();
         };
         new DatePickerDialog(CreateTripActivity.this, dateSetListener,
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)).show();
+                now.getYear(),
+                now.getMonthValue() - 1,
+                now.getDayOfMonth()).show();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void createTrip() {
-        LocalDateTime departureDateTime = null;
-        if (this.hasDepartureTime) {
-            departureDateTime = LocalDateTime.ofInstant(departureTimeCalendar.toInstant(), departureTimeCalendar.getTimeZone().toZoneId());
+
+        LocalDate fromDate = parseDate(from);
+        LocalDate toDate = parseDate(to);
+        LocalDateTime departureDateTime = parseDateTime(departureTime);
+
+        if (fromDate == null) {
+            ((EditText) from).setError("Invalid date format");
         }
-        LocalDate fromDate = LocalDateTime.ofInstant(fromCalendar.toInstant(), fromCalendar.getTimeZone().toZoneId()).toLocalDate();
-        LocalDate toDate = LocalDateTime.ofInstant(toCalendar.toInstant(), toCalendar.getTimeZone().toZoneId()).toLocalDate();
+        if (toDate == null) {
+            ((EditText) to).setError("Invalid date format");
+        }
+        if (fromDate == null || toDate == null) {
+            return;
+        }
 
         Trip trip = new Trip(this.destination.getText().toString(), fromDate, toDate, travelMethod, departureDateTime, flightNumber.getText().toString());
         AsyncTask.execute(() -> {
@@ -191,7 +207,30 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    // Parse 'dd/MM/yyyy' String to LocalDate
+    private LocalDate parseDate(EditText inputField) {
+        String dateInput = inputField.getText().toString();
+        LocalDate parsedDate;
+        try {
+            parsedDate = LocalDate.parse(dateInput, dateFormatter);
+        } catch (DateTimeParseException e) {
+            parsedDate = null;
+        }
+        return parsedDate;
+    }
+
+    // Parse 'dd/MM/yyyy HH:mm' String to LocalDate
+    private LocalDateTime parseDateTime(EditText inputField) {
+        String dateInput = inputField.getText().toString();
+        LocalDateTime parsedDateTime;
+        try {
+            parsedDateTime = LocalDateTime.parse(dateInput, dateTimeFormatter);
+        } catch (DateTimeParseException e) {
+            parsedDateTime = null;
+        }
+        return parsedDateTime;
+    }
+
     @Override
     public void onValidationSucceeded() {
         Toast.makeText(this, "Trip created successfully", Toast.LENGTH_SHORT).show();

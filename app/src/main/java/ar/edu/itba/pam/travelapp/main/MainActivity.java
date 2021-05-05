@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         if (nightModeSharedPref.loadNightModeState()) {
             navView.setSelectedItemId(R.id.config_tab);
             flipper.setDisplayedChild(CONFIG);
+            floatingButtonCreate.setVisibility(View.GONE);
             nightModeSharedPref.setNightModeState(false);
         }
         navView.setOnNavigationItemSelectedListener(item -> {

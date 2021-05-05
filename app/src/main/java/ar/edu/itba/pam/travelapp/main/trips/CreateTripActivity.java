@@ -157,7 +157,6 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
                 LocalDateTime chosenTime = LocalDateTime.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), hour, minute);
                 String timeString = chosenTime.format(timeFormatter);
                 dateTimeBuilder.append(timeString);
-                this.hasDepartureTime = true;
                 inputView.setText(dateTimeBuilder.toString());
             };
 

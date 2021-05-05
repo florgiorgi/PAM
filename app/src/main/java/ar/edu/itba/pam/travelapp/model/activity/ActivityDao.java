@@ -7,27 +7,27 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import io.reactivex.Flowable;
 
 @Dao
 public interface ActivityDao {
 
-    @Query("SELECT * FROM activity")
-    List<Activity> getAll();
+    @Query("SELECT * FROM activities")
+    Flowable<List<ActivityEntity>> getActivities();
 
-    @Query("SELECT * FROM activity WHERE activity.trip_id = :tripId")
-    List<Activity> findByTripId(long tripId);
+    @Query("SELECT * FROM activities WHERE trip_id = :tripId")
+    Flowable<List<ActivityEntity>> findByTripId(long tripId);
 
-    @Query("SELECT * FROM activity WHERE activity.id = :id")
-    Activity findById(long id);
+    @Query("SELECT * FROM activities WHERE id = :id")
+    Flowable<ActivityEntity> findById(long id);
 
     @Insert
-    void insert(Activity activity);
+    void insert(ActivityEntity activity);
 
     @Delete
-    void delete(Activity activity);
+    void delete(ActivityEntity activity);
 
     @Update
-    void update(Activity activity);
+    void update(ActivityEntity activity);
 
 }

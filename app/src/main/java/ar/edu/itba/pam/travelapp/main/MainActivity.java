@@ -11,19 +11,17 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +30,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
 
-import ar.edu.itba.pam.travelapp.FtuActivity;
+import ar.edu.itba.pam.travelapp.landing.FtuActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
@@ -41,14 +39,26 @@ import ar.edu.itba.pam.travelapp.main.trips.CreateTripActivity;
 import ar.edu.itba.pam.travelapp.main.trips.ui.TripsView;
 import ar.edu.itba.pam.travelapp.model.AppDatabase;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
+import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
+import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
+import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
+import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
+import io.reactivex.disposables.Disposable;
 
-public class MainActivity extends AppCompatActivity implements TripsAsyncTask.AsyncResponse {
+public class MainActivity extends AppCompatActivity {
 
     private static final int TRIPS = 0;
     private static final int HISTORY = 1;
     private static final int CONFIG = 2;
     private static final String FTU = "ftu";
     private static final String SP_ID = "travel-buddy-sp";
+
+    private AppDatabase database;
+    private TripRepository tripRepository;
+    private TripMapper tripMapper;
+    private AndroidSchedulerProvider schedulerProvider;
+    private Disposable disposable;
 
     private RecyclerView tripsRecyclerView;
     private RecyclerView historyRecyclerView;
@@ -64,12 +74,10 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
     private FloatingActionButton floatingButtonCreate;
 
     private BottomNavigationView navView;
-    private AppDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_active_trips);
 
         final SharedPreferences sp = getSharedPreferences(SP_ID, MODE_PRIVATE);
@@ -77,25 +85,33 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
             sp.edit().putBoolean(FTU, false).apply();
             startActivity(new Intent(this, FtuActivity.class));
         }
-
         this.floatingButtonCreate = findViewById(R.id.floating_action_button_trip);
         floatingButtonCreate.setOnClickListener(view -> {
             startActivity(new Intent(MainActivity.this, CreateTripActivity.class));
         });
 
-        this.database = AppDatabase.getInstance(MainActivity.this);
-        this.getTripsFromDb();
-
-        setUpView();
+        initDatabase();
+        initView();
         setUpBottomNavigation();
     }
 
     @Override
     protected void onStart() {
+        onViewAttached();
         super.onStart();
-//        final TripListAdapter adapter = new TripListAdapter(createDataSet());
-//        adapter.setOnClickListener();
-//        tripsView.bind(adapter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        disposable.dispose();
+    }
+
+    private void initDatabase() {
+        this.database = AppDatabase.getInstance(this);
+        this.tripMapper = new TripMapper();
+        this.tripRepository = new TripRoomRepository(database.tripDao(), tripMapper);
+        this.schedulerProvider = new AndroidSchedulerProvider();
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -122,30 +138,17 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
         });
     }
 
-    private void setUpView() {
+    private void initView() {
         flipper = findViewById(R.id.flipper);
-        setUpTripsView();
-        setUpHistoryView();
-        setUpConfigView();
-    }
-
-    private void setUpConfigView() {
+        // Upcoming
+        tripsView = findViewById(R.id.trip_list);
+        // History
+        historyView = findViewById(R.id.history);
+        // Configuration
         configView = findViewById(R.id.config);
         configView.bind();
     }
 
-    private void setUpHistoryView() {
-        historyView = findViewById(R.id.history);
-    }
-
-    private void setUpTripsView() {
-        tripsView = findViewById(R.id.trip_list);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 
     private void setUpcomingList(List<Trip> upcomingTrips) {
         tripsRecyclerView = findViewById(R.id.trip_list);
@@ -155,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
         tripsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setHistoryList(List<Trip> historyTrips) {
         historyRecyclerView = findViewById(R.id.history);
         historyRecyclerView.setHasFixedSize(true);
@@ -163,6 +167,28 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
+    private void onViewAttached() {
+        this.disposable = tripRepository.getTrips()
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(this::onTripsReceived, this::onTripsError);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void onTripsReceived(final List<Trip> trips) {
+        LocalDate today = LocalDate.now();
+        List<Trip> upcoming = trips.stream().filter(t -> t.getFrom().isBefore(today) || t.getFrom().isEqual(today)).collect(Collectors.toList());
+        List<Trip> history = trips.stream().filter(t -> t.getTo().isBefore(today)).collect(Collectors.toList());
+        setUpcomingList(upcoming);
+        setHistoryList(history);
+    }
+
+    private void onTripsError(final Throwable error) {
+        // explain error to the user
+        Toast.makeText(MainActivity.this, "Error: couldn't fetch trips from database", Toast.LENGTH_LONG);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private List<Object> parsedHistoryTrips(List<Trip> dataset) {
         Map<String, List<Trip>> tripsMap = new HashMap<>();
         Map<Trip, String> auxMap = new HashMap<>();
@@ -171,17 +197,13 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
 
         //create map with trips as keys and their year as values
         for (Trip trip : dataset) {
-            //System.out.println(dateFormat.format(trip.getFrom().getTime()));
-            auxMap.put(trip, dateFormat.format(trip.getFrom().getTime()));
+            LocalDate date = trip.getFrom();
+            String year = String.valueOf(date.getYear());
+            auxMap.put(trip, year);
         }
 
         //create set with years based on the map's values
-        Collection<String> years = auxMap.values();
-        SortedSet<String> yearsSet = new TreeSet<>();
-
-        for (String year : years) {
-            yearsSet.add(year);
-        }
+        SortedSet<String> yearsSet = new TreeSet<>(auxMap.values());
 
         //create map with year as key and a list of trips from that year as value
         for (String year : yearsSet) {
@@ -212,19 +234,4 @@ public class MainActivity extends AppCompatActivity implements TripsAsyncTask.As
         return parsedData;
     }
 
-    private void getTripsFromDb() {
-        //execute the async task -> processFinish will be called after finished
-        new TripsAsyncTask(this, database).execute();
-    }
-
-    // This gets called once the async task is finished
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    public void processFinish(List<Trip> trips) {
-        Calendar today = Calendar.getInstance();
-        List<Trip> upcomingTrips = trips.stream().filter(t -> !t.getTo().before(today)).collect(Collectors.toList());
-        List<Trip> historyTrips = trips.stream().filter(t -> t.getTo().before(today)).collect(Collectors.toList());
-        setUpcomingList(upcomingTrips);
-        setHistoryList(historyTrips);
-    }
 }

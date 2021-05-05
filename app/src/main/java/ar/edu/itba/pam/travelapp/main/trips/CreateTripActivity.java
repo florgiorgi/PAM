@@ -175,12 +175,13 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void createTrip() {
-        if (!this.hasDepartureTime) {
-            this.departureTimeCalendar = null;
+        LocalDateTime departureDateTime = null;
+        if (this.hasDepartureTime) {
+            departureDateTime = LocalDateTime.ofInstant(departureTimeCalendar.toInstant(), toCalendar.getTimeZone().toZoneId());
         }
         LocalDate fromDate = LocalDateTime.ofInstant(fromCalendar.toInstant(), fromCalendar.getTimeZone().toZoneId()).toLocalDate();
         LocalDate toDate = LocalDateTime.ofInstant(toCalendar.toInstant(), toCalendar.getTimeZone().toZoneId()).toLocalDate();
-        LocalDateTime departureDateTime = LocalDateTime.ofInstant(toCalendar.toInstant(), toCalendar.getTimeZone().toZoneId());
+
         Trip trip = new Trip(this.destination.getText().toString(), fromDate, toDate, travelMethod, departureDateTime, flightNumber.getText().toString());
         AsyncTask.execute(() -> {
             tripRepository.insertTrip(trip);

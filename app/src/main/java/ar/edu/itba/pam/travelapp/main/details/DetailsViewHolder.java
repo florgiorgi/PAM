@@ -4,6 +4,8 @@ import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
+import java.time.format.DateTimeFormatter;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,32 +29,23 @@ public class DetailsViewHolder extends RecyclerView.ViewHolder {
         final TextView tripFlightNumber = itemView.findViewById(R.id.trip_flight_number);
         final TextView tripDepartureDate = itemView.findViewById(R.id.trip_departure_date);
 
-        String dateFromMonth = trip.getFrom().getMonth().toString().substring(0, 1).concat(trip.getFrom().getMonth().toString().substring(1, 3).toLowerCase());
-        int dateFromDay = trip.getFrom().getDayOfMonth();
-        String dateToMonth = trip.getTo().getMonth().toString().substring(0, 1).concat(trip.getTo().getMonth().toString().substring(1, 3).toLowerCase());
-        int dateToDay = trip.getTo().getDayOfMonth();
+        DateTimeFormatter dateFormatter =  DateTimeFormatter.ofPattern("MMM dd");
+        DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("MMM dd HH:mm");
 
-        String departureMonth = trip.getDepartureTime().getMonth().toString().substring(0, 1).concat(trip.getFrom().getMonth().toString().substring(1, 3).toLowerCase());
-        int departureDay = trip.getDepartureTime().getDayOfMonth();
-        int departureHours = trip.getDepartureTime().getHour();
-        int departureMinutes = trip.getDepartureTime().getMinute();
+        String departureTime = trip.getDepartureTime().format(dateTimeFormatter);
+        String fromDate = trip.getFrom().format(dateFormatter);
+        String toDate = trip.getTo().format(dateFormatter);
 
         String flightTitle = view.getResources().getString(R.string.flight_title);
-
         tripName.setText(trip.getLocation());
-        tripDate.setText(dateFromMonth + " " + dateFromDay + " - " + dateToMonth + " " + dateToDay);
+        String parsedDate = fromDate + " - " + toDate;
+        tripDate.setText(parsedDate);
+        String flightString = flightTitle + trip.getFlightNumber();
+        tripFlightNumber.setText(flightString);
 
-        tripFlightNumber.setText(flightTitle + trip.getFlightNumber());
-        if (trip.getFlightNumber() == "")
+        if (trip.getFlightNumber().equals("")) {
             tripFlightNumber.setVisibility(View.GONE);
-
-        String parsedDepartureMinutes;
-        if (departureMinutes < 10) {
-            parsedDepartureMinutes = "0" + departureMinutes;
-            tripDepartureDate.setText(departureMonth + " " + departureDay + " " + departureHours + ":" + parsedDepartureMinutes);
-        } else {
-            tripDepartureDate.setText(departureMonth + " " + departureDay + " " + departureHours + ":" + departureMinutes);
         }
-
+        tripDepartureDate.setText(departureTime);
     }
 }

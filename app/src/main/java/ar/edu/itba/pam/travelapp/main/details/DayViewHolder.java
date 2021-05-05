@@ -21,6 +21,7 @@ import java.util.List;
 
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
+import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 public class DayViewHolder extends RecyclerView.ViewHolder {
 
@@ -70,13 +71,13 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void bind(final List<Activity> activities, final int position, LocalDate date) {
+    public void bind(final List<Activity> activities, final int position, LocalDate date, Trip trip) {
         final TextView day_num = itemView.findViewById(R.id.day_number);
         //day_num.setText("Day " + position + " " + date);
         day_num.setText("Day " + position);
 
         setUpActivities(activities);
-        setUpAddButton(date);
+        setUpAddButton(date, trip);
     }
 
     private void setUpClickOnCardToExpand() {
@@ -100,7 +101,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    private void setUpAddButton(LocalDate date) {
+    private void setUpAddButton(LocalDate date, Trip trip) {
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -57,7 +57,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (getItemViewType(position) == 0) {
             ((DetailsViewHolder) holder).bind(trip);
         } else {
-            ((DayViewHolder) holder).bind(allData.get(dataset.get(position)), position, dataset.get(position));
+            ((DayViewHolder) holder).bind(allData.get(dataset.get(position)), position, dataset.get(position), trip);
         }
     }
 

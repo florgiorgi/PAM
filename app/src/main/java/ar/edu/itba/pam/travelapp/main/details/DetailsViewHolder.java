@@ -31,8 +31,12 @@ public class DetailsViewHolder extends RecyclerView.ViewHolder {
 
         DateTimeFormatter dateFormatter =  DateTimeFormatter.ofPattern("MMM dd");
         DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("MMM dd HH:mm");
+        String departureTime = "";
 
-        String departureTime = trip.getDepartureTime().format(dateTimeFormatter);
+        if (trip.getDepartureTime() != null) {
+           departureTime = trip.getDepartureTime().format(dateTimeFormatter);
+        }
+       
         String fromDate = trip.getFrom().format(dateFormatter);
         String toDate = trip.getTo().format(dateFormatter);
 

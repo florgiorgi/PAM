@@ -14,17 +14,21 @@ public class LocalDateTimeConverter {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @TypeConverter
-    public static LocalDateTime toLocalDateTime(Long l) {
-        if (l == null) {
+    public static LocalDateTime toDate(String dateString) {
+        if (dateString == null) {
             return null;
+        } else {
+            return LocalDateTime.parse(dateString);
         }
-        return Instant.ofEpochSecond(l).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @TypeConverter
-    public static Long fromLocalDateTime(LocalDateTime localDateTime){
-        return localDateTime == null ? null : localDateTime.toEpochSecond(ZoneOffset.UTC);
+    public static String toDateString(LocalDateTime date) {
+        if (date == null) {
+            return null;
+        } else {
+            return date.toString();
+        }
     }
-
+    
 }

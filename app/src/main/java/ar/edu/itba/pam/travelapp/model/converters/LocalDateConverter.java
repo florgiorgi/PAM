@@ -13,16 +13,21 @@ public class LocalDateConverter {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @TypeConverter
-    public static LocalDate toLocalDate(Long l) {
-        if (l == null) {
+    public static LocalDate toDate(String dateString) {
+        if (dateString == null) {
             return null;
+        } else {
+            return LocalDate.parse(dateString);
         }
-        return Instant.ofEpochSecond(l).atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @TypeConverter
-    public static Long fromCalendar(LocalDate localDate){
-        return localDate == null ? null : localDate.atStartOfDay(ZoneId.systemDefault()).toEpochSecond();
+    public static String toDateString(LocalDate date) {
+        if (date == null) {
+            return null;
+        } else {
+            return date.toString();
+        }
     }
+
 }

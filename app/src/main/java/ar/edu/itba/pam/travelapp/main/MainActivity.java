@@ -14,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -175,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void onTripsReceived(final List<Trip> trips) {
         LocalDate today = LocalDate.now();
-        List<Trip> upcoming = trips.stream().filter(t -> t.getFrom().isBefore(today) || t.getFrom().isEqual(today)).collect(Collectors.toList());
+        List<Trip> upcoming = trips.stream().filter(t -> (t.getTo().isAfter(today) || t.getTo().isEqual(today))).collect(Collectors.toList());
         List<Trip> history = trips.stream().filter(t -> t.getTo().isBefore(today)).collect(Collectors.toList());
         setUpcomingList(upcoming);
         setHistoryList(history);

@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,17 +20,23 @@ import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.AppDatabase;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
+import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
+import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
 
 public class CreateTripActivity extends AppCompatActivity implements Validator.ValidationListener {
 
@@ -61,6 +68,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     private boolean hasDepartureTime;
 
     private AppDatabase database;
+    private TripRepository tripRepository;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +78,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
         // Get database Instance
         database = AppDatabase.getInstance(getApplicationContext());
+        tripRepository = new TripRoomRepository(database.tripDao(), new TripMapper());
 
         // Setup input validations
         validator = new Validator(this);
@@ -163,21 +172,26 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
                 calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void createTrip() {
 
         if (!this.hasDepartureTime) {
             this.departureTimeCalendar = null;
         }
+        LocalDate fromDate = LocalDateTime.ofInstant(fromCalendar.toInstant(), fromCalendar.getTimeZone().toZoneId()).toLocalDate();
+        LocalDate toDate = LocalDateTime.ofInstant(toCalendar.toInstant(), toCalendar.getTimeZone().toZoneId()).toLocalDate();
+        LocalDateTime departureDateTime = LocalDateTime.ofInstant(toCalendar.toInstant(), toCalendar.getTimeZone().toZoneId());
 
-        Trip trip = new Trip(this.destination.getText().toString(), fromCalendar, toCalendar, travelMethod, flightNumber.getText().toString(), departureTimeCalendar);
-        // Can't access db on Main Thread
+        Trip trip = new Trip(this.destination.getText().toString(), fromDate, toDate, travelMethod, departureDateTime, flightNumber.getText().toString());
+
         AsyncTask.execute(() -> {
-            database.tripDao().insert(trip);
+            tripRepository.insertTrip(trip);
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
         });
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onValidationSucceeded() {
         Toast.makeText(this, "Validation Success", Toast.LENGTH_SHORT).show();

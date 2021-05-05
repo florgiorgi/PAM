@@ -49,20 +49,20 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/trip_flight_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:textAppearance="?attr/textAppearanceBody2" />
-
-            <TextView
                 android:id="@+id/trip_departure_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_marginEnd="8dp"
                 android:textAppearance="?attr/textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary" />
+
+            <TextView
+                android:id="@+id/trip_flight_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:textAppearance="?attr/textAppearanceBody2" />
 
         </LinearLayout>
 

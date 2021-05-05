@@ -55,7 +55,7 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         long dayDifferenceBeginning = DAYS.between(today, trip.getFrom());
         long dayDifferenceEnd = DAYS.between(today, trip.getTo());
 
-        if (dayDifferenceBeginning >= 0) {
+        if (dayDifferenceBeginning > 0) {
             days_left.setText(dayDifferenceBeginning + " " + days_left_string);
         } else if (dayDifferenceEnd >= 0) {
             days_left.setText(current_trip);

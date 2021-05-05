@@ -33,7 +33,7 @@ public class DetailsActivity extends AppCompatActivity {
     private void setUpDetails() {
         detailsRecyclerView = findViewById(R.id.trip_details);
         detailsRecyclerView.setHasFixedSize(true);
-        detailsAdapter = new DetailsAdapter(createDataSetDetails());
+        detailsAdapter = new DetailsAdapter(createDataSetDetails(), this);
         detailsRecyclerView.setAdapter(detailsAdapter);
         detailsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
@@ -42,7 +42,7 @@ public class DetailsActivity extends AppCompatActivity {
     private List<String> createDataSetDetails() {
         final List<String> list = new ArrayList<>();
         list.add("BUENOS AIRES");
-        for (int i = 0; i < 20; i++) {
+        for (int i = 1; i < 20; i++) {
             list.add("Day " + i);
         }
         return list;

@@ -1,24 +1,25 @@
 package ar.edu.itba.pam.travelapp.main.details;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import ar.edu.itba.pam.travelapp.R;
-import ar.edu.itba.pam.travelapp.main.TripViewHolder;
-import ar.edu.itba.pam.travelapp.main.history.YearViewHolder;
+
 
 public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<String> dataset;
+    private Context context;
 
-    public DetailsAdapter(List<String> dataset) {
+    public DetailsAdapter(List<String> dataset, Context context) {
         this.dataset = dataset;
+        this.context = context;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 return new DetailsViewHolder(view_details);
             default:
                 final View view_day = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_day, parent, false);
-                return new DayViewHolder(view_day);
+                return new DayViewHolder(view_day, context);
         }
     }
 

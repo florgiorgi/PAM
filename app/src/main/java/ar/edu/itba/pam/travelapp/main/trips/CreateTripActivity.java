@@ -65,11 +65,6 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     private Validator validator;
 
-    private Calendar fromCalendar;
-    private Calendar toCalendar;
-    private Calendar departureTimeCalendar;
-    private boolean hasDepartureTime;
-
     private AppDatabase database;
     private TripRepository tripRepository;
 
@@ -110,27 +105,22 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
             }
         });
 
-        this.hasDepartureTime = false;
-
         this.destination = findViewById(R.id.destination_input);
         this.flightNumber = findViewById(R.id.flight_number_input);
 
         // From Date
         this.from = findViewById(R.id.from_input);
         this.from.setShowSoftInputOnFocus(false);
-        this.fromCalendar = Calendar.getInstance();
-        this.from.setOnClickListener(view -> showDateDialog(from, fromCalendar));
+        this.from.setOnClickListener(view -> showDateDialog(from));
 
         // To Date
         this.to = findViewById(R.id.to_input);
         this.to.setShowSoftInputOnFocus(false);
-        this.toCalendar = Calendar.getInstance();
-        this.to.setOnClickListener(view -> showDateDialog(to, toCalendar));
+        this.to.setOnClickListener(view -> showDateDialog(to));
 
         // Departure date and time
         this.departureTime = findViewById(R.id.date_time_of_departure_input);
         this.departureTime.setShowSoftInputOnFocus(false);
-        this.departureTimeCalendar = Calendar.getInstance();
         this.departureTime.setOnClickListener(view -> showDateTimeDialog(departureTime));
 
         // Submit button
@@ -138,8 +128,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         this.submitButton.setOnClickListener(view -> validator.validate());
     }
 
-    private void showDateDialog(EditText inputView, Calendar outputCalendar) {
-
+    private void showDateDialog(EditText inputView) {
         LocalDate date = LocalDate.now();
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
             LocalDate chosenDate = LocalDate.of(year, month + 1, dayOfMonth);
@@ -154,7 +143,6 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     }
 
     private void showDateTimeDialog(EditText inputView) {
-
         LocalDateTime now = LocalDateTime.now();
         dateTimeBuilder = new StringBuilder();
 

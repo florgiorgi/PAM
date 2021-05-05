@@ -34,7 +34,6 @@ public class DetailsActivity extends AppCompatActivity {
 
     private RecyclerView detailsRecyclerView;
     private DetailsAdapter detailsAdapter;
-    //private long tripId;
     private Trip trip;
 
     private AppDatabase database;
@@ -47,8 +46,7 @@ public class DetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_details);
-        this.trip = (Trip)getIntent().getSerializableExtra("trip");
-        //this.tripId = getIntent().getLongExtra("tripId", 1);
+        this.trip = (Trip) getIntent().getSerializableExtra("trip");
         this.detailsRecyclerView = findViewById(R.id.trip_details);
         detailsRecyclerView.setHasFixedSize(true);
         initDatabase();
@@ -92,7 +90,7 @@ public class DetailsActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setUpDetails(List<Activity> activities) {
         Set<LocalDate> datesSet = new LinkedHashSet<>();
-        Map<LocalDate,List<Activity>> map = parseActivities(activities, datesSet);
+        Map<LocalDate, List<Activity>> map = parseActivities(activities, datesSet);
 
         detailsAdapter = new DetailsAdapter(datesSet, map, this, trip);
         detailsRecyclerView.setAdapter(detailsAdapter);
@@ -107,12 +105,12 @@ public class DetailsActivity extends AppCompatActivity {
         LocalDate to = trip.getTo();
         long duration = ChronoUnit.DAYS.between(from, to);
 
-        for(int i = 0; i < duration+2; i++) {
-            activitiesMap.put(from.plusDays(i-1), new ArrayList<Activity>());
-            datesSet.add(from.plusDays(i-1));
+        for (int i = 0; i < duration + 2; i++) {
+            activitiesMap.put(from.plusDays(i - 1), new ArrayList<Activity>());
+            datesSet.add(from.plusDays(i - 1));
         }
 
-        for(Activity a : activities) {
+        for (Activity a : activities) {
             activitiesMap.get(a.getDate()).add(a);
         }
 

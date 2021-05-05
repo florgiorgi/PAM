@@ -128,8 +128,9 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/enter_activity"
                 android:importantForAutofill="no"
-                android:inputType="text"
+                android:inputType="textCapSentences"
                 android:textSize="16sp"
+                android:imeOptions="actionDone"
                 android:visibility="gone" />
 
             <LinearLayout
@@ -140,16 +141,6 @@
                 android:visibility="gone">
 
                 <Button
-                    android:id="@+id/confirm"
-                    style="?android:attr/buttonBarButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_weight="0.5"
-                    android:text="@string/confirm" />
-
-
-                <Button
                     android:id="@+id/cancel"
                     style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="wrap_content"
@@ -157,6 +148,15 @@
                     android:layout_marginStart="10dp"
                     android:layout_weight="0.5"
                     android:text="@string/cancel" />
+
+                <Button
+                    android:id="@+id/confirm"
+                    style="?android:attr/buttonBarButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="0.5"
+                    android:text="@string/confirm" />
 
             </LinearLayout>
 

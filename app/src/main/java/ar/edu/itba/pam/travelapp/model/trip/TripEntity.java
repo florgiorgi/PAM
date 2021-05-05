@@ -1,46 +1,71 @@
 package ar.edu.itba.pam.travelapp.model.trip;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class Trip implements Serializable {
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+import ar.edu.itba.pam.travelapp.model.converters.LocalDateConverter;
+import ar.edu.itba.pam.travelapp.model.converters.LocalDateTimeConverter;
 
+
+@Entity(tableName = "trips")
+public class TripEntity {
+
+    @PrimaryKey(autoGenerate = true)
     private long id;
+
+    @ColumnInfo(name = "location")
     private String location;
+
+    @ColumnInfo(name = "startDate")
+    @TypeConverters({LocalDateConverter.class})
     private LocalDate from;
+
+    @ColumnInfo(name = "endDate")
+    @TypeConverters({LocalDateConverter.class})
     private LocalDate to;
-    private TravelMethod travelMethod;
+
+    @ColumnInfo(name = "departure_time")
+    @TypeConverters({LocalDateTimeConverter.class})
     private LocalDateTime departureTime;
+
+    @ColumnInfo(name = "travel_method")
+    private TravelMethod travelMethod;
+
+    @ColumnInfo(name = "description")
     private String description;
+
+    @ColumnInfo(name = "flight_number")
     private String flightNumber;
+
+    @ColumnInfo(name = "seat_number")
     private String seat;
-    private String googleApiId;
 
-    public Trip(String location, LocalDate from, LocalDate to, TravelMethod travelMethod) {
+    @ColumnInfo(name = "google_id")
+    private String googleId;
+
+    public TripEntity(String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber) {
         this.location = location;
         this.from = from;
         this.to = to;
         this.travelMethod = travelMethod;
-    }
-
-    public Trip(String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime, String flightNumber) {
-        this.location = location;
-        this.from = from;
-        this.to = to;
-        this.travelMethod = travelMethod;
-        this.departureTime = departureTime;
         this.flightNumber = flightNumber;
+        this.departureTime = departureTime;
     }
 
-    public Trip(long id, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime, String flightNumber) {
+    @Ignore
+    public TripEntity(long id, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber) {
         this.id = id;
         this.location = location;
         this.from = from;
         this.to = to;
         this.travelMethod = travelMethod;
-        this.departureTime = departureTime;
         this.flightNumber = flightNumber;
+        this.departureTime = departureTime;
     }
 
     public long getId() {
@@ -75,20 +100,20 @@ public class Trip implements Serializable {
         this.to = to;
     }
 
-    public TravelMethod getTravelMethod() {
-        return travelMethod;
-    }
-
-    public void setTravelMethod(TravelMethod travelMethod) {
-        this.travelMethod = travelMethod;
-    }
-
     public LocalDateTime getDepartureTime() {
         return departureTime;
     }
 
     public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
+    }
+
+    public TravelMethod getTravelMethod() {
+        return travelMethod;
+    }
+
+    public void setTravelMethod(TravelMethod travelMethod) {
+        this.travelMethod = travelMethod;
     }
 
     public String getDescription() {
@@ -115,11 +140,12 @@ public class Trip implements Serializable {
         this.seat = seat;
     }
 
-    public String getGoogleApiId() {
-        return googleApiId;
+    public String getGoogleId() {
+        return googleId;
     }
 
-    public void setGoogleApiId(String googleApiId) {
-        this.googleApiId = googleApiId;
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
+
 }

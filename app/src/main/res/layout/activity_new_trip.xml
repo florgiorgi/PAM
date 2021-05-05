@@ -62,8 +62,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="@string/from_hint"
-                            android:importantForAutofill="no"
-                            android:inputType="date" />
+                            android:importantForAutofill="no" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -86,8 +85,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="@string/to_hint"
-                            android:importantForAutofill="no"
-                            android:inputType="date" />
+                            android:importantForAutofill="no" />
                     </LinearLayout>
 
                 </LinearLayout>

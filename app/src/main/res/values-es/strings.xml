@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">TravelBuddy</string>
-    <string name="days_left1">faltan 20 días</string>
-    <string name="days_left2">faltan 39 días</string>
-    <string name="days_left3">faltan 141 días</string>
+    <string name="days_left"> días</string>
+    <string name="current_trip">ahora</string>
     <string name="expand"> ></string>
     <string name="title1">BUENOS AIRES</string>
     <string name="secondary_text1">May 18 - Jun 5</string>
@@ -22,13 +21,7 @@
     <string name="flight_number_hint">Ingresá el número de vuelo</string>
     <string name="date_time_hint">dd/mm/aaaa hh:mm</string>
     <string name="expand_down">^</string>
-    <string name="day1">Día 1</string>
-    <string name="day2">Día 2</string>
-    <string name="day3">Día 3</string>
-    <string name="day4">Día 4</string>
-    <string name="day5">Día 5</string>
-    <string name="random_date">Feb 12 8.32pm</string>
-    <string name="random_flight">Vuelo #2349</string>
+    <string name="flight_title">Vuelo #</string>
     <string name="climate1">20/21</string>
     <string name="climate2">21/27</string>
     <string name="climate3">18/22</string>
@@ -49,6 +42,9 @@
     <string name="activity1">Ir al Central Park</string>
     <string name="add_activity">Agregar actividad</string>
     <string name="expand_card">Expandir card</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="enter_activity">Ingresá una actividad</string>
 
     <string-array name="transport_options">
         <item>Avión</item>

@@ -62,7 +62,8 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="@string/from_hint"
-                            android:importantForAutofill="no" />
+                            android:importantForAutofill="no"
+                            android:inputType="date" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -85,7 +86,8 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="@string/to_hint"
-                            android:importantForAutofill="no" />
+                            android:importantForAutofill="no"
+                            android:inputType="date" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -135,7 +137,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:importantForAutofill="no" />
+                    android:importantForAutofill="no"
+                    android:hint="@string/date_time_hint"
+                    android:inputType="datetime" />
 
                 <Button
                     android:id="@+id/create_btn"

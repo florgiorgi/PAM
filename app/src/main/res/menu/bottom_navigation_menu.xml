@@ -4,15 +4,15 @@
         android:id="@+id/trips_tab"
         android:enabled="true"
         android:icon="@drawable/upcoming_icon_blue"
-        android:title="@string/text_label_1"/>
+        android:title="@string/upcoming"/>
     <item
         android:id="@+id/history_tab"
         android:enabled="true"
         android:icon="@drawable/history_icon_blue"
-        android:title="@string/text_label_2"/>
+        android:title="@string/history"/>
     <item
         android:id="@+id/config_tab"
         android:enabled="true"
         android:icon="@drawable/settings_icon_blue"
-        android:title="@string/text_label_3"/>
+        android:title="@string/settings"/>
 </menu>

@@ -4,11 +4,9 @@
     <string name="days_left">days left</string>
     <string name="current_trip">now</string>
     <string name="expand"> ></string>
-    <string name="title1">BUENOS AIRES</string>
-    <string name="secondary_text1">May 18 - June 5</string>
-    <string name="text_label_1">Upcoming</string>
-    <string name="text_label_2">History</string>
-    <string name="text_label_3">Settings</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="history">History</string>
+    <string name="settings">Settings</string>
     <string name="where_are_you_going">Where are you going?</string>
     <string name="from">From</string>
     <string name="to">To</string>
@@ -20,7 +18,6 @@
     <string name="to_hint">dd/mm/yyyy</string>
     <string name="flight_number_hint">Enter your flight number</string>
     <string name="date_time_hint">dd/mm/yyyy hh:mm</string>
-    <string name="expand_down">^</string>
     <string name="flight_title">Flight #</string>
     <string name="climate1">20/21</string>
     <string name="climate2">21/27</string>
@@ -39,7 +36,6 @@
     <string name="ftu_app">Travel Buddy</string>
     <string name="app_logo">App logo</string>
     <string name="create">Create</string>
-    <string name="activity1">Go to Central Park</string>
     <string name="add_activity">Add activity</string>
     <string name="expand_card">Expand card</string>
     <string name="cancel">Cancel</string>

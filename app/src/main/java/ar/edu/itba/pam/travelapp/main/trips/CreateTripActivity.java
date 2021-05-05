@@ -64,13 +64,13 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     private Calendar fromCalendar;
     private Calendar toCalendar;
-
     private Calendar departureTimeCalendar;
     private boolean hasDepartureTime;
 
     private AppDatabase database;
     private TripRepository tripRepository;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +86,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         validator.setValidationListener(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initView() {
 
         // Spinner
@@ -131,6 +132,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         this.submitButton.setOnClickListener(view -> validator.validate());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void showDateDialog(EditText inputView, Calendar outputCalendar) {
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
@@ -177,7 +179,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     private void createTrip() {
         LocalDateTime departureDateTime = null;
         if (this.hasDepartureTime) {
-            departureDateTime = LocalDateTime.ofInstant(departureTimeCalendar.toInstant(), toCalendar.getTimeZone().toZoneId());
+            departureDateTime = LocalDateTime.ofInstant(departureTimeCalendar.toInstant(), departureTimeCalendar.getTimeZone().toZoneId());
         }
         LocalDate fromDate = LocalDateTime.ofInstant(fromCalendar.toInstant(), fromCalendar.getTimeZone().toZoneId()).toLocalDate();
         LocalDate toDate = LocalDateTime.ofInstant(toCalendar.toInstant(), toCalendar.getTimeZone().toZoneId()).toLocalDate();

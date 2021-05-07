@@ -9,9 +9,9 @@
         android:layout_height="match_parent">
 
         <androidx.core.widget.NestedScrollView
-            android:padding="25dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:padding="25dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -137,16 +137,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:importantForAutofill="no"
                     android:hint="@string/date_time_hint"
+                    android:importantForAutofill="no"
                     android:inputType="datetime" />
 
                 <Button
                     android:id="@+id/create_btn"
+                    style="?android:attr/buttonBarButtonStyle"
                     android:layout_width="170dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="50dp"
                     android:text="@string/create" />
 
             </LinearLayout>

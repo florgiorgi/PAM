@@ -14,16 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.itba.pam.travelapp.R;
+import ar.edu.itba.pam.travelapp.main.trips.OnTripClickedListener;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 public class TripListAdapter extends RecyclerView.Adapter<TripViewHolder> {
 
     private List<Trip> dataset;
-    private Context context;
+
+    private OnTripClickedListener listener;
     
-    public TripListAdapter(Context context) {
+    public TripListAdapter() {
         this.dataset = new ArrayList<>();
-        this.context = context;
     }
 
     public void update(List<Trip> newDataset) {
@@ -34,18 +35,22 @@ public class TripListAdapter extends RecyclerView.Adapter<TripViewHolder> {
         notifyDataSetChanged();
     }
 
+    public void setOnClickListener(OnTripClickedListener listener) {
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
     public TripViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_trip, parent, false);
-
-        return new TripViewHolder(view, context);
+        return new TripViewHolder(view);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull TripViewHolder holder, int position) {
         holder.bind(dataset.get(position));
+        holder.setOnClickListener(listener);
     }
 
     @Override

@@ -13,18 +13,19 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.details.DetailsActivity;
+import ar.edu.itba.pam.travelapp.main.trips.OnTripClickedListener;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class TripViewHolder extends RecyclerView.ViewHolder {
 
-    private Context context;
     public View view;
 
-    public TripViewHolder(@NonNull View itemView, Context context) {
+    private OnTripClickedListener listener;
+
+    public TripViewHolder(@NonNull View itemView) {
         super(itemView);
-        this.context = context;
         view = itemView;
     }
 
@@ -55,12 +56,12 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         } else if (dayDifferenceEnd >= 0) {
             daysLeft.setText(currentTrip);
         }
-
         view.setOnClickListener(v -> {
-            Intent i = new Intent(context, DetailsActivity.class);
-            i.putExtra("trip",trip);
-            context.startActivity(i);
+            listener.onClick(trip);
         });
     }
 
+    public void setOnClickListener(OnTripClickedListener listener) {
+        this.listener = listener;
+    }
 }

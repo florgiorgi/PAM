@@ -37,9 +37,11 @@ import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.landing.FtuActivity;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
 import ar.edu.itba.pam.travelapp.main.config.NightModeSharedPref;
+import ar.edu.itba.pam.travelapp.main.details.DetailsActivity;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;
 import ar.edu.itba.pam.travelapp.main.trips.CreateTripActivity;
+import ar.edu.itba.pam.travelapp.main.trips.OnTripClickedListener;
 import ar.edu.itba.pam.travelapp.main.trips.ui.TripsView;
 import ar.edu.itba.pam.travelapp.model.AppDatabase;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
@@ -49,15 +51,14 @@ import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
-public class MainActivity extends AppCompatActivity implements MainView {
+
+public class MainActivity extends AppCompatActivity implements MainView, OnTripClickedListener {
 
     private static final int TRIPS = 0;
     private static final int HISTORY = 1;
     private static final int CONFIG = 2;
 
     private static final String SP_ID = "travel-buddy-sp";
-
-    private AppDatabase database;
 
     private RecyclerView tripsRecyclerView;
     private RecyclerView historyRecyclerView;
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         return presenter;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onStart() {
         super.onStart();
@@ -161,6 +163,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
         });
         configView.bind();
         setUpNightModeSwitch();
+        setUptHistoryView();
+        setUpTripView();
     }
 
     private void setUpNightModeSwitch() {
@@ -184,7 +188,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private void setUpTripView() {
         tripsRecyclerView = findViewById(R.id.trip_list);
         tripsRecyclerView.setHasFixedSize(true);
-        adapter = new TripListAdapter(getApplicationContext());
+        adapter = new TripListAdapter();
+        adapter.setOnClickListener(this);
         tripsRecyclerView.setAdapter(adapter);
         tripsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
@@ -192,66 +197,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private void setUptHistoryView() {
         historyRecyclerView = findViewById(R.id.history);
         historyRecyclerView.setHasFixedSize(true);
-        historyAdapter = new HistoryListAdapter(this);
+        historyAdapter = new HistoryListAdapter();
+        historyAdapter.setOnClickListener(this);
         historyRecyclerView.setAdapter(historyAdapter);
-        historyRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false));
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void onTripsReceived(final List<Trip> trips) {
-        LocalDate today = LocalDate.now();
-        List<Trip> upcoming = trips.stream().filter(t -> (t.getTo().isAfter(today) || t.getTo().isEqual(today))).collect(Collectors.toList());
-        List<Trip> history = trips.stream().filter(t -> t.getTo().isBefore(today)).collect(Collectors.toList());
-        setUpcomingList(upcoming);
-        setHistoryList(history);
-    }
-
-    private void onTripsError(final Throwable error) {
-        Toast.makeText(MainActivity.this, "Error: couldn't fetch trips from database", Toast.LENGTH_LONG).show();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private List<Object> parsedHistoryTrips(List<Trip> dataset) {
-        Map<String, List<Trip>> tripsMap = new HashMap<>();
-        Map<Trip, String> auxMap = new HashMap<>();
-
-        //create map with trips as keys and their year as values
-        for (Trip trip : dataset) {
-            LocalDate date = trip.getFrom();
-            String year = String.valueOf(date.getYear());
-            auxMap.put(trip, year);
-        }
-
-        //create set with years based on the map's values
-        SortedSet<String> yearsSet = new TreeSet<>(auxMap.values());
-
-        //create map with year as key and a list of trips from that year as value
-        for (String year : yearsSet) {
-            List<Trip> trips = new ArrayList<>();
-            for (Map.Entry e : auxMap.entrySet()) {
-                if (e.getValue().equals(year)) {
-                    trips.add((Trip) e.getKey());
-                }
-            }
-            tripsMap.put(year, trips);
-        }
-
-        //reverse order the years in the set
-        Set<String> auxSet = tripsMap.keySet();
-        List list = new ArrayList(auxSet);
-        Collections.sort(list, Collections.reverseOrder());
-        Set<String> orderedYearsSet = new LinkedHashSet(list);
-
-        //create list with years and trips at the same level to pass to the adapter
-        List<Object> parsedData = new ArrayList<>();
-
-        for (String k : orderedYearsSet) {
-            parsedData.add(k);
-            for (Trip t : tripsMap.get(k)) {
-                parsedData.add(t);
-            }
-        }
-        return parsedData;
+        historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
     @Override
@@ -278,8 +227,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void launchTripDetail(String id) {
-
+    public void launchTripDetail(Trip trip) {
+        Intent intent = new Intent(this, DetailsActivity.class);
+        intent.putExtra("trip", trip);
+        startActivity(intent);
     }
 
     @Override
@@ -295,5 +246,15 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public void bindHistoryTrips(final List<Object> model) {
         historyAdapter.update(model);
+    }
+
+    @Override
+    public void onTripsError() {
+        Toast.makeText(MainActivity.this, "Error: couldn't fetch trips from database", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onClick(Trip trip) {
+        presenter.onTripClicked(trip);
     }
 }

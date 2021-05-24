@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,9 +24,17 @@ public class HistoryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private List<Object> dataset;
     private Context context;
 
-    public HistoryListAdapter(List<Object> dataset, Context context) {
-        this.dataset = dataset;
+    public HistoryListAdapter(Context context) {
+        this.dataset = new ArrayList<>();
         this.context = context;
+    }
+
+    public void update(List<Object> newDataset) {
+        dataset.clear();
+        if (newDataset != null) {
+            dataset.addAll(newDataset);
+        }
+        notifyDataSetChanged();
     }
 
     @Override

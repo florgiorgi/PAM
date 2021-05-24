@@ -172,7 +172,6 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     }
 
     private void createTrip() {
-
         LocalDate fromDate = parseDate(from);
         LocalDate toDate = parseDate(to);
         LocalDateTime departureDateTime = parseDateTime(departureTime);
@@ -237,6 +236,5 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             }
         }
-
     }
 }

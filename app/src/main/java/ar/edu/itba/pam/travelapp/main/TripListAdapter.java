@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.itba.pam.travelapp.R;
@@ -20,9 +21,17 @@ public class TripListAdapter extends RecyclerView.Adapter<TripViewHolder> {
     private List<Trip> dataset;
     private Context context;
     
-    public TripListAdapter(List<Trip> dataset, Context context) {
-        this.dataset = dataset;
+    public TripListAdapter(Context context) {
+        this.dataset = new ArrayList<>();
         this.context = context;
+    }
+
+    public void update(List<Trip> newDataset) {
+        dataset.clear();
+        if (newDataset != null) {
+            dataset.addAll(newDataset);
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull

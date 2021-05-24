@@ -56,13 +56,10 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
             daysLeft.setText(currentTrip);
         }
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, DetailsActivity.class);
-                i.putExtra("trip",trip);
-                context.startActivity(i);
-            }
+        view.setOnClickListener(v -> {
+            Intent i = new Intent(context, DetailsActivity.class);
+            i.putExtra("trip",trip);
+            context.startActivity(i);
         });
     }
 

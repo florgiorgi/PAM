@@ -1,5 +1,6 @@
 package ar.edu.itba.pam.travelapp.main;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -48,19 +49,15 @@ import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView {
 
     private static final int TRIPS = 0;
     private static final int HISTORY = 1;
     private static final int CONFIG = 2;
-    private static final String FTU = "ftu";
+
     private static final String SP_ID = "travel-buddy-sp";
 
     private AppDatabase database;
-    private TripRepository tripRepository;
-    private TripMapper tripMapper;
-    private AndroidSchedulerProvider schedulerProvider;
-    private Disposable disposable;
 
     private RecyclerView tripsRecyclerView;
     private RecyclerView historyRecyclerView;
@@ -79,69 +76,73 @@ public class MainActivity extends AppCompatActivity {
 
     NightModeSharedPref nightModeSharedPref;
 
+    private MainPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        nightModeSharedPref = new NightModeSharedPref(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_trips);
+        createPresenter();
 
-        final SharedPreferences sp = getSharedPreferences(SP_ID, MODE_PRIVATE);
-        if (sp.getBoolean(FTU, true)) {
-            sp.edit().putBoolean(FTU, false).apply();
-            startActivity(new Intent(this, FtuActivity.class));
-        }
-        this.floatingButtonCreate = findViewById(R.id.floating_action_button_trip);
-        floatingButtonCreate.setOnClickListener(view -> {
-            startActivity(new Intent(MainActivity.this, CreateTripActivity.class));
-        });
+        //TODO: Arreglar esto y usar MVP en el proceso
+        nightModeSharedPref = new NightModeSharedPref(this);
 
-        initDatabase();
         initView();
         setUpBottomNavigation();
     }
 
+    private void createPresenter() {
+        presenter = (MainPresenter) getLastNonConfigurationInstance();
+        if (presenter == null) {
+            final SharedPreferences sp = getSharedPreferences(SP_ID, MODE_PRIVATE);
+            final FtuStorage storage = new SharedPreferencesFTUStorage(sp);
+            final TripMapper mapper = new TripMapper();
+            final TripRepository tripRepository = new TripRoomRepository(AppDatabase.getInstance(getApplicationContext()).tripDao(), mapper);
+            presenter = new MainPresenter(storage, tripRepository, this);
+        }
+    }
+
+    @Nullable
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return presenter;
+    }
+
     @Override
     protected void onStart() {
-        onViewAttached();
         super.onStart();
+        presenter.onViewAttached();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        disposable.dispose();
-    }
-
-    private void initDatabase() {
-        this.database = AppDatabase.getInstance(this);
-        this.tripMapper = new TripMapper();
-        this.tripRepository = new TripRoomRepository(database.tripDao(), tripMapper);
-        this.schedulerProvider = new AndroidSchedulerProvider();
+        presenter.onViewDetached();
     }
 
     @SuppressLint("NonConstantResourceId")
     private void setUpBottomNavigation() {
         navView = findViewById(R.id.bottom_navigation);
         navView.setSelectedItemId(R.id.trips_tab);
+
+        // TODO: fix and see if it goes on presenter class
         if (nightModeSharedPref.loadNightModeState()) {
             navView.setSelectedItemId(R.id.config_tab);
             flipper.setDisplayedChild(CONFIG);
             floatingButtonCreate.setVisibility(View.GONE);
             nightModeSharedPref.setNightModeState(false);
         }
+
         navView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.trips_tab:
-                    flipper.setDisplayedChild(TRIPS);
-                    floatingButtonCreate.setVisibility(View.VISIBLE);
+                    presenter.onTripsScreenSelected();
                     return true;
                 case R.id.history_tab:
-                    flipper.setDisplayedChild(HISTORY);
-                    floatingButtonCreate.setVisibility(View.GONE);
+                    presenter.onHistoryScreenSelected();
                     return true;
                 case R.id.config_tab:
-                    flipper.setDisplayedChild(CONFIG);
-                    floatingButtonCreate.setVisibility(View.GONE);
+                    presenter.onConfigurationScreenSelected();
                     return true;
                 default:
                     return false;
@@ -151,12 +152,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         flipper = findViewById(R.id.flipper);
-        // Upcoming
         tripsView = findViewById(R.id.trip_list);
-        // History
         historyView = findViewById(R.id.history);
-        // Configuration
         configView = findViewById(R.id.config);
+        floatingButtonCreate = findViewById(R.id.floating_action_button_trip);
+        floatingButtonCreate.setOnClickListener(view -> {
+            presenter.onCreateTripClicked();
+        });
         configView.bind();
         setUpNightModeSwitch();
     }
@@ -179,29 +181,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-    private void setUpcomingList(List<Trip> upcomingTrips) {
+    private void setUpTripView() {
         tripsRecyclerView = findViewById(R.id.trip_list);
         tripsRecyclerView.setHasFixedSize(true);
-        adapter = new TripListAdapter(upcomingTrips, this);
+        adapter = new TripListAdapter(getApplicationContext());
         tripsRecyclerView.setAdapter(adapter);
         tripsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setHistoryList(List<Trip> historyTrips) {
+    private void setUptHistoryView() {
         historyRecyclerView = findViewById(R.id.history);
         historyRecyclerView.setHasFixedSize(true);
-        historyAdapter = new HistoryListAdapter(parsedHistoryTrips(historyTrips), this);
+        historyAdapter = new HistoryListAdapter(this);
         historyRecyclerView.setAdapter(historyAdapter);
-        historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-    }
-
-    private void onViewAttached() {
-        this.disposable = tripRepository.getTrips()
-                .subscribeOn(schedulerProvider.io())
-                .observeOn(schedulerProvider.ui())
-                .subscribe(this::onTripsReceived, this::onTripsError);
+        historyRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -214,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onTripsError(final Throwable error) {
-        // explain error to the user
         Toast.makeText(MainActivity.this, "Error: couldn't fetch trips from database", Toast.LENGTH_LONG).show();
     }
 
@@ -262,4 +254,46 @@ public class MainActivity extends AppCompatActivity {
         return parsedData;
     }
 
+    @Override
+    public void launchFtu() {
+        startActivity(new Intent(this, FtuActivity.class));
+    }
+
+    @Override
+    public void showTripsScreen() {
+        flipper.setDisplayedChild(TRIPS);
+        floatingButtonCreate.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showConfigurationScreen() {
+        flipper.setDisplayedChild(CONFIG);
+        floatingButtonCreate.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showHistoryScreen() {
+        flipper.setDisplayedChild(HISTORY);
+        floatingButtonCreate.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void launchTripDetail(String id) {
+
+    }
+
+    @Override
+    public void launchCreateTrip() {
+        startActivity(new Intent(MainActivity.this, CreateTripActivity.class));
+    }
+
+    @Override
+    public void bindUpcomingTrips(final List<Trip> trips) {
+        adapter.update(trips);
+    }
+
+    @Override
+    public void bindHistoryTrips(final List<Object> model) {
+        historyAdapter.update(model);
+    }
 }

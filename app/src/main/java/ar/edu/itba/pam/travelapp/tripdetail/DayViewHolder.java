@@ -1,8 +1,6 @@
-package ar.edu.itba.pam.travelapp.main.details;
+package ar.edu.itba.pam.travelapp.tripdetail;
 
-import android.content.Context;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,15 +8,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.color.MaterialColors;
-
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.itba.pam.travelapp.R;

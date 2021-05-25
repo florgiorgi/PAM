@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ar.edu.itba.pam.travelapp.main.trips.ui.TripsViewImpl
+            <ar.edu.itba.pam.travelapp.main.trips.TripsViewImpl
                 android:id="@+id/trip_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

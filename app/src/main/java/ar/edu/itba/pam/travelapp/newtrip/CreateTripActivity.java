@@ -1,4 +1,4 @@
-package ar.edu.itba.pam.travelapp.main.trips;
+package ar.edu.itba.pam.travelapp.newtrip;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -19,15 +19,11 @@ import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
-
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;

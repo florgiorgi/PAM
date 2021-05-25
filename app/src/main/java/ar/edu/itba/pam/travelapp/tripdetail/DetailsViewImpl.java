@@ -1,4 +1,4 @@
-package ar.edu.itba.pam.travelapp.main.details;
+package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.content.Context;
 import android.util.AttributeSet;

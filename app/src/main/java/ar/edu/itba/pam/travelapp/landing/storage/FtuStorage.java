@@ -1,4 +1,4 @@
-package ar.edu.itba.pam.travelapp.main;
+package ar.edu.itba.pam.travelapp.landing.storage;
 
 public interface FtuStorage {
 

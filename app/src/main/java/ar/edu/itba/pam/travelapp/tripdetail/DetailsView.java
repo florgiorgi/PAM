@@ -1,4 +1,4 @@
-package ar.edu.itba.pam.travelapp.main.details;
+package ar.edu.itba.pam.travelapp.tripdetail;
 
 public interface DetailsView {
     void bind(final DetailsAdapter adapter);

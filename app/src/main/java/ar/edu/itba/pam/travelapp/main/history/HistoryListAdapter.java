@@ -1,6 +1,5 @@
 package ar.edu.itba.pam.travelapp.main.history;
 
-import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 
-import ar.edu.itba.pam.travelapp.main.MainActivity;
-import ar.edu.itba.pam.travelapp.main.TripViewHolder;
+import ar.edu.itba.pam.travelapp.main.trips.TripViewHolder;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.main.trips.OnTripClickedListener;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;

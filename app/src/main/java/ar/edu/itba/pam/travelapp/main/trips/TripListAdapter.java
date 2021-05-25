@@ -1,6 +1,5 @@
-package ar.edu.itba.pam.travelapp.main;
+package ar.edu.itba.pam.travelapp.main.trips;
 
-import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.edu.itba.pam.travelapp.R;
-import ar.edu.itba.pam.travelapp.main.trips.OnTripClickedListener;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 public class TripListAdapter extends RecyclerView.Adapter<TripViewHolder> {

@@ -1,7 +1,5 @@
-package ar.edu.itba.pam.travelapp.main;
+package ar.edu.itba.pam.travelapp.main.trips;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
@@ -12,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.R;
-import ar.edu.itba.pam.travelapp.main.details.DetailsActivity;
 import ar.edu.itba.pam.travelapp.main.trips.OnTripClickedListener;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 

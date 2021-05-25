@@ -19,37 +19,27 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import androidx.annotation.RequiresApi;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.landing.FtuActivity;
+import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
+import ar.edu.itba.pam.travelapp.landing.storage.SharedPreferencesFTUStorage;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
 import ar.edu.itba.pam.travelapp.main.config.NightModeSharedPref;
-import ar.edu.itba.pam.travelapp.main.details.DetailsActivity;
+import ar.edu.itba.pam.travelapp.main.trips.TripListAdapter;
+import ar.edu.itba.pam.travelapp.tripdetail.DetailsActivity;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;
-import ar.edu.itba.pam.travelapp.main.trips.CreateTripActivity;
+import ar.edu.itba.pam.travelapp.newtrip.CreateTripActivity;
 import ar.edu.itba.pam.travelapp.main.trips.OnTripClickedListener;
-import ar.edu.itba.pam.travelapp.main.trips.ui.TripsView;
+import ar.edu.itba.pam.travelapp.main.trips.TripsView;
 import ar.edu.itba.pam.travelapp.model.AppDatabase;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
-import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
-import io.reactivex.disposables.Disposable;
 
 
 public class MainActivity extends AppCompatActivity implements MainView, OnTripClickedListener {

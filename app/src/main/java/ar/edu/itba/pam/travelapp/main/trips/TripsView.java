@@ -1,6 +1,4 @@
-package ar.edu.itba.pam.travelapp.main.trips.ui;
-
-import ar.edu.itba.pam.travelapp.main.TripListAdapter;
+package ar.edu.itba.pam.travelapp.main.trips;
 
 public interface TripsView {
     void bind(final TripListAdapter adapter);

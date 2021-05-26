@@ -25,11 +25,11 @@ import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<LocalDate> dataset;
-    private Map<LocalDate, List<Activity>> allData;
+    private final List<LocalDate> dataset;
+    private final Map<LocalDate, List<Activity>> allData;
 
     // TODO: remove this!
-    private Context context;
+    private final Context context;
 
     private OnNewActivityClickedListener listener;
 
@@ -70,7 +70,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return dataset == null ? 0 : dataset.size();
+        return dataset.size();
     }
 
     public void setOnClickListener(OnNewActivityClickedListener listener) {

@@ -48,7 +48,6 @@ public class DetailsPresenter {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void onActivitiesReceived(List<Activity> activities) {
-        System.out.println("received activities: " + activities);
         Set<LocalDate> datesSet = new LinkedHashSet<>();
         Map<LocalDate, List<Activity>> map = parseActivities(activities, datesSet);
         if (view.get() != null) {
@@ -67,7 +66,6 @@ public class DetailsPresenter {
                 this.activityRepository.insert(activity);
             });
         }
-        onViewAttached();
         if (view.get() != null) {
             view.get().showNewActivitySuccessMessage();
         }

@@ -57,6 +57,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void setUpActivities(List<Activity> activities) {
+        activityList.removeAllViews();
         for (Activity a : activities) {
             TextView textView = new TextView(context);
             textView.setText(a.getName());
@@ -97,36 +98,18 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
 
     private void setUpAddButton(LocalDate date) {
 
-        /*            private void addActivity(String newActivity) {
-                        TextView textView = new TextView(context);
-                        textView.setText(newActivity);
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                                LinearLayout.LayoutParams.MATCH_PARENT,
-                                LinearLayout.LayoutParams.MATCH_PARENT
-                        );
-                        params.setMargins(2, 2, 2, 2);
-                        textView.setLayoutParams(params);
-                        textView.setTextSize(1, 15);
-                        activityList.addView(textView);
-                    }*/
         addButton.setOnClickListener(v -> {
-
             addButton.setVisibility(View.GONE);
-
             EditText editText = view.findViewById(R.id.enter_new_activity);
             Button confirm = view.findViewById(R.id.confirm);
             Button cancel = view.findViewById(R.id.cancel);
             LinearLayout buttons = view.findViewById(R.id.new_activity_buttons);
-
             buttons.setVisibility(View.VISIBLE);
             editText.setVisibility(View.VISIBLE);
-
             confirm.setOnClickListener(v1 -> {
                 String text = editText.getText().toString();
                 if (!text.equals("")) {
-
                     listener.onClick(text, date);
-
                     buttons.setVisibility(View.GONE);
                     editText.setText("");
                     editText.setHintTextColor(Color.GRAY);
@@ -146,4 +129,5 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
             });
         });
     }
+
 }

@@ -8,7 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class DetailsViewImpl extends RecyclerView implements DetailsView {
+public class DetailsViewImpl extends RecyclerView implements DetailsViewInt {
+
     public DetailsViewImpl(@NonNull Context context) {
         this(context, null);
     }

@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
         });
         configView.bind();
         setUpNightModeSwitch();
-        setUptHistoryView();
+        setUpHistoryView();
         setUpTripView();
     }
 
@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
         tripsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
-    private void setUptHistoryView() {
+    private void setUpHistoryView() {
         historyRecyclerView = findViewById(R.id.history);
         historyRecyclerView.setHasFixedSize(true);
         historyAdapter = new HistoryListAdapter();

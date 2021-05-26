@@ -20,7 +20,6 @@ public class TripsViewImpl extends RecyclerView implements TripsView {
 
     public TripsViewImpl(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
     }
 
     @Override

@@ -76,10 +76,10 @@ public class DetailsPresenter {
         Map<LocalDate, List<Activity>> activitiesMap = new HashMap<>();
         LocalDate from = trip.getFrom();
         LocalDate to = trip.getTo();
-        long duration = ChronoUnit.DAYS.between(from, to);
-        for (int i = 0; i < duration + 2; i++) {
-            activitiesMap.put(from.plusDays(i - 1), new ArrayList<Activity>());
-            datesSet.add(from.plusDays(i - 1));
+        long duration = ChronoUnit.DAYS.between(from, to) + 1;
+        for (int i = 0; i < duration; i++) {
+            activitiesMap.put(from.plusDays(i), new ArrayList<Activity>());
+            datesSet.add(from.plusDays(i));
         }
         for (Activity a : activities) {
             activitiesMap.get(a.getDate()).add(a);

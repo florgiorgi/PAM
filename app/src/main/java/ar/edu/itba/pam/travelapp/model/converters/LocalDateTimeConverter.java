@@ -30,5 +30,4 @@ public class LocalDateTimeConverter {
             return date.toString();
         }
     }
-    
 }

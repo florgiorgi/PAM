@@ -74,7 +74,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(final List<Activity> activities, final int position, LocalDate date) {
         final TextView dayNum = itemView.findViewById(R.id.day_number);
-        dayNum.setText("Day " + position);
+        dayNum.setText("Day " + (position+1));
         setUpActivities(activities);
         setUpAddButton(date);
     }

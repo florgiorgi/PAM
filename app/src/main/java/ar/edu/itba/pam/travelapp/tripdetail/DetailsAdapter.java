@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
@@ -26,18 +27,16 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private List<LocalDate> dataset;
     private Map<LocalDate, List<Activity>> allData;
-    private final Trip trip;
 
     // TODO: remove this!
     private Context context;
 
     private OnNewActivityClickedListener listener;
 
-    public DetailsAdapter(Trip trip, Context context) {
+    public DetailsAdapter(Context context) {
         this.context = context;
         this.dataset = new ArrayList<>();
         this.allData = new HashMap<>();
-        this.trip = trip;
     }
 
     public void update(Set<LocalDate> dates, Map<LocalDate, List<Activity>> activities) {
@@ -58,10 +57,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == 0) {
-            final View viewDetails = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_trip_details, parent, false);
-            return new DetailsViewHolder(viewDetails);
-        }
         final View viewDay = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_day, parent, false);
         return new DayViewHolder(viewDay, context);
     }
@@ -69,12 +64,8 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
-        if (getItemViewType(position) == 0) {
-            ((DetailsViewHolder) holder).bind(trip);
-        } else {
-            ((DayViewHolder) holder).bind(allData.get(dataset.get(position)), position, dataset.get(position));
-            ((DayViewHolder) holder).setOnClickListener(listener);
-        }
+        ((DayViewHolder) holder).bind(allData.get(dataset.get(position)), position, dataset.get(position));
+        ((DayViewHolder) holder).setOnClickListener(listener);
     }
 
     @Override

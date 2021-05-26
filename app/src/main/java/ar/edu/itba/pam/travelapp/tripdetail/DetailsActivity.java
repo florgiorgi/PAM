@@ -1,14 +1,19 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,13 +25,12 @@ import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRoomRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
+@RequiresApi(api = Build.VERSION_CODES.O)
 public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener {
 
-    private RecyclerView detailsRecyclerView;
-    private DetailsAdapter detailsAdapter;
     private Trip trip;
-
     private DetailsPresenter presenter;
+    private DetailsAdapter detailsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +54,36 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     private void initView() {
-        detailsRecyclerView = findViewById(R.id.trip_details);
+        final TextView tripName = findViewById(R.id.trip_name);
+        final TextView tripDate = findViewById(R.id.trip_date);
+        final TextView tripFlightNumber = findViewById(R.id.trip_flight_number);
+        final TextView tripDepartureDate = findViewById(R.id.trip_departure_date);
+        DateTimeFormatter dateFormatter =  DateTimeFormatter.ofPattern("MMM dd");
+        DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
+        String departureTime = "";
+        if (trip.getDepartureTime() != null) {
+            departureTime = trip.getDepartureTime().format(dateTimeFormatter);
+        }
+        String fromDate = trip.getFrom().format(dateFormatter);
+        String toDate = trip.getTo().format(dateFormatter);
+        String flightTitle = getResources().getString(R.string.flight_title);
+        tripName.setText(trip.getLocation());
+        String parsedDate = fromDate + " - " + toDate;
+        tripDate.setText(parsedDate);
+        String flightString = flightTitle + trip.getFlightNumber();
+        tripFlightNumber.setText(flightString);
+
+        if (trip.getFlightNumber().equals("")) {
+            tripFlightNumber.setVisibility(View.GONE);
+        }
+        tripDepartureDate.setText(departureTime);
+        initRecyclerView();
+    }
+
+    private void initRecyclerView() {
+        RecyclerView detailsRecyclerView = findViewById(R.id.trip_details);
         detailsRecyclerView.setHasFixedSize(true);
-        detailsAdapter = new DetailsAdapter(trip, this);
+        detailsAdapter = new DetailsAdapter(this);
         detailsAdapter.setOnClickListener(this);
         detailsRecyclerView.setAdapter(detailsAdapter);
         detailsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

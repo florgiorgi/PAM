@@ -23,7 +23,8 @@
             android:ems="10"
             android:hint="@string/where_are_you_going_hint"
             android:importantForAutofill="no"
-            android:inputType="text" />
+            android:inputType="textCapSentences"
+            android:maxLength="50"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +53,8 @@
                     android:ems="10"
                     android:hint="@string/from_hint"
                     android:importantForAutofill="no"
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:maxLength="10"/>
             </LinearLayout>
 
             <LinearLayout
@@ -76,7 +78,8 @@
                     android:ems="10"
                     android:hint="@string/to_hint"
                     android:importantForAutofill="no"
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:maxLength="10"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -111,7 +114,8 @@
             android:ems="10"
             android:hint="@string/flight_number_hint"
             android:importantForAutofill="no"
-            android:inputType="number" />
+            android:inputType="number"
+            android:maxLength="10"/>
 
         <TextView
             android:id="@+id/date_time_of_departure"
@@ -128,7 +132,8 @@
             android:ems="10"
             android:hint="@string/date_time_hint"
             android:importantForAutofill="no"
-            android:inputType="datetime" />
+            android:inputType="datetime"
+            android:maxLength="16"/>
 
         <Button
             android:id="@+id/create_btn"

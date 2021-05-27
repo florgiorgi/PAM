@@ -21,12 +21,15 @@
         <ar.edu.itba.pam.travelapp.main.history.HistoryViewImpl
             android:id="@+id/history"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
 
         <ar.edu.itba.pam.travelapp.main.config.ConfigViewImpl
             android:id="@+id/config"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
+            />
 
     </ViewFlipper>
 

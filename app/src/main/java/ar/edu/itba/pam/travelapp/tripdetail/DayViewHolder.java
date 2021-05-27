@@ -94,6 +94,10 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 divider.setVisibility(View.GONE);
                 activityList.setVisibility(View.GONE);
                 addButton.setVisibility(View.GONE);
+                editText.setVisibility(View.GONE);
+                buttons.setVisibility(View.GONE);
+                editText.setText("");
+                editText.setHintTextColor(Color.GRAY);
                 arrow.setImageResource(R.drawable.arrow_up);
             }
         });

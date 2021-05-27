@@ -15,6 +15,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 
@@ -41,7 +42,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         this.view = itemView;
         this.context = context;
-        activityAndButtonList = view.findViewById(R.id.list_of_activities_and_button);
+        //activityAndButtonList = view.findViewById(R.id.list_of_activities_and_button);
         activityList = view.findViewById(R.id.list_of_activities);
         titleView = view.findViewById(R.id.day_card_title);
         addButton = (ImageButton) view.findViewById(R.id.add_button);
@@ -74,7 +75,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(final List<Activity> activities, final int position, LocalDate date) {
         final TextView dayNum = itemView.findViewById(R.id.day_number);
-        dayNum.setText("Day " + (position+1));
+        dayNum.setText("Day " + (position + 1));
         setUpActivities(activities);
         setUpAddButton(date);
     }
@@ -86,11 +87,13 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
 
             if (divider.getVisibility() == View.GONE) {
                 divider.setVisibility(View.VISIBLE);
-                activityAndButtonList.setVisibility(View.VISIBLE);
+                activityList.setVisibility(View.VISIBLE);
+                addButton.setVisibility(View.VISIBLE);
                 arrow.setImageResource(R.drawable.arrow_down);
             } else {
                 divider.setVisibility(View.GONE);
-                activityAndButtonList.setVisibility(View.GONE);
+                activityList.setVisibility(View.GONE);
+                addButton.setVisibility(View.GONE);
                 arrow.setImageResource(R.drawable.arrow_up);
             }
         });

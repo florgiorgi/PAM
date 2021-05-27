@@ -15,20 +15,21 @@
             android:id="@+id/trip_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             tools:context=".main.MainActivity" />
 
         <ar.edu.itba.pam.travelapp.main.history.HistoryViewImpl
             android:id="@+id/history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
             />
 
         <ar.edu.itba.pam.travelapp.main.config.ConfigViewImpl
             android:id="@+id/config"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="10dp"
             />
 
     </ViewFlipper>

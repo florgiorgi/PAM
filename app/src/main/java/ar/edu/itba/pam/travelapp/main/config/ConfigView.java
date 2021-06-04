@@ -4,4 +4,6 @@ public interface ConfigView {
     void bind();
 
     void handleNightModeSwitch(int mode);
+
+    boolean wasNightModeToggled();
 }

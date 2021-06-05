@@ -71,12 +71,14 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
         setContentView(R.layout.activity_active_trips);
         createPresenter();
         initView();
+        setUpBottomNavigation();
         if (savedInstanceState != null) {
-            setUpBottomNavigation(savedInstanceState.getBoolean(NIGHT_MODE));
-        } else {
-            setUpBottomNavigation(false);
+            boolean startAtConfig = savedInstanceState.getBoolean(NIGHT_MODE);
+            if (startAtConfig) {
+                setContentView(R.layout.activity_config);
+            }
+            startAtConfig();
         }
-        setUpBottomNavigation(false);
     }
 
     private void createPresenter() {
@@ -113,12 +115,9 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     }
 
     @SuppressLint("NonConstantResourceId")
-    private void setUpBottomNavigation(boolean startAtConfig) {
+    private void setUpBottomNavigation() {
         navView = findViewById(R.id.bottom_navigation);
         navView.setSelectedItemId(R.id.trips_tab);
-        if (startAtConfig) {
-            navView.setSelectedItemId(R.id.config_tab);
-        }
 
         navView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -137,15 +136,18 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
         });
     }
 
+    private void startAtConfig() {
+        setContentView(R.layout.activity_config);
+        navView.setSelectedItemId(R.id.config_tab);
+    }
+
     private void initView() {
         flipper = findViewById(R.id.flipper);
         tripsView = findViewById(R.id.trip_list);
         historyView = findViewById(R.id.history);
         configView = findViewById(R.id.config);
         floatingButtonCreate = findViewById(R.id.floating_action_button_trip);
-        floatingButtonCreate.setOnClickListener(view -> {
-            presenter.onCreateTripClicked();
-        });
+        floatingButtonCreate.setOnClickListener(view -> presenter.onCreateTripClicked());
         setUpConfigView();
         setUpHistoryView();
         setUpTripView();

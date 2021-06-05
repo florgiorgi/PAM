@@ -77,7 +77,10 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     }
 
     private void createPresenter() {
-        presenter = (CreateTripPresenter) getLastNonConfigurationInstance();
+        Object possibleCreateTripPresenter = getLastNonConfigurationInstance();
+        if (possibleCreateTripPresenter instanceof CreateTripPresenter) {
+            presenter = (CreateTripPresenter) getLastNonConfigurationInstance();
+        }
         if (presenter == null) {
             final TripMapper mapper = new TripMapper();
             final TripRepository tripRepository = new TripRoomRepository(AppDatabase.getInstance(getApplicationContext()).tripDao(), mapper);

@@ -80,7 +80,10 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     }
 
     private void createPresenter() {
-        presenter = (MainPresenter) getLastNonConfigurationInstance();
+        Object possibleMainPresenter = getLastNonConfigurationInstance();
+        if (possibleMainPresenter instanceof MainPresenter) {
+            presenter = (MainPresenter) possibleMainPresenter;
+        }
         if (presenter == null) {
             final SharedPreferences sp = getSharedPreferences(SP_ID, MODE_PRIVATE);
             final FtuStorage storage = new SharedPreferencesFTUStorage(sp);

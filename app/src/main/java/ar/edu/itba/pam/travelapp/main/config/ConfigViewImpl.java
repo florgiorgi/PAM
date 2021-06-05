@@ -18,12 +18,10 @@ public class ConfigViewImpl extends LinearLayout implements ConfigView {
 
     public ConfigViewImpl(Context context) {
         this(context, null);
-        nightModeToggled = false;
     }
 
     public ConfigViewImpl(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
-        nightModeToggled = false;
     }
 
     public ConfigViewImpl(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -31,8 +29,6 @@ public class ConfigViewImpl extends LinearLayout implements ConfigView {
 
         inflate(context, R.layout.activity_config, this);
         setOrientation(VERTICAL);
-
-        nightModeToggled = false;
     }
 
     @Override
@@ -52,21 +48,20 @@ public class ConfigViewImpl extends LinearLayout implements ConfigView {
     }
 
     private void setUpNightModeSwitch() {
+        nightModeToggled = false;
         int currentNightModeSetting = AppCompatDelegate.getDefaultNightMode();
         nightModeSwitch = findViewById(R.id.switch_night_mode);
         nightModeSwitch.setChecked(false);
         if (currentNightModeSetting == AppCompatDelegate.MODE_NIGHT_YES) {
             nightModeSwitch.setChecked(true);
         }
-//        nightModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            if (isChecked) {
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-////                handleNightModeSwitch(AppCompatDelegate.MODE_NIGHT_YES);
-//            } else {
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-////                handleNightModeSwitch(AppCompatDelegate.MODE_NIGHT_NO);
-//            }
-//        });
+        nightModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                handleNightModeSwitch(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                handleNightModeSwitch(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        });
     }
 
 //    if (nightModeSharedPref.loadNightModeState()) {

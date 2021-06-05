@@ -63,11 +63,4 @@ public class ConfigViewImpl extends LinearLayout implements ConfigView {
             }
         });
     }
-
-//    if (nightModeSharedPref.loadNightModeState()) {
-//        navView.setSelectedItemId(R.id.config_tab);
-//        flipper.setDisplayedChild(CONFIG);
-//        floatingButtonCreate.setVisibility(View.GONE);
-//        nightModeSharedPref.setNightModeState(false);
-//    }
 }

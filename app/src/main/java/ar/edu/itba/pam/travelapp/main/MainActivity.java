@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
             boolean startAtConfig = savedInstanceState.getBoolean(NIGHT_MODE);
             if (startAtConfig) {
                 setContentView(R.layout.activity_config);
+                startAtConfig();
             }
-            startAtConfig();
         }
     }
 

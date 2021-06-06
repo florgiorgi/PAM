@@ -1,8 +1,8 @@
 package ar.edu.itba.pam.travelapp.main;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +17,6 @@ import android.widget.ViewFlipper;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.util.List;
 
@@ -27,7 +26,6 @@ import ar.edu.itba.pam.travelapp.landing.FtuActivity;
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
 import ar.edu.itba.pam.travelapp.landing.storage.SharedPreferencesFTUStorage;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
-import ar.edu.itba.pam.travelapp.main.config.NightModeSharedPref;
 import ar.edu.itba.pam.travelapp.main.trips.TripListAdapter;
 import ar.edu.itba.pam.travelapp.tripdetail.DetailsActivity;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
@@ -49,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     private static final int CONFIG = 2;
 
     private static final String SP_ID = "travel-buddy-sp";
+    public static final String NIGHT_MODE = "night-mode";
 
     private RecyclerView tripsRecyclerView;
     private RecyclerView historyRecyclerView;
@@ -62,10 +61,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     private ConfigView configView;
 
     private FloatingActionButton floatingButtonCreate;
-    private SwitchMaterial nightModeSwitch;
     private BottomNavigationView navView;
-
-    NightModeSharedPref nightModeSharedPref;
 
     private MainPresenter presenter;
 
@@ -74,16 +70,21 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_active_trips);
         createPresenter();
-
-        //TODO: Arreglar esto y usar MVP en el proceso
-        nightModeSharedPref = new NightModeSharedPref(this);
-
         initView();
         setUpBottomNavigation();
+        if (savedInstanceState != null) {
+            boolean startAtConfig = savedInstanceState.getBoolean(NIGHT_MODE);
+            if (startAtConfig) {
+                startAtConfig();
+            }
+        }
     }
 
     private void createPresenter() {
-        presenter = (MainPresenter) getLastNonConfigurationInstance();
+        Object possibleMainPresenter = getLastNonConfigurationInstance();
+        if (possibleMainPresenter instanceof MainPresenter) {
+            presenter = (MainPresenter) possibleMainPresenter;
+        }
         if (presenter == null) {
             final SharedPreferences sp = getSharedPreferences(SP_ID, MODE_PRIVATE);
             final FtuStorage storage = new SharedPreferencesFTUStorage(sp);
@@ -117,14 +118,6 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
         navView = findViewById(R.id.bottom_navigation);
         navView.setSelectedItemId(R.id.trips_tab);
 
-        // TODO: fix and see if it goes on presenter class
-        if (nightModeSharedPref.loadNightModeState()) {
-            navView.setSelectedItemId(R.id.config_tab);
-            flipper.setDisplayedChild(CONFIG);
-            floatingButtonCreate.setVisibility(View.GONE);
-            nightModeSharedPref.setNightModeState(false);
-        }
-
         navView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.trips_tab:
@@ -142,37 +135,20 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
         });
     }
 
+    private void startAtConfig() {
+        navView.setSelectedItemId(R.id.config_tab);
+    }
+
     private void initView() {
         flipper = findViewById(R.id.flipper);
         tripsView = findViewById(R.id.trip_list);
         historyView = findViewById(R.id.history);
         configView = findViewById(R.id.config);
         floatingButtonCreate = findViewById(R.id.floating_action_button_trip);
-        floatingButtonCreate.setOnClickListener(view -> {
-            presenter.onCreateTripClicked();
-        });
-        configView.bind();
-        setUpNightModeSwitch();
+        floatingButtonCreate.setOnClickListener(view -> presenter.onCreateTripClicked());
+        setUpConfigView();
         setUpHistoryView();
         setUpTripView();
-    }
-
-    private void setUpNightModeSwitch() {
-        int currentNightModeSetting = AppCompatDelegate.getDefaultNightMode();
-        nightModeSwitch = findViewById(R.id.switch_night_mode);
-        nightModeSwitch.setChecked(true);
-        if (currentNightModeSetting == AppCompatDelegate.MODE_NIGHT_UNSPECIFIED
-                || currentNightModeSetting == AppCompatDelegate.MODE_NIGHT_NO) {
-            nightModeSwitch.setChecked(false);
-        }
-        nightModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            nightModeSharedPref.setNightModeState(true);
-            if (isChecked) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
-        });
     }
 
     private void setUpTripView() {
@@ -191,6 +167,10 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
         historyAdapter.setOnClickListener(this);
         historyRecyclerView.setAdapter(historyAdapter);
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    }
+
+    private void setUpConfigView() {
+        configView.setUpNightModeSwitch();
     }
 
     @Override
@@ -240,11 +220,18 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
 
     @Override
     public void onTripsError() {
-        Toast.makeText(MainActivity.this, "Error: couldn't fetch trips from database", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "Error: couldn't fetch trips from database",
+                Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onClick(Trip trip) {
         presenter.onTripClicked(trip);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean(NIGHT_MODE, configView.wasNightModeToggled());
+        super.onSaveInstanceState(outState);
     }
 }

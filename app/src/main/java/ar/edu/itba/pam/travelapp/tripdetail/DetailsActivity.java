@@ -90,7 +90,10 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     private void createPresenter() {
-        presenter = (DetailsPresenter) getLastNonConfigurationInstance();
+        Object possibleDetailsPresenter = getLastNonConfigurationInstance();
+        if (possibleDetailsPresenter instanceof DetailsPresenter) {
+            presenter = (DetailsPresenter) getLastNonConfigurationInstance();
+        }
         if (presenter == null) {
             final ActivityMapper mapper = new ActivityMapper();
             final ActivityRepository activityRepository = new ActivityRoomRepository(AppDatabase.getInstance(getApplicationContext()).activityDao(), mapper);

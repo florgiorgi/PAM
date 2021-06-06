@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
         if (savedInstanceState != null) {
             boolean startAtConfig = savedInstanceState.getBoolean(NIGHT_MODE);
             if (startAtConfig) {
-                setContentView(R.layout.activity_config);
                 startAtConfig();
             }
         }
@@ -137,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     }
 
     private void startAtConfig() {
-        setContentView(R.layout.activity_config);
         navView.setSelectedItemId(R.id.config_tab);
     }
 
@@ -172,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     }
 
     private void setUpConfigView() {
-        configView.bind();
+        configView.setUpNightModeSwitch();
     }
 
     @Override

@@ -32,11 +32,6 @@ public class ConfigViewImpl extends LinearLayout implements ConfigView {
     }
 
     @Override
-    public void bind() {
-        setUpNightModeSwitch();
-    }
-
-    @Override
     public void handleNightModeSwitch(int mode) {
         nightModeToggled = true;
         AppCompatDelegate.setDefaultNightMode(mode);
@@ -47,14 +42,10 @@ public class ConfigViewImpl extends LinearLayout implements ConfigView {
         return nightModeToggled;
     }
 
-    private void setUpNightModeSwitch() {
+    @Override
+    public void setUpNightModeSwitch() {
         nightModeToggled = false;
-        int currentNightModeSetting = AppCompatDelegate.getDefaultNightMode();
         nightModeSwitch = findViewById(R.id.switch_night_mode);
-        nightModeSwitch.setChecked(false);
-        if (currentNightModeSetting == AppCompatDelegate.MODE_NIGHT_YES) {
-            nightModeSwitch.setChecked(true);
-        }
         nightModeSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 handleNightModeSwitch(AppCompatDelegate.MODE_NIGHT_YES);

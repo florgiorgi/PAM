@@ -20,6 +20,7 @@ import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
+import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
 public class MainPresenter {
@@ -31,7 +32,7 @@ public class MainPresenter {
     private final WeakReference<MainView> view;
     private final TripRepository tripRepository;
 
-    public MainPresenter(final FtuStorage ftuStorage, final TripRepository repository, final MainView view) {
+    public MainPresenter(final MainView view, final FtuStorage ftuStorage, final TripRepository repository, SchedulerProvider provider) {
         this.ftuStorage = ftuStorage;
         this.tripRepository = repository;
         this.view = new WeakReference<>(view);

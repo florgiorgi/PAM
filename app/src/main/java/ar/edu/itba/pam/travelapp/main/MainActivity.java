@@ -27,6 +27,8 @@ import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
 import ar.edu.itba.pam.travelapp.landing.storage.SharedPreferencesFTUStorage;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
 import ar.edu.itba.pam.travelapp.main.trips.TripListAdapter;
+import ar.edu.itba.pam.travelapp.model.di.TripContainer;
+import ar.edu.itba.pam.travelapp.model.di.TripContainerLocator;
 import ar.edu.itba.pam.travelapp.tripdetail.DetailsActivity;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;
@@ -38,6 +40,7 @@ import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
+import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 
 
 public class MainActivity extends AppCompatActivity implements MainView, OnTripClickedListener {
@@ -86,11 +89,13 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
             presenter = (MainPresenter) possibleMainPresenter;
         }
         if (presenter == null) {
-            final SharedPreferences sp = getSharedPreferences(SP_ID, MODE_PRIVATE);
-            final FtuStorage storage = new SharedPreferencesFTUStorage(sp);
+            final TripContainer tripContainer = TripContainerLocator.locateComponent(this);
+            FtuStorage ftuStorage = tripContainer.getFtuStorage();
             final TripMapper mapper = new TripMapper();
-            final TripRepository tripRepository = new TripRoomRepository(AppDatabase.getInstance(getApplicationContext()).tripDao(), mapper);
-            presenter = new MainPresenter(storage, tripRepository, this);
+//            final TripRepository tripRepository = new TripRoomRepository(AppDatabase.getInstance(getApplicationContext()).tripDao(), mapper);
+            final TripRepository tripRepository = tripContainer.getTripRepository();
+            final SchedulerProvider provider = tripContainer.getSchedulerProvider();
+            presenter = new MainPresenter(this, ftuStorage, tripRepository, provider);
         }
     }
 

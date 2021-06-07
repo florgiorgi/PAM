@@ -22,5 +22,7 @@ public interface MainView {
 
     void bindHistoryTrips(List<Object> model);
 
+    void bindConfigViewSettings();
+
     void onTripsError();
 }

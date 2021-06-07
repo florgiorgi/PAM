@@ -223,6 +223,12 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     }
 
     @Override
+    public void bindConfigViewSettings() {
+        configView.setSwitchOn();
+        navView.setSelectedItemId(R.id.trips_tab);
+    }
+
+    @Override
     public void onTripsError() {
         Toast.makeText(MainActivity.this, "Error: couldn't fetch trips from database",
                 Toast.LENGTH_LONG).show();

@@ -16,7 +16,6 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
 import ar.edu.itba.pam.travelapp.landing.storage.NightModeStorage;
@@ -53,13 +52,14 @@ public class MainPresenter {
             }
         }
         if (nightModeStorage.isActive()) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            nightModeStorage.reactivateNightMode();
+            view.get().bindConfigViewSettings();
         }
         fetchTrips();
     }
 
     public void onViewDestroyed() {
-        nightModeStorage.setDefaultNightMode(AppCompatDelegate.getDefaultNightMode());
+        nightModeStorage.setDefaultNightMode();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

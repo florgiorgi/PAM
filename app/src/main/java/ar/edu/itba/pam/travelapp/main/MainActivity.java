@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
 
     @Override
     public void bindConfigViewSettings() {
-        configView.setSwitchOn();
+//        configView.setSwitchOn(); // fixme: begins infinite loop
         navView.setSelectedItemId(R.id.trips_tab);
     }
 

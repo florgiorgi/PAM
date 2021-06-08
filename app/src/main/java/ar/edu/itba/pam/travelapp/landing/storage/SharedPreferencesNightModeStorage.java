@@ -31,9 +31,4 @@ public class SharedPreferencesNightModeStorage implements NightModeStorage {
     public void reactivateNightMode() {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
-
-    @Override
-    public void detachFromView(int mode) {
-
-    }
 }

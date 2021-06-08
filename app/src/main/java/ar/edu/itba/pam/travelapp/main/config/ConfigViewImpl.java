@@ -54,11 +54,4 @@ public class ConfigViewImpl extends LinearLayout implements ConfigView {
             }
         });
     }
-
-    @Override
-    public void setSwitchOn() {
-        if (!nightModeSwitch.isChecked()) {
-            nightModeSwitch.setChecked(true);
-        }
-    }
 }

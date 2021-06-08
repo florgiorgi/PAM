@@ -44,7 +44,6 @@ import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
 
 
 public class MainActivity extends AppCompatActivity implements MainView, OnTripClickedListener {
-
     private static final int TRIPS = 0;
     private static final int HISTORY = 1;
     private static final int CONFIG = 2;
@@ -220,12 +219,6 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     @Override
     public void bindHistoryTrips(final List<Object> model) {
         historyAdapter.update(model);
-    }
-
-    @Override
-    public void bindConfigViewSettings() {
-//        configView.setSwitchOn(); // fixme: begins infinite loop
-        navView.setSelectedItemId(R.id.trips_tab);
     }
 
     @Override

@@ -53,7 +53,6 @@ public class MainPresenter {
         }
         if (nightModeStorage.isActive()) {
             nightModeStorage.reactivateNightMode();
-            view.get().bindConfigViewSettings();
         }
         fetchTrips();
     }

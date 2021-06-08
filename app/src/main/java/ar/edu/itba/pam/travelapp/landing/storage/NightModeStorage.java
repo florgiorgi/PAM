@@ -6,6 +6,4 @@ public interface NightModeStorage {
     void setDefaultNightMode();
 
     void reactivateNightMode();
-
-    void detachFromView(int mode);
 }

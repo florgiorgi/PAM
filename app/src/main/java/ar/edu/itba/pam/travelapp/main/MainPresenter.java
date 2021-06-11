@@ -16,7 +16,9 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import androidx.annotation.RequiresApi;
+
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
+import ar.edu.itba.pam.travelapp.landing.storage.NightModeStorage;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
@@ -29,11 +31,14 @@ public class MainPresenter {
     private Disposable disposable;
 
     private final FtuStorage ftuStorage;
+    private final NightModeStorage nightModeStorage;
     private final WeakReference<MainView> view;
     private final TripRepository tripRepository;
 
-    public MainPresenter(final MainView view, final FtuStorage ftuStorage, final TripRepository repository, SchedulerProvider provider) {
+    public MainPresenter(final MainView view, final FtuStorage ftuStorage, final NightModeStorage nightModeStorage,
+                         final TripRepository repository, SchedulerProvider provider) {
         this.ftuStorage = ftuStorage;
+        this.nightModeStorage = nightModeStorage;
         this.tripRepository = repository;
         this.view = new WeakReference<>(view);
         this.schedulerProvider = new AndroidSchedulerProvider();
@@ -47,7 +52,14 @@ public class MainPresenter {
                 view.get().launchFtu();
             }
         }
+        if (nightModeStorage.isActive()) {
+            nightModeStorage.reactivateNightMode();
+        }
         fetchTrips();
+    }
+
+    public void onViewDestroyed() {
+        nightModeStorage.setDefaultNightMode();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

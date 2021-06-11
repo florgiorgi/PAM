@@ -3,6 +3,7 @@ package ar.edu.itba.pam.travelapp.main;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,7 +25,9 @@ import androidx.annotation.RequiresApi;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.landing.FtuActivity;
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
+import ar.edu.itba.pam.travelapp.landing.storage.NightModeStorage;
 import ar.edu.itba.pam.travelapp.landing.storage.SharedPreferencesFTUStorage;
+import ar.edu.itba.pam.travelapp.landing.storage.SharedPreferencesNightModeStorage;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
 import ar.edu.itba.pam.travelapp.main.trips.TripListAdapter;
 import ar.edu.itba.pam.travelapp.model.di.TripContainer;
@@ -44,7 +47,6 @@ import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 
 
 public class MainActivity extends AppCompatActivity implements MainView, OnTripClickedListener {
-
     private static final int TRIPS = 0;
     private static final int HISTORY = 1;
     private static final int CONFIG = 2;
@@ -91,11 +93,19 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
         if (presenter == null) {
             final TripContainer tripContainer = TripContainerLocator.locateComponent(this);
             FtuStorage ftuStorage = tripContainer.getFtuStorage();
+            NightModeStorage nightModeStorage = tripContainer.getNightModeStorage();
             final TripMapper mapper = new TripMapper();
 //            final TripRepository tripRepository = new TripRoomRepository(AppDatabase.getInstance(getApplicationContext()).tripDao(), mapper);
             final TripRepository tripRepository = tripContainer.getTripRepository();
             final SchedulerProvider provider = tripContainer.getSchedulerProvider();
-            presenter = new MainPresenter(this, ftuStorage, tripRepository, provider);
+//            presenter = new MainPresenter(this, ftuStorage, tripRepository, provider);
+
+//            final SharedPreferences sp = getSharedPreferences(SP_ID, MODE_PRIVATE);
+//            final FtuStorage ftuStorage = new SharedPreferencesFTUStorage(sp);
+//            final NightModeStorage nightModeStorage = new SharedPreferencesNightModeStorage(sp);
+//            final TripMapper mapper = new TripMapper();
+//            final TripRepository tripRepository = new TripRoomRepository(AppDatabase.getInstance(getApplicationContext()).tripDao(), mapper);
+            presenter = new MainPresenter(this, ftuStorage, nightModeStorage, tripRepository, provider);
         }
     }
 
@@ -238,5 +248,11 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         outState.putBoolean(NIGHT_MODE, configView.wasNightModeToggled());
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        presenter.onViewDestroyed();
+        super.onDestroy();
     }
 }

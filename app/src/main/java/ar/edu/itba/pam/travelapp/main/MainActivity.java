@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
             this.presenter = (MainPresenter) possibleMainPresenter;
         }
         if (this.presenter == null) {
-            this.presenter = new MainPresenter(
-                    this, TripContainerLocator.locateComponent(this));
+            this.presenter = new MainPresenter(this,
+                    TripContainerLocator.locateComponent(this));
         }
     }
 

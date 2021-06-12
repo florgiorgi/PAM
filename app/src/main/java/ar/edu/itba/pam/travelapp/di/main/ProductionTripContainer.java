@@ -45,6 +45,14 @@ public class ProductionTripContainer implements TripContainer {
     }
 
     @Override
+    public NightModeStorage getNightModeStorage() {
+        if (nightModeStorage == null) {
+            this.nightModeStorage = tripModule.provideNightModeStorage();
+        }
+        return nightModeStorage;
+    }
+
+    @Override
     public TripRepository getTripRepository() {
         if (tripRepository == null) {
             this.tripRepository = tripModule.provideTripRepository(getTripMapper(), getTripDao());
@@ -57,14 +65,6 @@ public class ProductionTripContainer implements TripContainer {
             this.tripDao = tripModule.provideTripDao();
         }
         return tripDao;
-    }
-
-    @Override
-    public NightModeStorage getNightModeStorage() {
-        if (nightModeStorage == null) {
-            this.nightModeStorage = tripModule.provideNightModeStorage();
-        }
-        return nightModeStorage;
     }
 
     private TripMapper getTripMapper() {

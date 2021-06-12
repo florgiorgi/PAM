@@ -23,7 +23,6 @@ import ar.edu.itba.pam.travelapp.di.main.TripContainer;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
-import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
 public class MainPresenter {
@@ -33,8 +32,8 @@ public class MainPresenter {
 
     private final FtuStorage ftuStorage;
     private final NightModeStorage nightModeStorage;
-    private final WeakReference<MainView> view;
     private final TripRepository tripRepository;
+    private final WeakReference<MainView> view;
 
     public MainPresenter(final MainView view, final TripContainer container) {
         this.ftuStorage = container.getFtuStorage();
@@ -42,15 +41,6 @@ public class MainPresenter {
         this.tripRepository = container.getTripRepository();
         this.view = new WeakReference<>(view);
         this.schedulerProvider = (AndroidSchedulerProvider) container.getSchedulerProvider();
-    }
-
-    public MainPresenter(final MainView view, final FtuStorage ftuStorage, final NightModeStorage nightModeStorage,
-                         final TripRepository repository, SchedulerProvider provider) {
-        this.ftuStorage = ftuStorage;
-        this.nightModeStorage = nightModeStorage;
-        this.tripRepository = repository;
-        this.view = new WeakReference<>(view);
-        this.schedulerProvider = new AndroidSchedulerProvider();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

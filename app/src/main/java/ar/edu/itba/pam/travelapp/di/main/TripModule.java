@@ -38,17 +38,17 @@ public class TripModule {
                 applicationContext.getSharedPreferences(SP_ID, Context.MODE_PRIVATE));
     }
 
+    public NightModeStorage provideNightModeStorage() {
+        return new SharedPreferencesNightModeStorage(
+                applicationContext.getSharedPreferences(SP_ID, Context.MODE_PRIVATE));
+    }
+
     public TripRepository provideTripRepository(final TripMapper mapper, final TripDao tripDao) {
         return new TripRoomRepository(tripDao, mapper);
     }
 
     public TripMapper provideTripMapper() {
         return new TripMapper();
-    }
-
-    public NightModeStorage provideNightModeStorage() {
-        return new SharedPreferencesNightModeStorage(
-                applicationContext.getSharedPreferences(SP_ID, Context.MODE_PRIVATE));
     }
 
     public TripDao provideTripDao() {

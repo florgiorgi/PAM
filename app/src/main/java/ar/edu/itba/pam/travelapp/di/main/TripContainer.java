@@ -14,7 +14,7 @@ public interface TripContainer {
 
     FtuStorage getFtuStorage();
 
-    TripRepository getTripRepository();
-
     NightModeStorage getNightModeStorage();
+
+    TripRepository getTripRepository();
 }

@@ -14,6 +14,8 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import androidx.annotation.RequiresApi;
+
+import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainer;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
@@ -27,8 +29,8 @@ public class CreateTripPresenter {
     private final TripRepository tripRepository;
     private final WeakReference<CreateTripView> view;
 
-    public CreateTripPresenter(final TripRepository tripRepository, final CreateTripView view) {
-        this.tripRepository = tripRepository;
+    public CreateTripPresenter(final CreateTripView view, final NewTripContainer newTripContainer) {
+        this.tripRepository = newTripContainer.getTripRepository();
         this.view = new WeakReference<>(view);
     }
 

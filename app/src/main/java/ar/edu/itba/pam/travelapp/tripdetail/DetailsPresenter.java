@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.Set;
 
 import androidx.annotation.RequiresApi;
+
+import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainer;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
@@ -28,10 +30,10 @@ public class DetailsPresenter {
     private final Trip trip;
     private Disposable disposable;
 
-    public DetailsPresenter(ActivityRepository activityRepository, Trip trip, DetailsView view) {
-        this.activityRepository = activityRepository;
+    public DetailsPresenter(final DetailsView view, final Trip trip, final DetailsContainer container) {
+        this.activityRepository = container.getActivityRepository();
         this.view = new WeakReference<>(view);
-        this.schedulerProvider = new AndroidSchedulerProvider();
+        this.schedulerProvider = (AndroidSchedulerProvider) container.getSchedulerProvider();
         this.trip = trip;
     }
 

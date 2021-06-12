@@ -18,11 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.R;
-import ar.edu.itba.pam.travelapp.model.AppDatabase;
+import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainerLocator;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
-import ar.edu.itba.pam.travelapp.model.activity.ActivityMapper;
-import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
-import ar.edu.itba.pam.travelapp.model.activity.ActivityRoomRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -95,9 +92,8 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
             presenter = (DetailsPresenter) getLastNonConfigurationInstance();
         }
         if (presenter == null) {
-            final ActivityMapper mapper = new ActivityMapper();
-            final ActivityRepository activityRepository = new ActivityRoomRepository(AppDatabase.getInstance(getApplicationContext()).activityDao(), mapper);
-            presenter = new DetailsPresenter(activityRepository, trip, this);
+            presenter = new DetailsPresenter(this, trip,
+                    DetailsContainerLocator.locateComponent(this));
         }
     }
 

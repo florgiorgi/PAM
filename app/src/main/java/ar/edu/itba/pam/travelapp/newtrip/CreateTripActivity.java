@@ -27,6 +27,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import ar.edu.itba.pam.travelapp.R;
+import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainerLocator;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.AppDatabase;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
@@ -79,12 +80,11 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     private void createPresenter() {
         Object possibleCreateTripPresenter = getLastNonConfigurationInstance();
         if (possibleCreateTripPresenter instanceof CreateTripPresenter) {
-            presenter = (CreateTripPresenter) getLastNonConfigurationInstance();
+            this.presenter = (CreateTripPresenter) possibleCreateTripPresenter;
         }
-        if (presenter == null) {
-            final TripMapper mapper = new TripMapper();
-            final TripRepository tripRepository = new TripRoomRepository(AppDatabase.getInstance(getApplicationContext()).tripDao(), mapper);
-            presenter = new CreateTripPresenter(tripRepository, this);
+        if (this.presenter == null) {
+            this.presenter = new CreateTripPresenter(this,
+                    NewTripContainerLocator.locateComponent(this));
         }
     }
 

@@ -1,4 +1,4 @@
-package ar.edu.itba.pam.travelapp.landing.storage;
+package ar.edu.itba.pam.travelapp.main.storage;
 
 import android.content.SharedPreferences;
 

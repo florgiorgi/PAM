@@ -30,10 +30,6 @@ public class NewTripModule {
     }
 
     public TripDao provideTripDao() {
-        return getAppDatabase().tripDao();
-    }
-
-    private AppDatabase getAppDatabase() {
-        return appDatabase;
+        return appDatabase.getTripDao();
     }
 }

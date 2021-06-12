@@ -52,10 +52,6 @@ public class TripModule {
     }
 
     public TripDao provideTripDao() {
-        return getAppDatabase().tripDao();
-    }
-
-    private AppDatabase getAppDatabase() {
-        return appDatabase;
+        return appDatabase.getTripDao();
     }
 }

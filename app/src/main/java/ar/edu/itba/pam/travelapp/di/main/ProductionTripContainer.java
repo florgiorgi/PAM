@@ -12,12 +12,12 @@ import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 public class ProductionTripContainer implements TripContainer {
     private final TripModule tripModule;
 
-    private SchedulerProvider schedulerProvider;
     private FtuStorage ftuStorage;
     private NightModeStorage nightModeStorage;
-    private TripRepository tripRepository;
-    private TripMapper tripMapper;
+    private SchedulerProvider schedulerProvider;
     private TripDao tripDao;
+    private TripMapper tripMapper;
+    private TripRepository tripRepository;
 
     public ProductionTripContainer(final Context context) {
         this.tripModule = new TripModule(context);

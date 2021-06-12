@@ -26,6 +26,6 @@ public abstract class AppDatabase extends RoomDatabase {
         return instance;
     }
 
-    public abstract TripDao tripDao();
-    public abstract ActivityDao activityDao();
+    public abstract TripDao getTripDao();
+    public abstract ActivityDao getActivityDao();
 }

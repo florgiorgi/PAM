@@ -19,6 +19,7 @@ import androidx.annotation.RequiresApi;
 
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
 import ar.edu.itba.pam.travelapp.landing.storage.NightModeStorage;
+import ar.edu.itba.pam.travelapp.model.di.TripContainer;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
@@ -34,6 +35,14 @@ public class MainPresenter {
     private final NightModeStorage nightModeStorage;
     private final WeakReference<MainView> view;
     private final TripRepository tripRepository;
+
+    public MainPresenter(final MainView view, final TripContainer container) {
+        this.ftuStorage = container.getFtuStorage();
+        this.nightModeStorage = container.getNightModeStorage();
+        this.tripRepository = container.getTripRepository();
+        this.view = new WeakReference<>(view);
+        this.schedulerProvider = (AndroidSchedulerProvider) container.getSchedulerProvider();
+    }
 
     public MainPresenter(final MainView view, final FtuStorage ftuStorage, final NightModeStorage nightModeStorage,
                          final TripRepository repository, SchedulerProvider provider) {

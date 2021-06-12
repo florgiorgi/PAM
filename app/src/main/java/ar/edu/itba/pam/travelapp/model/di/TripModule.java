@@ -3,8 +3,11 @@ package ar.edu.itba.pam.travelapp.model.di;
 import android.content.Context;
 
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
+import ar.edu.itba.pam.travelapp.landing.storage.NightModeStorage;
 import ar.edu.itba.pam.travelapp.landing.storage.SharedPreferencesFTUStorage;
+import ar.edu.itba.pam.travelapp.landing.storage.SharedPreferencesNightModeStorage;
 import ar.edu.itba.pam.travelapp.model.AppDatabase;
+import ar.edu.itba.pam.travelapp.model.trip.TripDao;
 import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
@@ -15,9 +18,11 @@ public class TripModule {
     private static final String SP_ID = "travel-buddy-sp";
 
     private final Context applicationContext;
+    private final AppDatabase appDatabase;
 
     /* default */ TripModule(Context context) {
         this.applicationContext = context.getApplicationContext();
+        this.appDatabase = AppDatabase.getInstance(applicationContext);
     }
 
     /* default */ Context getApplicationContext() {
@@ -31,13 +36,26 @@ public class TripModule {
     /* default */ FtuStorage provideFtuStorage() {
         return new SharedPreferencesFTUStorage(
                 applicationContext.getSharedPreferences(SP_ID, Context.MODE_PRIVATE));
-        // final FtuStorage storage = new SharedPreferencesFTUStorage(sp);  todo check que estemos haciendo esto
     }
 
-    public TripRepository provideTripRepository() {
-        return new TripRoomRepository(AppDatabase.getInstance(getApplicationContext()).tripDao(), mapper);
+    public TripRepository provideTripRepository(final TripMapper mapper, final TripDao tripDao) {
+        return new TripRoomRepository(tripDao, mapper);
     }
 
     public TripMapper provideTripMapper() {
+        return new TripMapper();
+    }
+
+    public NightModeStorage provideNightModeStorage() {
+        return new SharedPreferencesNightModeStorage(
+                applicationContext.getSharedPreferences(SP_ID, Context.MODE_PRIVATE));
+    }
+
+    public TripDao provideTripDao() {
+        return getAppDatabase().tripDao();
+    }
+
+    private AppDatabase getAppDatabase() {
+        return appDatabase;
     }
 }

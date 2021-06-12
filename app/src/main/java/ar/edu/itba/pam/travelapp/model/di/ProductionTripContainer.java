@@ -3,6 +3,8 @@ package ar.edu.itba.pam.travelapp.model.di;
 import android.content.Context;
 
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
+import ar.edu.itba.pam.travelapp.landing.storage.NightModeStorage;
+import ar.edu.itba.pam.travelapp.model.trip.TripDao;
 import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
@@ -12,8 +14,10 @@ public class ProductionTripContainer implements TripContainer {
 
     private SchedulerProvider schedulerProvider;
     private FtuStorage ftuStorage;
+    private NightModeStorage nightModeStorage;
     private TripRepository tripRepository;
     private TripMapper tripMapper;
+    private TripDao tripDao;
 
     public ProductionTripContainer(final Context context) {
         this.tripModule = new TripModule(context);
@@ -43,9 +47,24 @@ public class ProductionTripContainer implements TripContainer {
     @Override
     public TripRepository getTripRepository() {
         if (tripRepository == null) {
-            this.tripRepository = tripModule.provideTripRepository();
+            this.tripRepository = tripModule.provideTripRepository(getTripMapper(), getTripDao());
         }
         return tripRepository;
+    }
+
+    private TripDao getTripDao() {
+        if (tripDao == null) {
+            this.tripDao = tripModule.provideTripDao();
+        }
+        return tripDao;
+    }
+
+    @Override
+    public NightModeStorage getNightModeStorage() {
+        if (nightModeStorage == null) {
+            this.nightModeStorage = tripModule.provideNightModeStorage();
+        }
+        return nightModeStorage;
     }
 
     private TripMapper getTripMapper() {

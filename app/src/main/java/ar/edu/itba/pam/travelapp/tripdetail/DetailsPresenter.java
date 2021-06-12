@@ -73,6 +73,14 @@ public class DetailsPresenter {
         }
     }
 
+    public void onDeleteTrip() {
+
+    }
+
+    public void onEditTrip() {
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     private Map<LocalDate, List<Activity>> parseActivities(List<Activity> activities, Set<LocalDate> datesSet) {
         Map<LocalDate, List<Activity>> activitiesMap = new HashMap<>();

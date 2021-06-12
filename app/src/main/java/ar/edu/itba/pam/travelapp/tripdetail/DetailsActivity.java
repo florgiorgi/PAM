@@ -2,6 +2,8 @@ package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,7 @@ import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainerLocator;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
+
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener {
 
@@ -36,6 +39,13 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
         this.trip = (Trip) getIntent().getSerializableExtra("trip");
         createPresenter();
         initView();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.trip_detail_menu, menu);
+        return true;
     }
 
     @Override

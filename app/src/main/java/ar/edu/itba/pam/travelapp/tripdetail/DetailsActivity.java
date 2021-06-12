@@ -119,6 +119,18 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     @Override
+    public void bindNetworkConfig(NetworkConfigModel model) {
+        // todo: bind model to view
+//        view.bind(model);
+    }
+
+    @Override
+    public void onNetworkConfigError() {
+        // todo?
+        // todo: explain the error to the user
+    }
+
+    @Override
     public void onClick(String name, LocalDate date) {
         presenter.onActivityCreate(name, date);
     }

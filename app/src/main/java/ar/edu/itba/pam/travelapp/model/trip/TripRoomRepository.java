@@ -7,7 +7,7 @@ import java.util.List;
 import androidx.annotation.RequiresApi;
 import io.reactivex.Flowable;
 
-public class TripRoomRepository implements TripRepository{
+public class TripRoomRepository implements TripRepository {
 
     private final TripDao dao;
     private final TripMapper mapper;

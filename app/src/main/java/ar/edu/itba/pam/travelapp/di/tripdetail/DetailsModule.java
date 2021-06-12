@@ -7,8 +7,14 @@ import ar.edu.itba.pam.travelapp.model.activity.ActivityDao;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityMapper;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRoomRepository;
+import ar.edu.itba.pam.travelapp.model.repository.WeatherApiRepository;
+import ar.edu.itba.pam.travelapp.model.repository.WeatherForecastServiceClient;
+import ar.edu.itba.pam.travelapp.model.repository.WeatherLocationServiceClient;
+import ar.edu.itba.pam.travelapp.model.repository.WeatherRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
+
+import static ar.edu.itba.pam.travelapp.model.repository.WeatherServiceClientGenerator.getWeatherLocationServiceClient;
 
 public class DetailsModule {
     private final Context applicationContext;
@@ -37,5 +43,17 @@ public class DetailsModule {
 
     public ActivityDao provideActivityDao() {
         return appDatabase.getActivityDao();
+    }
+
+    public WeatherRepository provideWeatherDao(WeatherLocationServiceClient locationServiceClient,
+                                               WeatherForecastServiceClient forecastServiceClient) {
+        return new WeatherApiRepository(locationServiceClient, forecastServiceClient);
+    }
+
+    public WeatherLocationServiceClient provideLocationClient() {
+        return new WeatherLocationServiceClient(getWeatherLocationServiceClient());
+    }
+
+    public WeatherForecastServiceClient provideForecastClient() {
     }
 }

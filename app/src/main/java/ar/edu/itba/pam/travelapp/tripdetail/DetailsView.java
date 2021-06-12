@@ -15,4 +15,7 @@ public interface DetailsView {
 
     void bindDataset(Set<LocalDate> dates, Map<LocalDate, List<Activity>> activities);
 
+    void bindNetworkConfig(NetworkConfigModel model);
+
+    void onNetworkConfigError();
 }

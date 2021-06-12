@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainer;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
+import ar.edu.itba.pam.travelapp.model.repository.WeatherRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import io.reactivex.disposables.Disposable;
@@ -25,6 +26,7 @@ import io.reactivex.disposables.Disposable;
 public class DetailsPresenter {
 
     private final ActivityRepository activityRepository;
+    private final WeatherRepository weatherRepository;
     private final WeakReference<DetailsView> view;
     private final AndroidSchedulerProvider schedulerProvider;
     private final Trip trip;
@@ -34,6 +36,7 @@ public class DetailsPresenter {
         this.activityRepository = container.getActivityRepository();
         this.view = new WeakReference<>(view);
         this.schedulerProvider = (AndroidSchedulerProvider) container.getSchedulerProvider();
+        this.weatherRepository = container.getWeatherRepository();
         this.trip = trip;
     }
 
@@ -46,6 +49,7 @@ public class DetailsPresenter {
                         view.get().showActivitiesErrorMessage();
                     }
                 });
+        launchNetworkService();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -54,6 +58,27 @@ public class DetailsPresenter {
         Map<LocalDate, List<Activity>> map = parseActivities(activities, datesSet);
         if (view.get() != null) {
             view.get().bindDataset(datesSet, map);
+        }
+    }
+
+    private void launchNetworkService() {
+        this.disposable = weatherRepository.getNetworkConfig()
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(this::onNetworkConfigReceived, error -> {
+                    if (view.get() != null) {
+                        view.get().onNetworkConfigError();
+                    }
+                });
+    }
+
+    private void onNetworkConfigError(final Throwable throwable) {
+        // todo: explain the error to the user
+    }
+
+    private void onNetworkConfigReceived(NetworkConfigModel model) {
+        if (view.get() != null) {
+            view.get().bindNetworkConfig(model);
         }
     }
 

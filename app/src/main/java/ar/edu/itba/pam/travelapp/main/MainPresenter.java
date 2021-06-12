@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 import androidx.annotation.RequiresApi;
 
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
-import ar.edu.itba.pam.travelapp.landing.storage.NightModeStorage;
-import ar.edu.itba.pam.travelapp.model.di.TripContainer;
+import ar.edu.itba.pam.travelapp.main.storage.NightModeStorage;
+import ar.edu.itba.pam.travelapp.di.main.TripContainer;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;

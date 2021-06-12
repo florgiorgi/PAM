@@ -24,7 +24,7 @@ import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.landing.FtuActivity;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
 import ar.edu.itba.pam.travelapp.main.trips.TripListAdapter;
-import ar.edu.itba.pam.travelapp.model.di.TripContainerLocator;
+import ar.edu.itba.pam.travelapp.di.main.TripContainerLocator;
 import ar.edu.itba.pam.travelapp.tripdetail.DetailsActivity;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;

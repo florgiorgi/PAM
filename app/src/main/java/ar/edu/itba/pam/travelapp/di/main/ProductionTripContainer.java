@@ -1,9 +1,9 @@
-package ar.edu.itba.pam.travelapp.model.di;
+package ar.edu.itba.pam.travelapp.di.main;
 
 import android.content.Context;
 
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
-import ar.edu.itba.pam.travelapp.landing.storage.NightModeStorage;
+import ar.edu.itba.pam.travelapp.main.storage.NightModeStorage;
 import ar.edu.itba.pam.travelapp.model.trip.TripDao;
 import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;

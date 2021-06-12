@@ -1,4 +1,4 @@
-package ar.edu.itba.pam.travelapp.model.di;
+package ar.edu.itba.pam.travelapp.di.main;
 
 import android.content.Context;
 

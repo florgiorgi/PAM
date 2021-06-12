@@ -19,6 +19,7 @@ import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainer;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
@@ -28,10 +29,12 @@ public class DetailsPresenter {
     private final WeakReference<DetailsView> view;
     private final AndroidSchedulerProvider schedulerProvider;
     private final Trip trip;
+    private final TripRepository tripRepository;
     private Disposable disposable;
 
     public DetailsPresenter(final DetailsView view, final Trip trip, final DetailsContainer container) {
         this.activityRepository = container.getActivityRepository();
+        this.tripRepository = container.getTripRepository();
         this.view = new WeakReference<>(view);
         this.schedulerProvider = (AndroidSchedulerProvider) container.getSchedulerProvider();
         this.trip = trip;
@@ -74,7 +77,12 @@ public class DetailsPresenter {
     }
 
     public void onDeleteTrip() {
-
+        AsyncTask.execute(() -> {
+            this.tripRepository.deleteTrip(trip);
+        });
+        if (view.get() != null) {
+            view.get().showDeletedTripSuccessMessage();
+        }
     }
 
     public void onEditTrip() {

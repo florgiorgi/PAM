@@ -13,6 +13,10 @@ public interface DetailsView {
 
     void showNewActivitySuccessMessage();
 
+    void showDeletedTripSuccessMessage();
+
+    void showEditTrip();
+
     void bindDataset(Set<LocalDate> dates, Map<LocalDate, List<Activity>> activities);
 
 }

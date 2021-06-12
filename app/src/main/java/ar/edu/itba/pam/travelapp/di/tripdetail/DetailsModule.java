@@ -7,6 +7,11 @@ import ar.edu.itba.pam.travelapp.model.activity.ActivityDao;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityMapper;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRoomRepository;
+import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.model.trip.TripDao;
+import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
+import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
+import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 
@@ -38,4 +43,17 @@ public class DetailsModule {
     public ActivityDao provideActivityDao() {
         return appDatabase.getActivityDao();
     }
+
+    public TripDao provideTripDao() {
+        return appDatabase.getTripDao();
+    }
+
+    public TripRepository provideTripRepository(final TripMapper mapper, final TripDao tripDao) {
+        return new TripRoomRepository(tripDao, mapper);
+    }
+
+    public TripMapper provideTripMapper() {
+        return new TripMapper();
+    }
+
 }

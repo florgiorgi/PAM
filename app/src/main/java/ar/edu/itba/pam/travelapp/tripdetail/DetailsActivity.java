@@ -1,9 +1,11 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,8 +23,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainerLocator;
+import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.newtrip.CreateTripActivity;
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -65,8 +69,8 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
         final TextView tripDate = findViewById(R.id.trip_date);
         final TextView tripFlightNumber = findViewById(R.id.trip_flight_number);
         final TextView tripDepartureDate = findViewById(R.id.trip_departure_date);
-        DateTimeFormatter dateFormatter =  DateTimeFormatter.ofPattern("MMM dd");
-        DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
         String departureTime = "";
         if (trip.getDepartureTime() != null) {
             departureTime = trip.getDepartureTime().format(dateTimeFormatter);
@@ -85,6 +89,20 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
         }
         tripDepartureDate.setText(departureTime);
         initRecyclerView();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_edit_trip:
+                presenter.onEditTrip();
+                return true;
+            case R.id.menu_delete_trip:
+                presenter.onDeleteTrip();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initRecyclerView() {
@@ -124,7 +142,18 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     @Override
-    public void bindDataset(Set<LocalDate> dates, Map<LocalDate,List<Activity>> activities)  {
+    public void showDeletedTripSuccessMessage() {
+        Toast.makeText(DetailsActivity.this, "Trip deleted successfully", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(DetailsActivity.this, MainActivity.class));
+    }
+
+    @Override
+    public void showEditTrip() {
+
+    }
+
+    @Override
+    public void bindDataset(Set<LocalDate> dates, Map<LocalDate, List<Activity>> activities) {
         detailsAdapter.update(dates, activities);
     }
 

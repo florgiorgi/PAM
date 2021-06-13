@@ -15,7 +15,9 @@ public interface DetailsView {
 
     void showDeletedTripSuccessMessage();
 
-    void showEditTrip();
+    void openEditTripDialog();
+
+    void openConfirmDeleteDialog();
 
     void bindDataset(Set<LocalDate> dates, Map<LocalDate, List<Activity>> activities);
 

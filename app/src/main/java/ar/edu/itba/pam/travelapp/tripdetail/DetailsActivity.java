@@ -26,11 +26,10 @@ import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainerLocator;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
-import ar.edu.itba.pam.travelapp.newtrip.CreateTripActivity;
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener, EditTripDialog {
+public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener, EditTripDialog.EditTripDialogListener, ConfirmDialog.ConfirmDialogListener {
 
     private Trip trip;
     private DetailsPresenter presenter;
@@ -62,10 +61,6 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     protected void onStop() {
         super.onStop();
         presenter.onViewDetached();
-    }
-
-    private void initDialogs() {
-        
     }
 
     private void initView() {
@@ -151,33 +146,16 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
         startActivity(new Intent(DetailsActivity.this, MainActivity.class));
     }
 
-/*    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        // Get the layout inflater
-        LayoutInflater inflater = requireActivity().getLayoutInflater();
-
-        // Inflate and set the layout for the dialog
-        // Pass null as the parent view because its going in the dialog layout
-        builder.setView(inflater.inflate(R.layout.dialog_signin, null))
-                // Add action buttons
-                .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        // sign in the user ...
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        LoginDialogFragment.this.getDialog().cancel();
-                    }
-                });
-        return builder.create();
-    }*/
+    @Override
+    public void openEditTripDialog() {
+        EditTripDialog dialog = new EditTripDialog();
+        dialog.show(getSupportFragmentManager(), "edit-trip-dialog");
+    }
 
     @Override
-    public void showEditTrip() {
-
+    public void openConfirmDeleteDialog() {
+        ConfirmDialog dialog = new ConfirmDialog();
+        dialog.show(getSupportFragmentManager(), "confirm-dialog");
     }
 
     @Override
@@ -188,5 +166,15 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     @Override
     public void onClick(String name, LocalDate date) {
         presenter.onActivityCreate(name, date);
+    }
+
+    @Override
+    public void editTrip(Trip trip) {
+        presenter.onConfirmEditTrip();
+    }
+
+    @Override
+    public void confirmDelete() {
+        presenter.onConfirmDeleteTrip();
     }
 }

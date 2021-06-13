@@ -77,17 +77,14 @@ public class DetailsPresenter {
     }
 
     public void onDeleteTrip() {
-        AsyncTask.execute(() -> {
-            this.tripRepository.deleteTrip(trip);
-        });
         if (view.get() != null) {
-            view.get().showDeletedTripSuccessMessage();
+            view.get().openConfirmDeleteDialog();
         }
     }
 
     public void onEditTrip() {
         if (view.get() != null) {
-            view.get().showEditTrip();
+            view.get().openEditTripDialog();
         }
     }
 
@@ -107,4 +104,15 @@ public class DetailsPresenter {
         return activitiesMap;
     }
 
+    public void onConfirmEditTrip() {
+    }
+
+    public void onConfirmDeleteTrip() {
+        AsyncTask.execute(() -> {
+            this.tripRepository.deleteTrip(trip);
+        });
+        if (view.get() != null) {
+            view.get().showDeletedTripSuccessMessage();
+        }
+    }
 }

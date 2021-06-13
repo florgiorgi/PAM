@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_active_trips);
+        setContentView(R.layout.activity_main);
         createPresenter();
         initView();
         setUpBottomNavigation();

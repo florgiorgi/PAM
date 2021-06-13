@@ -21,7 +21,8 @@ import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainerLocator;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
-import ar.edu.itba.pam.travelapp.model.weather.forecast.Forecast;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener {
@@ -120,10 +121,10 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     @Override
-    public void bindForecastToDay(Forecast forecast) {
+    public void bindForecastToDay(ForecastResponse response) {
         // todo: bind forecast to day
-        System.out.println("Max: " + forecast.getTemperature().getMaximum());
-        System.out.println("Min: " + forecast.getTemperature().getMinimum());
+        System.out.println("Max: " + response.getDailyForecasts().get(0).getTemperature().getMaximum());
+        System.out.println("Min: " + response.getDailyForecasts().get(0).getTemperature().getMinimum());
 //        view.bind(model);
     }
 

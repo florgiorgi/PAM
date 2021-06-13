@@ -1,13 +1,11 @@
 package ar.edu.itba.pam.travelapp.model.weather;
 
-import java.util.List;
+import java.io.IOException;
 
-import ar.edu.itba.pam.travelapp.model.repository.WeatherForecastService;
-import ar.edu.itba.pam.travelapp.model.repository.WeatherLocationService;
-import ar.edu.itba.pam.travelapp.model.weather.forecast.Forecast;
-import ar.edu.itba.pam.travelapp.model.weather.location.City;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
+import ar.edu.itba.pam.travelapp.model.weather.repository.WeatherForecastService;
+import ar.edu.itba.pam.travelapp.model.weather.repository.WeatherLocationService;
 import ar.edu.itba.pam.travelapp.utils.networking.RetrofitUtils;
-import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 public class WeatherApiRepository implements WeatherRepository {
@@ -21,7 +19,9 @@ public class WeatherApiRepository implements WeatherRepository {
     }
 
     @Override
-    public Single<Forecast> getForecastForCity(String cityKey) {
+    public Single<ForecastResponse> getForecastForCity(String cityKey) {
+//        Response<ForecastResponse> response = weatherForecastService.getCurrentForecast(cityKey).execute();
+//        return Single.just(.body());
         return RetrofitUtils.performRequest(weatherForecastService.getCurrentForecast(cityKey));
     }
 

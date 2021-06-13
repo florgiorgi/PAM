@@ -3,6 +3,7 @@ package ar.edu.itba.pam.travelapp.tripdetail;
 import android.os.AsyncTask;
 import android.os.Build;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -11,7 +12,6 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 import androidx.annotation.RequiresApi;
@@ -21,10 +21,9 @@ import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
 import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
-import ar.edu.itba.pam.travelapp.model.weather.forecast.Forecast;
-import ar.edu.itba.pam.travelapp.model.weather.location.City;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
-import ar.edu.itba.pam.travelapp.utils.networking.NotFoundException;
 import io.reactivex.disposables.Disposable;
 
 public class DetailsPresenter {
@@ -88,7 +87,7 @@ public class DetailsPresenter {
         // todo: explain the error to the user
     }
 
-    private void onForecastReceived(Forecast forecast) {
+    private void onForecastReceived(ForecastResponse forecast) {
         if (view.get() != null) {
             view.get().bindForecastToDay(forecast);
         }

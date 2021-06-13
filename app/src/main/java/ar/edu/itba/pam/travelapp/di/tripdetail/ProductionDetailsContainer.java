@@ -5,8 +5,8 @@ import android.content.Context;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityDao;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityMapper;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
-import ar.edu.itba.pam.travelapp.model.repository.WeatherForecastService;
-import ar.edu.itba.pam.travelapp.model.repository.WeatherLocationService;
+import ar.edu.itba.pam.travelapp.model.weather.repository.WeatherForecastService;
+import ar.edu.itba.pam.travelapp.model.weather.repository.WeatherLocationService;
 import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
 import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 

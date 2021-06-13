@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ar.edu.itba.pam.travelapp.R;
-import ar.edu.itba.pam.travelapp.main.trips.OnTripClickedListener;
 
 public class YearViewHolder extends RecyclerView.ViewHolder {
 

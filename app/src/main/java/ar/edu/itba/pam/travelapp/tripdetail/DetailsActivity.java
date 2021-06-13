@@ -1,6 +1,5 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -13,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,7 +21,6 @@ import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener {
 
     private Trip trip;

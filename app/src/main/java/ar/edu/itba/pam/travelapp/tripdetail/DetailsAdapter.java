@@ -1,13 +1,11 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
@@ -61,7 +59,6 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return new DayViewHolder(viewDay, context);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
         ((DayViewHolder) holder).bind(allData.get(dataset.get(position)), position, dataset.get(position));

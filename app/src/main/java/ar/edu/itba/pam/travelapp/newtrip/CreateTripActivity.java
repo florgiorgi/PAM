@@ -3,7 +3,6 @@ package ar.edu.itba.pam.travelapp.newtrip;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,18 +23,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainerLocator;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.AppDatabase;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
-import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
-import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
-import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
 
-@RequiresApi(api = Build.VERSION_CODES.O)
+
 public class CreateTripActivity extends AppCompatActivity implements Validator.ValidationListener, CreateTripView {
 
     @NotEmpty

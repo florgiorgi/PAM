@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -19,7 +18,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
-import androidx.annotation.RequiresApi;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.landing.FtuActivity;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
@@ -89,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
         return presenter;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onStart() {
         super.onStart();

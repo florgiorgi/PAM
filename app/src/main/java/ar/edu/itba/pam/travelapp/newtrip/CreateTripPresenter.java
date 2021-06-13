@@ -1,7 +1,6 @@
 package ar.edu.itba.pam.travelapp.newtrip;
 
 import android.os.AsyncTask;
-import android.os.Build;
 import android.widget.EditText;
 
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -13,14 +12,11 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
-import androidx.annotation.RequiresApi;
-
 import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainer;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class CreateTripPresenter {
 
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -55,7 +51,6 @@ public class CreateTripPresenter {
         return parsedDate;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private LocalDateTime parseDateTime(EditText inputField) {
         String dateInput = inputField.getText().toString();
         LocalDateTime parsedDateTime;

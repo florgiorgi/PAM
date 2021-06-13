@@ -1,16 +1,13 @@
 package ar.edu.itba.pam.travelapp.main.trips;
 
-import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
 import java.time.LocalDate;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.R;
-import ar.edu.itba.pam.travelapp.main.trips.OnTripClickedListener;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 import static java.time.temporal.ChronoUnit.DAYS;
@@ -26,7 +23,6 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         view = itemView;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void bind(final Trip trip) {
         final TextView title = itemView.findViewById(R.id.title);
         final TextView date = itemView.findViewById(R.id.date);

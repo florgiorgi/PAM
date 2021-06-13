@@ -1,10 +1,7 @@
 package ar.edu.itba.pam.travelapp.model.trip;
 
-import android.os.Build;
-
 import java.util.List;
 
-import androidx.annotation.RequiresApi;
 import io.reactivex.Flowable;
 
 public class TripRoomRepository implements TripRepository {
@@ -19,7 +16,6 @@ public class TripRoomRepository implements TripRepository {
         this.mapper = mapper;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public Flowable<List<Trip>> getTrips() {
         if (trips == null) {

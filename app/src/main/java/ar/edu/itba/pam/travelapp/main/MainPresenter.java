@@ -1,7 +1,5 @@
 package ar.edu.itba.pam.travelapp.main;
 
-import android.os.Build;
-
 import java.lang.ref.WeakReference;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,8 +12,6 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
-
-import androidx.annotation.RequiresApi;
 
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
 import ar.edu.itba.pam.travelapp.main.storage.NightModeStorage;
@@ -43,7 +39,6 @@ public class MainPresenter {
         this.schedulerProvider = (AndroidSchedulerProvider) container.getSchedulerProvider();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onViewAttached() {
         if (ftuStorage.isActive()) {
             ftuStorage.deactivate();
@@ -61,7 +56,6 @@ public class MainPresenter {
         nightModeStorage.setDefaultNightMode();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void fetchTrips() {
         this.disposable = tripRepository.getTrips()
                 .subscribeOn(schedulerProvider.io())
@@ -73,7 +67,6 @@ public class MainPresenter {
                 });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void onTripsReceived(final List<Trip> trips) {
         LocalDate today = LocalDate.now();
         List<Trip> upcoming = trips.stream().filter(t -> (t.getTo().isAfter(today) || t.getTo().isEqual(today))).collect(Collectors.toList());
@@ -120,7 +113,6 @@ public class MainPresenter {
     }
 
     // Todo: code cleanup
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private List<Object> parsedHistoryTrips(List<Trip> dataset) {
         Map<String, List<Trip>> tripsMap = new HashMap<>();
         Map<Trip, String> auxMap = new HashMap<>();

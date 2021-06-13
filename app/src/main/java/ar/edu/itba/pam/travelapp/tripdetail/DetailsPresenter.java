@@ -1,7 +1,6 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.os.AsyncTask;
-import android.os.Build;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;
@@ -13,8 +12,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import androidx.annotation.RequiresApi;
 
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainer;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
@@ -43,7 +40,6 @@ public class DetailsPresenter {
         this.trip = trip;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void onViewAttached() {
         this.disposable = activityRepository.findByTripId(this.trip.getId())
                 .subscribeOn(schedulerProvider.io())
@@ -56,7 +52,6 @@ public class DetailsPresenter {
         fetchWeatherForecasts();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void onActivitiesReceived(List<Activity> activities) {
         Set<LocalDate> datesSet = new LinkedHashSet<>();
         Map<LocalDate, List<Activity>> map = parseActivities(activities, datesSet);
@@ -65,7 +60,6 @@ public class DetailsPresenter {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void fetchWeatherForecasts() {
         String destination = trip.getLocation();
         String locationKey = "7894";
@@ -106,7 +100,6 @@ public class DetailsPresenter {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private Map<LocalDate, List<Activity>> parseActivities(List<Activity> activities, Set<LocalDate> datesSet) {
         Map<LocalDate, List<Activity>> activitiesOnEachDayMap = new HashMap<>();
         LocalDate from = trip.getFrom();

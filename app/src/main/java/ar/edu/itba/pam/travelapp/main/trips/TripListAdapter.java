@@ -1,12 +1,10 @@
 package ar.edu.itba.pam.travelapp.main.trips;
 
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -44,7 +42,6 @@ public class TripListAdapter extends RecyclerView.Adapter<TripViewHolder> {
         return new TripViewHolder(view);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull TripViewHolder holder, int position) {
         holder.bind(dataset.get(position));

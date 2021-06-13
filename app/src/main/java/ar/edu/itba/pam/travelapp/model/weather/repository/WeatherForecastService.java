@@ -9,11 +9,14 @@ import io.reactivex.Single;
 import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface WeatherForecastService extends WeatherApiService {
     @GET("1day/{locationKey}")
-    Single<Response<ForecastResponse>> getCurrentForecast(@Path("locationKey") String locationKey);
+    Single<Response<ForecastResponse>> getCurrentForecast(@Path("locationKey") String locationKey,
+                                                          @Query("metric") Boolean bool);
 
     @GET("10day/{locationKey}")   // todo check if Single vs Flowable
-    Single<Response<List<Forecast>>> getTenDaysForecast(@Path("locationKey") String locationKey);
+    Single<Response<List<Forecast>>> getTenDaysForecast(@Path("locationKey") String locationKey,
+                                                        @Query("metric") Boolean bool);
 }

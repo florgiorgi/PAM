@@ -69,8 +69,9 @@ public class DetailsPresenter {
     private void fetchWeatherForecasts() {
         String destination = trip.getLocation();
         String locationKey = "7894";
-//        Optional<City> city = weatherRepository.findCity(destination); todo
-//        if (!city.isPresent()) { fixme
+        // todo: get location key from trip destination name
+//        Optional<City> city = weatherRepository.findCity(destination);
+//        if (!city.isPresent()) {
 //            throw new NotFoundException("City not found");
 //        }
         this.disposable = weatherRepository.getForecastForCity(locationKey)
@@ -81,10 +82,6 @@ public class DetailsPresenter {
                         view.get().onForecastError();
                     }
                 });
-    }
-
-    private void onNetworkConfigError(final Throwable throwable) {
-        // todo: explain the error to the user
     }
 
     private void onForecastReceived(ForecastResponse forecast) {

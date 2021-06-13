@@ -1,7 +1,5 @@
 package ar.edu.itba.pam.travelapp.model.weather;
 
-import java.io.IOException;
-
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 import ar.edu.itba.pam.travelapp.model.weather.repository.WeatherForecastService;
 import ar.edu.itba.pam.travelapp.model.weather.repository.WeatherLocationService;
@@ -20,11 +18,10 @@ public class WeatherApiRepository implements WeatherRepository {
 
     @Override
     public Single<ForecastResponse> getForecastForCity(String cityKey) {
-//        Response<ForecastResponse> response = weatherForecastService.getCurrentForecast(cityKey).execute();
-//        return Single.just(.body());
-        return RetrofitUtils.performRequest(weatherForecastService.getCurrentForecast(cityKey));
+        return RetrofitUtils.performRequest(weatherForecastService.getCurrentForecast(cityKey, true));
     }
 
+    // todo
 //    @RequiresApi(api = Build.VERSION_CODES.N)
 //    @Override
 //    public Single<City> findCity(String city) throws Throwable {

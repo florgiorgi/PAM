@@ -17,7 +17,7 @@
             android:textAppearance="?attr/textAppearanceHeadline6" />
 
         <EditText
-            android:id="@+id/destination_input"
+            android:id="@+id/destination_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -47,7 +47,7 @@
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
                 <EditText
-                    android:id="@+id/from_input"
+                    android:id="@+id/from_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -72,7 +72,7 @@
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
                 <EditText
-                    android:id="@+id/to_input"
+                    android:id="@+id/to_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -93,7 +93,7 @@
             android:textAppearance="?attr/textAppearanceHeadline6" />
 
         <Spinner
-            android:id="@+id/transport_spinner"
+            android:id="@+id/transport_method_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="15dp"
@@ -108,7 +108,7 @@
             android:textAppearance="?attr/textAppearanceHeadline6" />
 
         <EditText
-            android:id="@+id/flight_number_input"
+            android:id="@+id/flight_number_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -126,7 +126,7 @@
             android:textAppearance="?attr/textAppearanceHeadline6" />
 
         <EditText
-            android:id="@+id/date_time_of_departure_input"
+            android:id="@+id/departure_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"

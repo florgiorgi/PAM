@@ -174,6 +174,11 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     @Override
+    public Trip provideTrip() {
+        return this.trip;
+    }
+
+    @Override
     public void confirmDelete() {
         presenter.onConfirmDeleteTrip();
     }

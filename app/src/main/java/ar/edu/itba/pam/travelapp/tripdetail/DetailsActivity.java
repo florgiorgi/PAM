@@ -21,6 +21,7 @@ import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainerLocator;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.model.weather.forecast.Forecast;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener {
@@ -105,7 +106,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
 
     @Override
     public void showActivitiesErrorMessage() {
-        Toast.makeText(DetailsActivity.this, "Error getting trip activties", Toast.LENGTH_LONG).show();
+        Toast.makeText(DetailsActivity.this, "Error getting trip activities", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -119,13 +120,15 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     @Override
-    public void bindNetworkConfig(NetworkConfigModel model) {
-        // todo: bind model to view
+    public void bindForecastToDay(Forecast forecast) {
+        // todo: bind forecast to day
+        System.out.println("Max: " + forecast.getTemperature().getMaximum());
+        System.out.println("Min: " + forecast.getTemperature().getMinimum());
 //        view.bind(model);
     }
 
     @Override
-    public void onNetworkConfigError() {
+    public void onForecastError() {
         // todo?
         // todo: explain the error to the user
     }

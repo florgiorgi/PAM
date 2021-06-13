@@ -7,14 +7,13 @@ import ar.edu.itba.pam.travelapp.model.activity.ActivityDao;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityMapper;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRoomRepository;
-import ar.edu.itba.pam.travelapp.model.repository.WeatherApiRepository;
-import ar.edu.itba.pam.travelapp.model.repository.WeatherForecastServiceClient;
-import ar.edu.itba.pam.travelapp.model.repository.WeatherLocationServiceClient;
-import ar.edu.itba.pam.travelapp.model.repository.WeatherRepository;
+import ar.edu.itba.pam.travelapp.model.repository.WeatherForecastService;
+import ar.edu.itba.pam.travelapp.model.repository.WeatherLocationService;
+import ar.edu.itba.pam.travelapp.model.repository.WeatherServiceClientGenerator;
+import ar.edu.itba.pam.travelapp.model.weather.WeatherApiRepository;
+import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
-
-import static ar.edu.itba.pam.travelapp.model.repository.WeatherServiceClientGenerator.getWeatherLocationServiceClient;
 
 public class DetailsModule {
     private final Context applicationContext;
@@ -45,15 +44,16 @@ public class DetailsModule {
         return appDatabase.getActivityDao();
     }
 
-    public WeatherRepository provideWeatherDao(WeatherLocationServiceClient locationServiceClient,
-                                               WeatherForecastServiceClient forecastServiceClient) {
-        return new WeatherApiRepository(locationServiceClient, forecastServiceClient);
+    public WeatherRepository provideWeatherDao(WeatherLocationService locationService,
+                                               WeatherForecastService forecastService) {
+        return new WeatherApiRepository(locationService, forecastService);
     }
 
-    public WeatherLocationServiceClient provideLocationClient() {
-        return new WeatherLocationServiceClient(getWeatherLocationServiceClient());
+    public WeatherLocationService provideLocationService() {
+        return WeatherServiceClientGenerator.getWeatherLocationService();
     }
 
-    public WeatherForecastServiceClient provideForecastClient() {
+    public WeatherForecastService provideForecastService() {
+        return WeatherServiceClientGenerator.getWeatherForecastService();
     }
 }

@@ -13,25 +13,25 @@ public class WeatherServiceClientGenerator {
     private static final String API_VERSION = "v1";
     private static final String API_KEY = "owAXGCVhiwtl9MoIw2tBxeylmwELKTlg";
 
-    public static WeatherLocationServiceClient getWeatherLocationServiceClient() {
+    public static WeatherLocationService getWeatherLocationService() {
         String baseUrl = PROTOCOL + "://" + DOMAIN + "/location/" + API_VERSION + "/cities/";
         GsonConverterFactory gsonConverterFactory = create(
                 new GsonBuilder()
                         .setFieldNamingPolicy(UPPER_CAMEL_CASE)
                         .create());
 
-        return new WeatherLocationServiceClient(ServiceGenerator.createService(
-                baseUrl, gsonConverterFactory, WeatherLocationService.class, API_KEY));
+        return ServiceGenerator.createService(baseUrl, gsonConverterFactory,
+                WeatherLocationService.class, API_KEY);
     }
 
-    public static WeatherForecastServiceClient getWeatherForecastServiceClient() {
-        String baseUrl = PROTOCOL + "://" + DOMAIN + "/"; // todo
+    public static WeatherForecastService getWeatherForecastService() {
+        String baseUrl = PROTOCOL + "://" + DOMAIN + "/forecasts/"+ API_VERSION + "/daily/";
         GsonConverterFactory gsonConverterFactory = create(
                 new GsonBuilder()
                         .setFieldNamingPolicy(UPPER_CAMEL_CASE)
                         .create());
 
-        return new WeatherForecastServiceClient(ServiceGenerator.createService(
-                baseUrl, gsonConverterFactory, WeatherForecastService.class, API_KEY), API_VERSION);
+        return ServiceGenerator.createService(baseUrl, gsonConverterFactory,
+                WeatherForecastService.class, API_KEY);
     }
 }

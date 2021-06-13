@@ -1,9 +1,13 @@
 package ar.edu.itba.pam.travelapp.utils.networking;
 
+import org.reactivestreams.Publisher;
+
 import java.io.IOException;
 import java.net.UnknownHostException;
 
+import io.reactivex.Flowable;
 import io.reactivex.Single;
+import io.reactivex.functions.Function;
 import retrofit2.Response;
 
 public class RetrofitUtils {
@@ -15,6 +19,14 @@ public class RetrofitUtils {
         return request.onErrorResumeNext(t -> Single.error(RetrofitUtils.convertException(t)))
                 .map(RetrofitUtils::unwrapResponse);
     }
+
+//    public static <T> Flowable<T> performRequest(final Flowable<Response<T>> request) {
+//        return request
+//                .onErrorResumeNext(
+//                        (Function<? super Throwable, ? extends Publisher<? extends Response<T>>>)
+//                                (t -> Flowable.error(RetrofitUtils.convertException(t))))
+//                .map(RetrofitUtils::unwrapResponse);
+//    }
 
     private static <T> T unwrapResponse(Response<T> tResponse) throws RequestException {
         if (RetrofitUtils.isRequestFailed(tResponse)) {

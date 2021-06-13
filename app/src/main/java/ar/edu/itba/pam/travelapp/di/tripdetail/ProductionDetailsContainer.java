@@ -5,9 +5,9 @@ import android.content.Context;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityDao;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityMapper;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
-import ar.edu.itba.pam.travelapp.model.repository.WeatherForecastServiceClient;
-import ar.edu.itba.pam.travelapp.model.repository.WeatherLocationServiceClient;
-import ar.edu.itba.pam.travelapp.model.repository.WeatherRepository;
+import ar.edu.itba.pam.travelapp.model.repository.WeatherForecastService;
+import ar.edu.itba.pam.travelapp.model.repository.WeatherLocationService;
+import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
 import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 
 public class ProductionDetailsContainer implements DetailsContainer {
@@ -17,8 +17,8 @@ public class ProductionDetailsContainer implements DetailsContainer {
     private ActivityMapper activityMapper;
     private ActivityRepository activityRepository;
     private WeatherRepository weatherRepository;
-    private WeatherLocationServiceClient locationServiceClient;
-    private WeatherForecastServiceClient forecastServiceClient;
+    private WeatherLocationService locationService;
+    private WeatherForecastService forecastService;
     private SchedulerProvider schedulerProvider;
 
     public ProductionDetailsContainer(final Context context) {
@@ -50,23 +50,24 @@ public class ProductionDetailsContainer implements DetailsContainer {
     @Override
     public WeatherRepository getWeatherRepository() {
         if (weatherRepository == null) {
-            this.weatherRepository = detailsModule.provideWeatherDao(getLocationServiceClient(), getForecastServiceClient());
+//            this.weatherRepository = detailsModule.provideWeatherDao(getLocationServiceClient(), getForecastServiceClient());
+            this.weatherRepository = detailsModule.provideWeatherDao(getLocationService(), getForecastService());
         }
         return weatherRepository;
     }
 
-    private WeatherLocationServiceClient getLocationServiceClient() {
-        if (locationServiceClient == null) {
-            this.locationServiceClient = detailsModule.provideLocationClient();
+    private WeatherLocationService getLocationService() {
+        if (locationService == null) {
+            this.locationService = detailsModule.provideLocationService();
         }
-        return locationServiceClient;
+        return locationService;
     }
 
-    private WeatherForecastServiceClient getForecastServiceClient() {
-        if (forecastServiceClient == null) {
-            this.forecastServiceClient = detailsModule.provideForecastClient();
+    private WeatherForecastService getForecastService() {
+        if (forecastService == null) {
+            this.forecastService = detailsModule.provideForecastService();
         }
-        return forecastServiceClient;
+        return forecastService;
     }
 
     private ActivityDao getActivityDao() {

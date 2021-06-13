@@ -1,11 +1,11 @@
-package ar.edu.itba.pam.travelapp.model.weather.location.elevation;
+package ar.edu.itba.pam.travelapp.model.weather;
 
-public abstract class SystemOfMeasurement {
+public abstract class Temperature {
     private final Integer value;
     private final String unit;
     private final Integer unitType;
 
-    protected SystemOfMeasurement(Integer value, String unit, Integer unitType) {
+    protected Temperature(Integer value, String unit, Integer unitType) {
         this.value = value;
         this.unit = unit;
         this.unitType = unitType;

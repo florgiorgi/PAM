@@ -27,7 +27,7 @@ public class ConfigViewImpl extends LinearLayout implements ConfigView {
     public ConfigViewImpl(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        inflate(context, R.layout.activity_config, this);
+        inflate(context, R.layout.view_config, this);
         setOrientation(VERTICAL);
     }
 

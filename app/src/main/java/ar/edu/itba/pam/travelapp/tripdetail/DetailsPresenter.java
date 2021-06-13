@@ -86,7 +86,9 @@ public class DetailsPresenter {
     }
 
     public void onEditTrip() {
-
+        if (view.get() != null) {
+            view.get().showEditTrip();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

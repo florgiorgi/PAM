@@ -43,6 +43,7 @@
     <string name="enter_activity">Ingresá una actividad</string>
     <string name="menu_edit_trip">Editar</string>
     <string name="menu_delete_trip">Eliminar</string>
+    <string name="trip_edit_dest_hint">Destino</string>
 
     <string-array name="transport_options">
         <item>Avión</item>

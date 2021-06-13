@@ -21,6 +21,7 @@ import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainerLocator;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener {
@@ -105,7 +106,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
 
     @Override
     public void showActivitiesErrorMessage() {
-        Toast.makeText(DetailsActivity.this, "Error getting trip activties", Toast.LENGTH_LONG).show();
+        Toast.makeText(DetailsActivity.this, "Error getting trip activities", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -116,6 +117,20 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     @Override
     public void bindDataset(Set<LocalDate> dates, Map<LocalDate,List<Activity>> activities)  {
         detailsAdapter.update(dates, activities);
+    }
+
+    @Override
+    public void bindForecastToDay(ForecastResponse response) {
+        // todo: bind forecast to day
+        System.out.println("Max: " + response.getDailyForecasts().get(0).getTemperature().getMaximum().getValue());
+        System.out.println("Min: " + response.getDailyForecasts().get(0).getTemperature().getMinimum().getValue());
+        System.out.println("Day icon (sunny/nublado/etc): " + response.getDailyForecasts().get(0).getDay().getIcon());
+//        view.bind(model);
+    }
+
+    @Override
+    public void onForecastError() {
+        // todo: explain the error to the user
     }
 
     @Override

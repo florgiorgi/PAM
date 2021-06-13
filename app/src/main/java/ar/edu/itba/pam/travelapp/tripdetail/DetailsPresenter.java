@@ -3,6 +3,7 @@ package ar.edu.itba.pam.travelapp.tripdetail;
 import android.os.AsyncTask;
 import android.os.Build;
 
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -18,13 +19,17 @@ import androidx.annotation.RequiresApi;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainer;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
+import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
 public class DetailsPresenter {
 
     private final ActivityRepository activityRepository;
+    private final WeatherRepository weatherRepository;
     private final WeakReference<DetailsView> view;
     private final AndroidSchedulerProvider schedulerProvider;
     private final Trip trip;
@@ -34,9 +39,11 @@ public class DetailsPresenter {
         this.activityRepository = container.getActivityRepository();
         this.view = new WeakReference<>(view);
         this.schedulerProvider = (AndroidSchedulerProvider) container.getSchedulerProvider();
+        this.weatherRepository = container.getWeatherRepository();
         this.trip = trip;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void onViewAttached() {
         this.disposable = activityRepository.findByTripId(this.trip.getId())
                 .subscribeOn(schedulerProvider.io())
@@ -46,6 +53,7 @@ public class DetailsPresenter {
                         view.get().showActivitiesErrorMessage();
                     }
                 });
+        fetchWeatherForecasts();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -54,6 +62,31 @@ public class DetailsPresenter {
         Map<LocalDate, List<Activity>> map = parseActivities(activities, datesSet);
         if (view.get() != null) {
             view.get().bindDataset(datesSet, map);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void fetchWeatherForecasts() {
+        String destination = trip.getLocation();
+        String locationKey = "7894";
+        // todo: get location key from trip destination name
+//        Optional<City> city = weatherRepository.findCity(destination);
+//        if (!city.isPresent()) {
+//            throw new NotFoundException("City not found");
+//        }
+        this.disposable = weatherRepository.getForecastForCity(locationKey)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(this::onForecastReceived, error -> {
+                    if (view.get() != null) {
+                        view.get().onForecastError();
+                    }
+                });
+    }
+
+    private void onForecastReceived(ForecastResponse forecast) {
+        if (view.get() != null) {
+            view.get().bindForecastToDay(forecast);
         }
     }
 
@@ -75,18 +108,22 @@ public class DetailsPresenter {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private Map<LocalDate, List<Activity>> parseActivities(List<Activity> activities, Set<LocalDate> datesSet) {
-        Map<LocalDate, List<Activity>> activitiesMap = new HashMap<>();
+        Map<LocalDate, List<Activity>> activitiesOnEachDayMap = new HashMap<>();
         LocalDate from = trip.getFrom();
         LocalDate to = trip.getTo();
         long duration = ChronoUnit.DAYS.between(from, to) + 1;
         for (int i = 0; i < duration; i++) {
-            activitiesMap.put(from.plusDays(i), new ArrayList<Activity>());
             datesSet.add(from.plusDays(i));
+            activitiesOnEachDayMap.put(from.plusDays(i), new ArrayList<>());
         }
         for (Activity a : activities) {
-            activitiesMap.get(a.getDate()).add(a);
+            List<Activity> activitiesOfTheDay = activitiesOnEachDayMap.get(a.getDate());
+            if (activitiesOfTheDay == null) {
+                activitiesOfTheDay = new ArrayList<>();
+            }
+            activitiesOfTheDay.add(a);
         }
-        return activitiesMap;
+        return activitiesOnEachDayMap;
     }
 
 }

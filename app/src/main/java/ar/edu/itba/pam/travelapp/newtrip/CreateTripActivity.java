@@ -204,7 +204,9 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     @Override
     public void launchMainActivity() {
-        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
 }

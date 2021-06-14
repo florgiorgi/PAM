@@ -82,6 +82,7 @@ public class EditTripDialog extends DialogFragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 travelMethod = (TravelMethod) adapterView.getItemAtPosition(i);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 // do nothing :)
@@ -100,24 +101,32 @@ public class EditTripDialog extends DialogFragment {
     }
 
     private void showDateDialog(EditText inputView) {
-        LocalDate date = LocalDate.now();
+        LocalDate shownDate = parseDate(inputView);
+        if (shownDate == null) {
+            shownDate = LocalDate.now();
+        }
+
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
             LocalDate chosenDate = LocalDate.of(year, month + 1, dayOfMonth);
             inputView.setText(chosenDate.format(dateFormatter));
         };
 
         new DatePickerDialog(context, dateSetListener,
-                date.getYear(),
-                date.getMonthValue() - 1,
-                date.getDayOfMonth())
+                shownDate.getYear(),
+                shownDate.getMonthValue() - 1,
+                shownDate.getDayOfMonth())
                 .show();
     }
 
     public void showDateTimeDialog(EditText inputView) {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime shownDateTime = parseDateTime(inputView);
+        if (shownDateTime == null) {
+            shownDateTime = LocalDateTime.now();
+        }
         dateTimeBuilder = new StringBuilder();
 
         //Calendar calendar = Calendar.getInstance();
+        LocalDateTime finalShownDateTime = shownDateTime;
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
 
             LocalDate chosenDate = LocalDate.of(year, month + 1, dayOfMonth);
@@ -125,21 +134,21 @@ public class EditTripDialog extends DialogFragment {
             dateTimeBuilder.append(dateString).append(" ");
 
             TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hour, minute) -> {
-                LocalDateTime chosenTime = LocalDateTime.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), hour, minute);
+                LocalDateTime chosenTime = LocalDateTime.of(finalShownDateTime.getYear(), finalShownDateTime.getMonthValue(), finalShownDateTime.getDayOfMonth(), hour, minute);
                 String timeString = chosenTime.format(timeFormatter);
                 dateTimeBuilder.append(timeString);
                 inputView.setText(dateTimeBuilder.toString());
             };
 
             new TimePickerDialog(context, timeSetListener,
-                    now.getHour(),
-                    now.getMinute(),
+                    finalShownDateTime.getHour(),
+                    finalShownDateTime.getMinute(),
                     false).show();
         };
         new DatePickerDialog(context, dateSetListener,
-                now.getYear(),
-                now.getMonthValue() - 1,
-                now.getDayOfMonth()).show();
+                shownDateTime.getYear(),
+                shownDateTime.getMonthValue() - 1,
+                shownDateTime.getDayOfMonth()).show();
     }
 
     private boolean validateInput() {
@@ -200,6 +209,7 @@ public class EditTripDialog extends DialogFragment {
 
     public interface EditTripDialogListener {
         void editTrip(Trip trip);
+
         Trip provideTrip();
     }
 }

@@ -1,7 +1,9 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,6 +23,7 @@ import androidx.fragment.app.DialogFragment;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.newtrip.CreateTripActivity;
 
 public class EditTripDialog extends DialogFragment {
 
@@ -39,8 +42,11 @@ public class EditTripDialog extends DialogFragment {
     private LocalDate toDate;
     private LocalDateTime departureDate;
 
+    private StringBuilder dateTimeBuilder;
+
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+    private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
     @NonNull
     @Override
@@ -94,11 +100,46 @@ public class EditTripDialog extends DialogFragment {
     }
 
     private void showDateDialog(EditText inputView) {
-        // TODO
+        LocalDate date = LocalDate.now();
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
+            LocalDate chosenDate = LocalDate.of(year, month + 1, dayOfMonth);
+            inputView.setText(chosenDate.format(dateFormatter));
+        };
+
+        new DatePickerDialog(context, dateSetListener,
+                date.getYear(),
+                date.getMonthValue() - 1,
+                date.getDayOfMonth())
+                .show();
     }
 
     public void showDateTimeDialog(EditText inputView) {
-        // TODO
+        LocalDateTime now = LocalDateTime.now();
+        dateTimeBuilder = new StringBuilder();
+
+        //Calendar calendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
+
+            LocalDate chosenDate = LocalDate.of(year, month + 1, dayOfMonth);
+            String dateString = chosenDate.format(dateFormatter);
+            dateTimeBuilder.append(dateString).append(" ");
+
+            TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hour, minute) -> {
+                LocalDateTime chosenTime = LocalDateTime.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), hour, minute);
+                String timeString = chosenTime.format(timeFormatter);
+                dateTimeBuilder.append(timeString);
+                inputView.setText(dateTimeBuilder.toString());
+            };
+
+            new TimePickerDialog(context, timeSetListener,
+                    now.getHour(),
+                    now.getMinute(),
+                    false).show();
+        };
+        new DatePickerDialog(context, dateSetListener,
+                now.getYear(),
+                now.getMonthValue() - 1,
+                now.getDayOfMonth()).show();
     }
 
     private boolean validateInput() {

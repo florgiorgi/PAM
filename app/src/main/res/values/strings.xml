@@ -46,6 +46,8 @@
     <string name="trip_edit_dest_hint">Destination</string>
     <string name="from_edit">From</string>
     <string name="to_edit">To</string>
+    <string name="edit_button">Edit</string>
+    <string name="cancel_edit">Cancel</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

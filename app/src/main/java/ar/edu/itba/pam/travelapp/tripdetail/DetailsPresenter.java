@@ -84,7 +84,7 @@ public class DetailsPresenter {
 
     public void onEditTrip() {
         if (view.get() != null) {
-            view.get().openEditTripDialog();
+            view.get().startEditTripActivity();
         }
     }
 
@@ -104,7 +104,13 @@ public class DetailsPresenter {
         return activitiesMap;
     }
 
-    public void onConfirmEditTrip() {
+    public void onConfirmEditTrip(Trip trip) {
+        AsyncTask.execute(() -> {
+            this.tripRepository.updateTrip(trip);
+        });
+        if (view.get() != null) {
+            view.get().showDeletedTripSuccessMessage();
+        }
     }
 
     public void onConfirmDeleteTrip() {

@@ -29,11 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainerLocator;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
-import ar.edu.itba.pam.travelapp.model.AppDatabase;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
-import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
-import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
-import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class CreateTripActivity extends AppCompatActivity implements Validator.ValidationListener, CreateTripView {

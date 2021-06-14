@@ -1,0 +1,82 @@
+package ar.edu.itba.pam.travelapp;
+
+import android.os.AsyncTask;
+import android.widget.EditText;
+
+import com.mobsandgeeks.saripaar.ValidationError;
+
+import java.lang.ref.WeakReference;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+
+import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainer;
+import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
+import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
+
+import static ar.edu.itba.pam.travelapp.utils.DateUtils.parseDate;
+import static ar.edu.itba.pam.travelapp.utils.DateUtils.parseDateTime;
+
+public class EditTripPresenter {
+
+    private final TripRepository tripRepository;
+    private final WeakReference<EditTripView> view;
+
+    public EditTripPresenter(final EditTripView view, final NewTripContainer newTripContainer) {
+        this.tripRepository = newTripContainer.getTripRepository();
+        this.view = new WeakReference<>(view);
+    }
+
+    public void onDateDialogSelected(EditText inputField) {
+        if (view.get() != null) {
+            view.get().showDateDialog(inputField);
+        }
+    }
+
+    public void onDateTimeDialogSelected(EditText departureTime) {
+        if (view.get() != null) {
+            view.get().showDateTimeDialog(departureTime);
+        }
+    }
+
+    public void onValidationSuccess(EditText from, EditText to, EditText departureTime, EditText destination, TravelMethod travelMethod, EditText flightNumber) {
+        LocalDate fromDate = parseDate(from);
+        LocalDate toDate = parseDate(to);
+        LocalDateTime departureDateTime = parseDateTime(departureTime);
+        if (fromDate == null) {
+            if (view.get() != null) {
+                view.get().setErrorMessage(from, "Invalid date format");
+            }
+        }
+        if (toDate == null) {
+            if (view.get() != null) {
+                view.get().setErrorMessage(to, "Invalid date format");
+            }
+        }
+        if (fromDate == null || toDate == null) {
+            return;
+        }
+        Trip trip = new Trip(destination.getText().toString(), fromDate, toDate, travelMethod, departureDateTime, flightNumber.getText().toString());
+        System.out.println("Validation success, trip created");
+        AsyncTask.execute(() -> {
+            tripRepository.updateTrip(trip);
+        });
+        if (view.get() != null) {
+            view.get().showSuccessMessage();
+            view.get().launchDetailsActivity(trip);
+        }
+    }
+
+    public void onValidationErrors(List<ValidationError> errors) {
+        if (view.get() != null) {
+            view.get().showErrorMessages(errors);
+        }
+    }
+
+    public void onCancel() {
+        if (view.get() != null) {
+            view.get().launchDetailsActivityOnBack();
+        }
+    }
+}

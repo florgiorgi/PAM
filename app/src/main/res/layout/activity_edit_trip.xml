@@ -28,7 +28,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:orientation="horizontal">
 
@@ -138,5 +138,28 @@
             android:maxLength="16"
             android:focusable="false"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/edit_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="@string/edit_button"
+            android:layout_marginTop="20dp" />
+
+        <Button
+            android:id="@+id/cancel_edit_btn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_edit" />
+
+        </LinearLayout>
     </LinearLayout>
+
 </ScrollView>

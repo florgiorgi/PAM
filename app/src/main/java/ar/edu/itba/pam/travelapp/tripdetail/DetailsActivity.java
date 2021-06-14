@@ -21,6 +21,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import ar.edu.itba.pam.travelapp.EditTripActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainerLocator;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
@@ -29,7 +30,7 @@ import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener, EditTripDialog.EditTripDialogListener, ConfirmDialog.ConfirmDialogListener {
+public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener, ConfirmDialog.ConfirmDialogListener {
 
     private Trip trip;
     private DetailsPresenter presenter;
@@ -147,12 +148,6 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     @Override
-    public void openEditTripDialog() {
-        EditTripDialog dialog = new EditTripDialog();
-        dialog.show(getSupportFragmentManager(), "edit-trip-dialog");
-    }
-
-    @Override
     public void openConfirmDeleteDialog() {
         ConfirmDialog dialog = new ConfirmDialog();
         dialog.show(getSupportFragmentManager(), "confirm-dialog");
@@ -164,18 +159,15 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     @Override
+    public void startEditTripActivity() {
+        Intent intent = new Intent(this, EditTripActivity.class);
+        intent.putExtra("trip", trip);
+        startActivity(intent);
+    }
+
+    @Override
     public void onClick(String name, LocalDate date) {
         presenter.onActivityCreate(name, date);
-    }
-
-    @Override
-    public void editTrip(Trip trip) {
-        presenter.onConfirmEditTrip();
-    }
-
-    @Override
-    public Trip provideTrip() {
-        return this.trip;
     }
 
     @Override

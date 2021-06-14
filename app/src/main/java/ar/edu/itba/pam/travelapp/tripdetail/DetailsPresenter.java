@@ -1,8 +1,8 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.os.AsyncTask;
+import android.os.Build;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -18,8 +18,8 @@ import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
 import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
-import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.location.City;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
@@ -41,6 +41,11 @@ public class DetailsPresenter {
     }
 
     public void onViewAttached() {
+        fetchTrip();
+        fetchWeatherForecasts();
+    }
+
+    private void fetchTrip() {
         this.disposable = activityRepository.findByTripId(this.trip.getId())
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -49,7 +54,6 @@ public class DetailsPresenter {
                         view.get().showActivitiesErrorMessage();
                     }
                 });
-        fetchWeatherForecasts();
     }
 
     private void onActivitiesReceived(List<Activity> activities) {
@@ -61,14 +65,12 @@ public class DetailsPresenter {
     }
 
     private void fetchWeatherForecasts() {
-        String destination = trip.getLocation();
-        String locationKey = "7894";
-        // todo: get location key from trip destination name
-//        Optional<City> city = weatherRepository.findCity(destination);
-//        if (!city.isPresent()) {
-//            throw new NotFoundException("City not found");
-//        }
-        this.disposable = weatherRepository.getForecastForCity(locationKey)
+        if (!trip.isLocationKeySet()) {
+////            trip.setLocationKey("7894");
+            fetchLocationKey();
+            System.out.println("--------------is null---------------");
+        }
+        this.disposable = weatherRepository.getForecastForCity(trip.getLocationKey())
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(this::onForecastReceived, error -> {
@@ -76,6 +78,23 @@ public class DetailsPresenter {
                         view.get().onForecastError();
                     }
                 });
+    }
+
+    private void fetchLocationKey() {
+        this.disposable = weatherRepository.findFirstMatchCity(trip.getLocation())
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(this::onCityReceived, error -> {
+                    if (view.get() != null) {
+                        view.get().onCityError();
+                    }
+                });
+    }
+
+    private void onCityReceived(City city) {
+        System.out.println("----city: " + city);
+        System.out.println("--------city key: " + city.getKey());
+        trip.setLocationKey(city.getKey());
     }
 
     private void onForecastReceived(ForecastResponse forecast) {

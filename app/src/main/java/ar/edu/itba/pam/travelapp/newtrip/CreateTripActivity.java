@@ -27,7 +27,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainerLocator;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
-import ar.edu.itba.pam.travelapp.model.AppDatabase;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 
 
@@ -204,4 +203,14 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         startActivity(intent);
     }
 
+    @Override
+    public void onCityError() {
+        // todo: show error? or is thing closed and we just don't show it?
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        presenter.onViewDetached();
+    }
 }

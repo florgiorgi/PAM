@@ -9,7 +9,6 @@ import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 
 public interface DetailsView {
-
     void showActivitiesErrorMessage();
 
     void showNewActivitySuccessMessage();
@@ -19,4 +18,6 @@ public interface DetailsView {
     void bindForecastToDay(ForecastResponse forecast);
 
     void onForecastError();
+
+    void onCityError();
 }

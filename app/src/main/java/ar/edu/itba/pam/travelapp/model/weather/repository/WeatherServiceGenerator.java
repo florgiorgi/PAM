@@ -11,10 +11,11 @@ public class WeatherServiceGenerator {
     private static final String PROTOCOL = "https";
     private static final String DOMAIN = "dataservice.accuweather.com";
     private static final String API_VERSION = "v1";
-    private static final String API_KEY = "owAXGCVhiwtl9MoIw2tBxeylmwELKTlg";
+//    private static final String API_KEY = "owAXGCVhiwtl9MoIw2tBxeylmwELKTlg";
+    private static final String API_KEY = "0nWNVAQpEf5p5hyXiYDII1x0YpwOGCd5";
 
     public static WeatherLocationService getWeatherLocationService() {
-        String baseUrl = PROTOCOL + "://" + DOMAIN + "/location/" + API_VERSION + "/cities/";
+        String baseUrl = PROTOCOL + "://" + DOMAIN + "/locations/" + API_VERSION + "/cities/";
         GsonConverterFactory gsonConverterFactory = create(
                 new GsonBuilder()
                         .setFieldNamingPolicy(UPPER_CAMEL_CASE)

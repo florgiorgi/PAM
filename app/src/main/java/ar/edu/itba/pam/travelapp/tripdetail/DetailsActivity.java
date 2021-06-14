@@ -131,6 +131,11 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     @Override
+    public void onCityError() {
+        // todo: show user that no city was found with that name
+    }
+
+    @Override
     public void onClick(String name, LocalDate date) {
         presenter.onActivityCreate(name, date);
     }

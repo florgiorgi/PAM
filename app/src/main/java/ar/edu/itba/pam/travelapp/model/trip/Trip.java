@@ -131,4 +131,8 @@ public class Trip implements Serializable {
     public void setLocationKey(String locationKey) {
         this.locationKey = locationKey;
     }
+
+    public boolean isLocationKeySet() {
+        return locationKey != null;
+    }
 }

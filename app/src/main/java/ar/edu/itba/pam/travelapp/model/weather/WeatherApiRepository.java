@@ -1,9 +1,13 @@
 package ar.edu.itba.pam.travelapp.model.weather;
 
+import java.util.List;
+
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.location.City;
 import ar.edu.itba.pam.travelapp.model.weather.repository.WeatherForecastService;
 import ar.edu.itba.pam.travelapp.model.weather.repository.WeatherLocationService;
 import ar.edu.itba.pam.travelapp.utils.networking.RetrofitUtils;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 
 public class WeatherApiRepository implements WeatherRepository {
@@ -18,26 +22,25 @@ public class WeatherApiRepository implements WeatherRepository {
 
     @Override
     public Single<ForecastResponse> getForecastForCity(String cityKey) {
-        return RetrofitUtils.performRequest(weatherForecastService.getCurrentForecast(cityKey, true));
+        return RetrofitUtils.performRequest(
+                weatherForecastService.getCurrentForecast(cityKey, true));
     }
 
-    // todo
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    @Override
-//    public Single<City> findCity(String city) throws Throwable {
-//        Flowable<City> cities = weatherLocationService.findCity(city);
-//        for (City c: cities) {
-//            if (c != null) {
-//                if (city.equals(c.getEnglishName()) || city.equals(c.getLocalizedName())) {
-//                    return Optional.of(c);
-//                }
-//            }
-//        }
-//        return Optional.empty();
-//    }
+    @Override
+    public Flowable<List<City>> findCity(String city) {
+        return RetrofitUtils.performRequest(weatherLocationService.findCity(city));
+    }
 
-//    @Override
-//    public Single<Forecast> getForecastForCity(City city) {
-//        return weatherForecastService.getCurrentForecast(city.getKey());
-//    }
+    @Override
+    public Single<City> findFirstMatchCity(String city) {
+        return RetrofitUtils.performRequest(weatherLocationService.findCity(city))
+                .filter(citiesList -> !citiesList.isEmpty())
+                .map(citiesList -> citiesList.get(0)).firstOrError();
+    }
+
+    @Override
+    public Single<ForecastResponse> getForecastForCity(City city) {
+        return RetrofitUtils.performRequest(
+                weatherForecastService.getCurrentForecast(city.getKey(), true));
+    }
 }

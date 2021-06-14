@@ -16,6 +16,7 @@ public class Trip implements Serializable {
     private String flightNumber;
     private String seat;
     private String googleApiId;
+    private String locationKey;
 
     public Trip(String location, LocalDate from, LocalDate to, TravelMethod travelMethod) {
         this.location = location;
@@ -121,5 +122,13 @@ public class Trip implements Serializable {
 
     public void setGoogleApiId(String googleApiId) {
         this.googleApiId = googleApiId;
+    }
+
+    public String getLocationKey() {
+        return locationKey;
+    }
+
+    public void setLocationKey(String locationKey) {
+        this.locationKey = locationKey;
     }
 }

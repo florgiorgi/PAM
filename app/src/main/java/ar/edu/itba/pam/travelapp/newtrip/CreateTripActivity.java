@@ -62,7 +62,6 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trip);
-
         createPresenter();
         initView();
         initValidator();

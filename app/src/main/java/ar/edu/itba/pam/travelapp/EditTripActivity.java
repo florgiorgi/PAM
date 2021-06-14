@@ -83,8 +83,7 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
             this.presenter = (EditTripPresenter) possibleEditTripPresenter;
         }
         if (this.presenter == null) {
-            this.presenter = new EditTripPresenter(this,
-                    NewTripContainerLocator.locateComponent(this));
+            this.presenter = new EditTripPresenter(this, NewTripContainerLocator.locateComponent(this), trip);
         }
     }
 

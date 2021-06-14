@@ -22,10 +22,12 @@ public class EditTripPresenter {
 
     private final TripRepository tripRepository;
     private final WeakReference<EditTripView> view;
+    private final Trip trip;
 
-    public EditTripPresenter(final EditTripView view, final NewTripContainer newTripContainer) {
+    public EditTripPresenter(final EditTripView view, final NewTripContainer newTripContainer, Trip trip) {
         this.tripRepository = newTripContainer.getTripRepository();
         this.view = new WeakReference<>(view);
+        this.trip = trip;
     }
 
     public void onDateDialogSelected(EditText inputField) {
@@ -57,8 +59,16 @@ public class EditTripPresenter {
         if (fromDate == null || toDate == null) {
             return;
         }
-        Trip trip = new Trip(destination.getText().toString(), fromDate, toDate, travelMethod, departureDateTime, flightNumber.getText().toString());
-        System.out.println("Validation success, trip created");
+        updateTrip(destination.getText().toString(), fromDate, toDate, travelMethod, flightNumber.getText().toString(), departureDateTime);
+    }
+
+    private void updateTrip(String destination, LocalDate fromDate, LocalDate toDate, TravelMethod travelMethod, String flightNumber, LocalDateTime departureDateTime) {
+        trip.setLocation(destination);
+        trip.setFrom(fromDate);
+        trip.setTo(toDate);
+        trip.setTravelMethod(travelMethod);
+        trip.setFlightNumber(flightNumber);
+        trip.setDepartureTime(departureDateTime);
         AsyncTask.execute(() -> {
             tripRepository.updateTrip(trip);
         });
@@ -67,6 +77,7 @@ public class EditTripPresenter {
             view.get().launchDetailsActivity(trip);
         }
     }
+
 
     public void onValidationErrors(List<ValidationError> errors) {
         if (view.get() != null) {

@@ -54,7 +54,8 @@
                     android:hint="@string/from_hint"
                     android:importantForAutofill="no"
                     android:inputType="date"
-                    android:maxLength="10"/>
+                    android:maxLength="10"
+                    android:focusable="false"/>
             </LinearLayout>
 
             <LinearLayout
@@ -79,7 +80,8 @@
                     android:hint="@string/to_hint"
                     android:importantForAutofill="no"
                     android:inputType="date"
-                    android:maxLength="10"/>
+                    android:maxLength="10"
+                    android:focusable="false"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -133,7 +135,8 @@
             android:hint="@string/date_time_hint"
             android:importantForAutofill="no"
             android:inputType="datetime"
-            android:maxLength="16"/>
+            android:maxLength="16"
+            android:focusable="false"/>
 
     </LinearLayout>
 </ScrollView>

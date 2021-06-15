@@ -14,9 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 

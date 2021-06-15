@@ -1,7 +1,6 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +28,6 @@ import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 
 
-@RequiresApi(api = Build.VERSION_CODES.O)
 public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener, ConfirmDialog.ConfirmDialogListener {
 
     private Trip trip;

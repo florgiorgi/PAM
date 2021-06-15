@@ -92,14 +92,16 @@
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
             android:text="@string/how_are_you_traveling"
-            android:textAppearance="?attr/textAppearanceHeadline6" />
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            android:visibility="gone"/>
 
         <Spinner
             android:id="@+id/transport_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="15dp"
-            android:paddingBottom="15dp" />
+            android:paddingBottom="15dp"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/flight_number"

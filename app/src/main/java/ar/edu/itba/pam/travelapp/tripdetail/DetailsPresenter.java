@@ -2,7 +2,6 @@ package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.os.AsyncTask;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -115,7 +114,6 @@ public class DetailsPresenter {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private Map<LocalDate, List<Activity>> parseActivities(List<Activity> activities, Set<LocalDate> datesSet) {
         Map<LocalDate, List<Activity>> activitiesOnEachDayMap = new HashMap<>();
         LocalDate from = trip.getFrom();

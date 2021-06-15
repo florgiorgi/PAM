@@ -128,7 +128,9 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
                 // do nothing :)
             }
         });
-        transportSpinner.setSelection(trip.getTravelMethod().ordinal());
+        if (trip.getTravelMethod() != null) {
+            transportSpinner.setSelection(trip.getTravelMethod().ordinal());
+        }
     }
 
     @Nullable

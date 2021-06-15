@@ -78,7 +78,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     private void initRecyclerView() {
         RecyclerView detailsRecyclerView = findViewById(R.id.trip_details);
         detailsRecyclerView.setHasFixedSize(true);
-        detailsAdapter = new DetailsAdapter(this);
+        detailsAdapter = new DetailsAdapter();
         detailsAdapter.setOnClickListener(this);
         detailsRecyclerView.setAdapter(detailsAdapter);
         detailsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

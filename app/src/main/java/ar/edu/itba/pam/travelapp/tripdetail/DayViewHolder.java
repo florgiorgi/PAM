@@ -1,6 +1,5 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.Button;
@@ -34,14 +33,11 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     private Button cancel;
     private LinearLayout buttons;
 
-    private Context context;
-
     private OnNewActivityClickedListener listener;
 
-    public DayViewHolder(@NonNull View itemView, Context context) {
+    public DayViewHolder(@NonNull View itemView) {
         super(itemView);
         this.view = itemView;
-        this.context = context;
         //activityAndButtonList = view.findViewById(R.id.list_of_activities_and_button);
         activityList = view.findViewById(R.id.list_of_activities);
         titleView = view.findViewById(R.id.day_card_title);
@@ -60,7 +56,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     private void setUpActivities(List<Activity> activities) {
         activityList.removeAllViews();
         for (Activity a : activities) {
-            TextView textView = new TextView(context);
+            TextView textView = new TextView(view.getContext());
             textView.setText(a.getName());
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,

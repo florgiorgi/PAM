@@ -67,8 +67,12 @@ public class EditTripPresenter {
         trip.setFrom(fromDate);
         trip.setTo(toDate);
         trip.setTravelMethod(travelMethod);
-        trip.setFlightNumber(flightNumber);
-        trip.setDepartureTime(departureDateTime);
+        if (flightNumber != null && flightNumber.length() > 0) {
+            trip.setFlightNumber(flightNumber);
+        }
+        if (departureDateTime != null) {
+            trip.setDepartureTime(departureDateTime);
+        }
         AsyncTask.execute(() -> {
             tripRepository.updateTrip(trip);
         });

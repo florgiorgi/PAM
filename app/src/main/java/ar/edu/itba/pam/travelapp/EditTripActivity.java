@@ -106,10 +106,13 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
         destination.setText(trip.getLocation());
 
         flightNumber = findViewById(R.id.flight_number_edit);
-        flightNumber.setText(trip.getFlightNumber());
-
+        if (trip.getFlightNumber() != null) {
+            flightNumber.setText(trip.getFlightNumber());
+        }
         departureTime = findViewById(R.id.departure_edit);
-        departureTime.setText(trip.getDepartureTime().format(dateTimeFormatter));
+        if (trip.getDepartureTime() != null) {
+            departureTime.setText(trip.getDepartureTime().format(dateTimeFormatter));
+        }
         departureTime.setOnClickListener(v -> presenter.onDateTimeDialogSelected(departureTime));
 
         transportSpinner = findViewById(R.id.transport_method_edit);
@@ -197,6 +200,7 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
     public void launchDetailsActivity(Trip trip) {
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra("trip", trip);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
@@ -204,6 +208,7 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
     public void launchDetailsActivityOnBack() {
         Intent intent = new Intent(this, DetailsActivity.class);
         intent.putExtra("trip", this.trip);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 

@@ -1,13 +1,10 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -23,7 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 
-import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
 public class DayViewHolder extends RecyclerView.ViewHolder {
 
@@ -32,14 +28,9 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     public ImageButton addButton;
 
     private LinearLayout activityList;
-    private LinearLayout activityAndButtonList;
     private View divider;
     private ImageView arrow;
-    private EditText editText;
-    private Button confirm;
-    private Button delete;
-    private Button cancel;
-    private LinearLayout buttons;
+    private LinearLayout add_activity;
 
     private ActivityEventListener listener;
 
@@ -54,14 +45,11 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     public DayViewHolder(@NonNull View itemView) {
         super(itemView);
         this.view = itemView;
-        //activityAndButtonList = view.findViewById(R.id.list_of_activities_and_button);
         activityList = view.findViewById(R.id.list_of_activities);
         titleView = view.findViewById(R.id.day_card_title);
         addButton = (ImageButton) view.findViewById(R.id.add_button);
-        editText = view.findViewById(R.id.enter_new_activity);
-        confirm = view.findViewById(R.id.confirm);
-        cancel = view.findViewById(R.id.cancel);
-        buttons = view.findViewById(R.id.new_activity_buttons);
+        add_activity = view.findViewById(R.id.add_activity);
+
         setUpClickOnCardToExpand();
     }
 
@@ -74,16 +62,16 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         for (Activity a : activities) {
             TextView textView = new TextView(view.getContext());
             EditText editText = new EditText(view.getContext());
-            ImageButton cancelButton = new ImageButton(view.getContext());
+            ImageButton deleteButton = new ImageButton(view.getContext());
             ImageButton confirmButton = new ImageButton(view.getContext());
             LinearLayout editAndCancel = new LinearLayout(view.getContext());
 
             textView.setText(a.getName());
             editText.setText(a.getName());
-            cancelButton.setBackgroundResource(R.drawable.ic_delete);
+            deleteButton.setBackgroundResource(R.drawable.ic_delete);
             confirmButton.setBackgroundResource(R.drawable.check_icon);
             editText.setVisibility(View.GONE);
-            cancelButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.GONE);
             confirmButton.setVisibility(View.GONE);
             editAndCancel.setVisibility(View.GONE);
 
@@ -100,7 +88,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                     60,
                     60
             );
-            LinearLayout.LayoutParams cancelButtonParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams deleteButtonParams = new LinearLayout.LayoutParams(
                     70,
                     70
             );
@@ -111,19 +99,19 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
             params.setMargins(2, 4, 2, 4);
             editParams.setMargins(0,0,0,0);
             confirmButtonParams.setMargins(20,50,20,0);
-            cancelButtonParams.setMargins(20,42,15,0);
+            deleteButtonParams.setMargins(20,42,15,0);
             editAndCancelParams.setMargins(0,0,0,0);
 
             textView.setLayoutParams(params);
             editText.setLayoutParams(editParams);
-            cancelButton.setLayoutParams(cancelButtonParams);
+            deleteButton.setLayoutParams(deleteButtonParams);
             confirmButton.setLayoutParams(confirmButtonParams);
             editAndCancel.setLayoutParams(editAndCancelParams);
 
             editAndCancel.setOrientation(LinearLayout.HORIZONTAL);
             editAndCancel.addView(editText);
             editAndCancel.addView(confirmButton);
-            editAndCancel.addView(cancelButton);
+            editAndCancel.addView(deleteButton);
 
             textView.setTextSize(1, 16);
             editText.setTextSize(1,16);
@@ -135,7 +123,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 textView.setVisibility(View.GONE);
                 editText.setVisibility(View.VISIBLE);
                 confirmButton.setVisibility(View.VISIBLE);
-                cancelButton.setVisibility(View.VISIBLE);
+                deleteButton.setVisibility(View.VISIBLE);
                 editAndCancel.setVisibility(View.VISIBLE);
             });
             confirmButton.setOnClickListener(v1 -> {
@@ -145,18 +133,16 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 textView.setVisibility(View.VISIBLE);
                 editText.setVisibility(View.GONE);
                 confirmButton.setVisibility(View.GONE);
-                cancelButton.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.GONE);
                 editAndCancel.setVisibility(View.GONE);
-                System.out.println("edited");
             });
-            cancelButton.setOnClickListener(v2 -> {
+            deleteButton.setOnClickListener(v2 -> {
                 //TODO delete activity
                 listener.onDeleteActivity(a);
                 editText.setVisibility(View.GONE);
                 confirmButton.setVisibility(View.GONE);
-                cancelButton.setVisibility(View.GONE);
+                deleteButton.setVisibility(View.GONE);
                 editAndCancel.setVisibility(View.GONE);
-                System.out.println("deleted");
             });
             editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
@@ -168,9 +154,8 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                         textView.setVisibility(View.VISIBLE);
                         editText.setVisibility(View.GONE);
                         confirmButton.setVisibility(View.GONE);
-                        cancelButton.setVisibility(View.GONE);
+                        deleteButton.setVisibility(View.GONE);
                         editAndCancel.setVisibility(View.GONE);
-                        System.out.println("edited");
                         return true;
                     }
                     return false;
@@ -202,10 +187,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 divider.setVisibility(View.GONE);
                 activityList.setVisibility(View.GONE);
                 addButton.setVisibility(View.GONE);
-                editText.setVisibility(View.GONE);
-                buttons.setVisibility(View.GONE);
-                editText.setText("");
-                editText.setHintTextColor(Color.GRAY);
+                add_activity.setVisibility(View.GONE);
                 arrow.setImageResource(R.drawable.arrow_up);
             }
         });
@@ -215,32 +197,61 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
 
         addButton.setOnClickListener(v -> {
             addButton.setVisibility(View.GONE);
+
+            LinearLayout layout = view.findViewById(R.id.add_activity);
             EditText editText = view.findViewById(R.id.enter_new_activity);
-            Button confirm = view.findViewById(R.id.confirm);
-            Button cancel = view.findViewById(R.id.cancel);
-            LinearLayout buttons = view.findViewById(R.id.new_activity_buttons);
-            buttons.setVisibility(View.VISIBLE);
+            ImageButton cancelButton = view.findViewById(R.id.cancel_button);
+            ImageButton confirmButton = view.findViewById(R.id.confirm_button);
+
+            layout.setVisibility(View.VISIBLE);
             editText.setVisibility(View.VISIBLE);
-            confirm.setOnClickListener(v1 -> {
+            cancelButton.setVisibility(View.VISIBLE);
+            confirmButton.setVisibility(View.VISIBLE);
+
+            confirmButton.setOnClickListener(v1 -> {
                 String text = editText.getText().toString();
                 if (!text.equals("")) {
                     listener.onClickNewActivity(text, date);
-                    buttons.setVisibility(View.GONE);
+                    layout.setVisibility(View.GONE);
                     editText.setText("");
                     editText.setHintTextColor(Color.GRAY);
                     editText.setVisibility(View.GONE);
+                    confirmButton.setVisibility(View.GONE);
+                    cancelButton.setVisibility(View.GONE);
                     addButton.setVisibility(View.VISIBLE);
                 } else {
                     editText.setHintTextColor(Color.RED);
                 }
             });
-
-            cancel.setOnClickListener(v12 -> {
-                buttons.setVisibility(View.GONE);
+            cancelButton.setOnClickListener(v2 -> {
+                layout.setVisibility(View.GONE);
                 editText.setText("");
                 editText.setHintTextColor(Color.GRAY);
                 editText.setVisibility(View.GONE);
+                confirmButton.setVisibility(View.GONE);
+                cancelButton.setVisibility(View.GONE);
                 addButton.setVisibility(View.VISIBLE);
+            });
+            editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_SEND) {
+                        if (!editText.getText().toString().equals("")) {
+                            listener.onClickNewActivity(editText.getText().toString(), date);
+                            layout.setVisibility(View.GONE);
+                            editText.setText("");
+                            editText.setHintTextColor(Color.GRAY);
+                            editText.setVisibility(View.GONE);
+                            confirmButton.setVisibility(View.GONE);
+                            cancelButton.setVisibility(View.GONE);
+                            addButton.setVisibility(View.VISIBLE);
+                            return true;
+                        } else {
+                            editText.setHintTextColor(Color.RED);
+                        }
+                    }
+                    return false;
+                }
             });
         });
     }

@@ -123,7 +123,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="4dp"
                 android:hint="@string/enter_activity"
-                android:imeOptions="actionDone"
+                android:imeOptions="actionSend"
                 android:importantForAutofill="no"
                 android:inputType="textCapSentences"
                 android:layout_weight="1"

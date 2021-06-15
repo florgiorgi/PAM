@@ -34,14 +34,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
 
     private ActivityEventListener listener;
 
-    /*
-    *
-    *  Para editar o borrar trips tenes que agregarle un listener a los botones
-    *  para que llamen a los metodos "onDeleteActivity(Activity activity)" y "onEditActivity(Activity activity, String name)"
-    *  del listener de arriba (ActivityEventListener)
-    *
-    * */
-
     public DayViewHolder(@NonNull View itemView) {
         super(itemView);
         this.view = itemView;

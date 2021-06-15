@@ -17,7 +17,7 @@
     <string name="from_hint">dd/mm/yyyy</string>
     <string name="to_hint">dd/mm/yyyy</string>
     <string name="flight_number_hint">Enter your ticket number (optional)</string>
-    <string name="date_time_hint">dd/mm/yyyy hh:mm</string>
+    <string name="date_time_hint">dd/mm/yyyy hh:mm (optional)</string>
     <string name="flight_title">Ticket #</string>
     <string name="climate1">20/21</string>
     <string name="climate2">21/27</string>

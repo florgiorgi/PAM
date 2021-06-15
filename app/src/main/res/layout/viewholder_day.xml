@@ -96,17 +96,6 @@
             android:contentDescription="@string/add_activity"
             android:visibility="gone" />
 
-        <!--<ImageButton
-            android:id="@+id/delete_activity_button"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/minus"
-            android:contentDescription="@string/delete_activity"
-            android:visibility="gone" />!-->
-
         <LinearLayout
             android:id="@+id/add_activity"
             android:layout_width="match_parent"

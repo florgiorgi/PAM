@@ -1,4 +1,4 @@
-package ar.edu.itba.pam.travelapp;
+package ar.edu.itba.pam.travelapp.edit;
 
 import android.widget.EditText;
 

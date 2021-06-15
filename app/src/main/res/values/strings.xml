@@ -48,6 +48,7 @@
     <string name="to_edit">To</string>
     <string name="edit_button">Edit</string>
     <string name="cancel_edit">Cancel</string>
+    <string name="delete_activity">delete_activity_button</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

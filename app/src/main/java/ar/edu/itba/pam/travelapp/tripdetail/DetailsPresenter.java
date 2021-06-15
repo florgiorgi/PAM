@@ -15,11 +15,10 @@ import java.util.Set;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainer;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
-import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
-import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
-import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
+import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
@@ -42,7 +41,7 @@ public class DetailsPresenter {
         this.trip = trip;
     }
 
-    public void onViewAttached() {
+    private void fetchActivities() {
         this.disposable = activityRepository.findByTripId(this.trip.getId())
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -51,6 +50,10 @@ public class DetailsPresenter {
                         view.get().showActivitiesErrorMessage();
                     }
                 });
+    }
+
+    public void onViewAttached() {
+        fetchActivities();
         fetchWeatherForecasts();
     }
 
@@ -133,15 +136,6 @@ public class DetailsPresenter {
         return activitiesOnEachDayMap;
     }
 
-    public void onConfirmEditTrip(Trip trip) {
-        AsyncTask.execute(() -> {
-            this.tripRepository.updateTrip(trip);
-        });
-        if (view.get() != null) {
-            view.get().showDeletedTripSuccessMessage();
-        }
-    }
-
     public void onConfirmDeleteTrip() {
         AsyncTask.execute(() -> {
             this.tripRepository.deleteTrip(trip);
@@ -149,5 +143,21 @@ public class DetailsPresenter {
         if (view.get() != null) {
             view.get().showDeletedTripSuccessMessage();
         }
+    }
+
+    // todo: ver si se puede omitir el update trayendo toda la data, con el insert anda (wtf?)
+    public void onActivityDelete(Activity activity) {
+        AsyncTask.execute(() -> {
+            this.activityRepository.delete(activity);
+        });
+        this.fetchActivities();
+    }
+
+    public void onActivityEdit(Activity activity, String name) {
+        activity.setName(name);
+        AsyncTask.execute(() -> {
+            this.activityRepository.update(activity);
+        });
+        this.fetchActivities();
     }
 }

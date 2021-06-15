@@ -23,7 +23,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final List<LocalDate> dataset;
     private final Map<LocalDate, List<Activity>> allData;
 
-    private OnNewActivityClickedListener listener;
+    private ActivityEventListener listener;
 
     public DetailsAdapter() {
         this.dataset = new ArrayList<>();
@@ -63,7 +63,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return dataset.size();
     }
 
-    public void setOnClickListener(OnNewActivityClickedListener listener) {
+    public void setOnClickListener(ActivityEventListener listener) {
         this.listener = listener;
     }
 }

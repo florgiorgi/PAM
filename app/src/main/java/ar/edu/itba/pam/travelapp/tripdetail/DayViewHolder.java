@@ -30,10 +30,19 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     private ImageView arrow;
     private EditText editText;
     private Button confirm;
+    private Button delete;
     private Button cancel;
     private LinearLayout buttons;
 
-    private OnNewActivityClickedListener listener;
+    private ActivityEventListener listener;
+
+    /*
+    *
+    *  Para editar o borrar trips tenes que agregarle un listener a los botones
+    *  para que llamen a los metodos "onDeleteActivity(Activity activity)" y "onEditActivity(Activity activity, String name)"
+    *  del listener de arriba (ActivityEventListener)
+    *
+    * */
 
     public DayViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -49,7 +58,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         setUpClickOnCardToExpand();
     }
 
-    public void setOnClickListener(OnNewActivityClickedListener listener) {
+    public void setOnClickListener(ActivityEventListener listener) {
         this.listener = listener;
     }
 
@@ -112,7 +121,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
             confirm.setOnClickListener(v1 -> {
                 String text = editText.getText().toString();
                 if (!text.equals("")) {
-                    listener.onClick(text, date);
+                    listener.onClickNewActivity(text, date);
                     buttons.setVisibility(View.GONE);
                     editText.setText("");
                     editText.setHintTextColor(Color.GRAY);

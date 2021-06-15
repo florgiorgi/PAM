@@ -19,16 +19,16 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import ar.edu.itba.pam.travelapp.edit.EditTripActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainerLocator;
+import ar.edu.itba.pam.travelapp.edit.EditTripActivity;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 
 
-public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener, ConfirmDialog.ConfirmDialogListener {
+public class DetailsActivity extends AppCompatActivity implements DetailsView, ActivityEventListener, ConfirmDialog.ConfirmDialogListener {
 
     private Trip trip;
     private DetailsPresenter presenter;
@@ -178,12 +178,23 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     @Override
-    public void onClick(String name, LocalDate date) {
+    public void onClickNewActivity(String name, LocalDate date) {
         presenter.onActivityCreate(name, date);
+    }
+
+    @Override
+    public void onDeleteActivity(Activity activity) {
+        presenter.onActivityDelete(activity);
+    }
+
+    @Override
+    public void onEditActivity(Activity activity, String name) {
+        presenter.onActivityEdit(activity, name);
     }
 
     @Override
     public void confirmDelete() {
         presenter.onConfirmDeleteTrip();
     }
+
 }

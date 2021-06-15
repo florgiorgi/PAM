@@ -23,5 +23,6 @@ public interface DetailsView {
     void bindForecastToDay(ForecastResponse forecast);
 
     void onForecastError();
+
     void startEditTripActivity();
 }

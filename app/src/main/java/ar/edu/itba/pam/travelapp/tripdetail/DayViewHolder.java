@@ -1,7 +1,12 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewParent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -17,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
+
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 
 public class DayViewHolder extends RecyclerView.ViewHolder {
 
@@ -66,15 +73,111 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         activityList.removeAllViews();
         for (Activity a : activities) {
             TextView textView = new TextView(view.getContext());
+            EditText editText = new EditText(view.getContext());
+            ImageButton cancelButton = new ImageButton(view.getContext());
+            ImageButton confirmButton = new ImageButton(view.getContext());
+            LinearLayout editAndCancel = new LinearLayout(view.getContext());
+
             textView.setText(a.getName());
+            editText.setText(a.getName());
+            cancelButton.setBackgroundResource(R.drawable.ic_delete);
+            confirmButton.setBackgroundResource(R.drawable.check_icon);
+            editText.setVisibility(View.GONE);
+            cancelButton.setVisibility(View.GONE);
+            confirmButton.setVisibility(View.GONE);
+            editAndCancel.setVisibility(View.GONE);
+
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT
             );
+            LinearLayout.LayoutParams editParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    0.6f
+            );
+            LinearLayout.LayoutParams confirmButtonParams = new LinearLayout.LayoutParams(
+                    60,
+                    60
+            );
+            LinearLayout.LayoutParams cancelButtonParams = new LinearLayout.LayoutParams(
+                    70,
+                    70
+            );
+            LinearLayout.LayoutParams editAndCancelParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    150
+            );
             params.setMargins(2, 4, 2, 4);
+            editParams.setMargins(0,0,0,0);
+            confirmButtonParams.setMargins(20,50,20,0);
+            cancelButtonParams.setMargins(20,42,15,0);
+            editAndCancelParams.setMargins(0,0,0,0);
+
             textView.setLayoutParams(params);
+            editText.setLayoutParams(editParams);
+            cancelButton.setLayoutParams(cancelButtonParams);
+            confirmButton.setLayoutParams(confirmButtonParams);
+            editAndCancel.setLayoutParams(editAndCancelParams);
+
+            editAndCancel.setOrientation(LinearLayout.HORIZONTAL);
+            editAndCancel.addView(editText);
+            editAndCancel.addView(confirmButton);
+            editAndCancel.addView(cancelButton);
+
             textView.setTextSize(1, 16);
+            editText.setTextSize(1,16);
+            editText.setInputType(InputType.TYPE_CLASS_TEXT);
+            editText.setMaxLines(1);
+            editText.setImeOptions(EditorInfo.IME_ACTION_SEND);
+
+            textView.setOnClickListener(v -> {
+                textView.setVisibility(View.GONE);
+                editText.setVisibility(View.VISIBLE);
+                confirmButton.setVisibility(View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
+                editAndCancel.setVisibility(View.VISIBLE);
+            });
+            confirmButton.setOnClickListener(v1 -> {
+                //TODO edit activity
+                listener.onEditActivity(a,editText.getText().toString());
+                editText.setText(a.getName());
+                textView.setVisibility(View.VISIBLE);
+                editText.setVisibility(View.GONE);
+                confirmButton.setVisibility(View.GONE);
+                cancelButton.setVisibility(View.GONE);
+                editAndCancel.setVisibility(View.GONE);
+                System.out.println("edited");
+            });
+            cancelButton.setOnClickListener(v2 -> {
+                //TODO delete activity
+                listener.onDeleteActivity(a);
+                editText.setVisibility(View.GONE);
+                confirmButton.setVisibility(View.GONE);
+                cancelButton.setVisibility(View.GONE);
+                editAndCancel.setVisibility(View.GONE);
+                System.out.println("deleted");
+            });
+            editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (actionId == EditorInfo.IME_ACTION_SEND) {
+                        //TODO edit activity
+                        listener.onEditActivity(a,editText.getText().toString());
+                        editText.setText(a.getName());
+                        textView.setVisibility(View.VISIBLE);
+                        editText.setVisibility(View.GONE);
+                        confirmButton.setVisibility(View.GONE);
+                        cancelButton.setVisibility(View.GONE);
+                        editAndCancel.setVisibility(View.GONE);
+                        System.out.println("edited");
+                        return true;
+                    }
+                    return false;
+                }
+            });
             activityList.addView(textView);
+            activityList.addView(editAndCancel);
         }
     }
 

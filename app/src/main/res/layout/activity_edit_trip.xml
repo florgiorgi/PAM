@@ -145,24 +145,24 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/edit_btn"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/edit_button"
-            android:layout_marginTop="20dp"
-            android:layout_weight="0.5"/>
+            <Button
+                android:id="@+id/cancel_edit_btn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel_edit"
+                android:layout_weight="0.5"/>
 
-        <Button
-            android:id="@+id/cancel_edit_btn"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cancel_edit"
-            android:layout_weight="0.5"/>
-
+            <Button
+                android:id="@+id/edit_btn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/edit_button"
+                android:layout_marginTop="20dp"
+                android:layout_weight="0.5"/>
+            
         </LinearLayout>
     </LinearLayout>
 

@@ -4,9 +4,17 @@ import java.time.LocalDate;
 
 public class Activity {
 
+    private long id;
     private String name;
     private long tripId;
     private LocalDate date;
+
+    public Activity(long id, String name, long tripId, LocalDate date) {
+        this.id = id;
+        this.name = name;
+        this.tripId = tripId;
+        this.date = date;
+    }
 
     public Activity(String name, long tripId, LocalDate date) {
         this.name = name;
@@ -36,5 +44,13 @@ public class Activity {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

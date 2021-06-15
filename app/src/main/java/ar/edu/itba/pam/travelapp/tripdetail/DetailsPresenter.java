@@ -148,6 +148,7 @@ public class DetailsPresenter {
     // todo: ver si se puede omitir el update trayendo toda la data, con el insert anda (wtf?)
     public void onActivityDelete(Activity activity) {
         AsyncTask.execute(() -> {
+            System.out.println("Executed delete activity async task");
             this.activityRepository.delete(activity);
         });
         this.fetchActivities();

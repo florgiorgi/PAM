@@ -2,12 +2,15 @@ package ar.edu.itba.pam.travelapp.model.activity;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 import ar.edu.itba.pam.travelapp.model.converters.LocalDateConverter;
+import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 
 @Entity(tableName = "activities")
 public class ActivityEntity {
@@ -29,6 +32,14 @@ public class ActivityEntity {
     private LocalDate date;
 
     public ActivityEntity(String name, long tripId, LocalDate date) {
+        this.name = name;
+        this.tripId = tripId;
+        this.date = date;
+    }
+
+    @Ignore
+    public ActivityEntity(long id, String name, long tripId, LocalDate date) {
+        this.id = id;
         this.name = name;
         this.tripId = tripId;
         this.date = date;

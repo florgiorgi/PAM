@@ -14,9 +14,14 @@ public interface DetailsView {
 
     void showNewActivitySuccessMessage();
 
+    void showDeletedTripSuccessMessage();
+
+    void openConfirmDeleteDialog();
+
     void bindDataset(Set<LocalDate> dates, Map<LocalDate, List<Activity>> activities);
 
     void bindForecastToDay(ForecastResponse forecast);
 
     void onForecastError();
+    void startEditTripActivity();
 }

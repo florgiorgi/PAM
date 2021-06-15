@@ -27,7 +27,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainerLocator;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
-import ar.edu.itba.pam.travelapp.model.AppDatabase;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 
 
@@ -61,7 +60,6 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trip);
-
         createPresenter();
         initView();
         initValidator();

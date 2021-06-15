@@ -41,6 +41,13 @@
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
     <string name="enter_activity">Enter activity</string>
+    <string name="menu_edit_trip">Edit</string>
+    <string name="menu_delete_trip">Delete</string>
+    <string name="trip_edit_dest_hint">Destination</string>
+    <string name="from_edit">From</string>
+    <string name="to_edit">To</string>
+    <string name="edit_button">Edit</string>
+    <string name="cancel_edit">Cancel</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

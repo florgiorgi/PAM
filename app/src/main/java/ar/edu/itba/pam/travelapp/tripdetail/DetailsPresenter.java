@@ -20,6 +20,7 @@ import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
+import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
@@ -30,10 +31,12 @@ public class DetailsPresenter {
     private final WeakReference<DetailsView> view;
     private final AndroidSchedulerProvider schedulerProvider;
     private final Trip trip;
+    private final TripRepository tripRepository;
     private Disposable disposable;
 
     public DetailsPresenter(final DetailsView view, final Trip trip, final DetailsContainer container) {
         this.activityRepository = container.getActivityRepository();
+        this.tripRepository = container.getTripRepository();
         this.view = new WeakReference<>(view);
         this.schedulerProvider = (AndroidSchedulerProvider) container.getSchedulerProvider();
         this.weatherRepository = container.getWeatherRepository();
@@ -100,6 +103,19 @@ public class DetailsPresenter {
         }
     }
 
+    public void onDeleteTrip() {
+        if (view.get() != null) {
+            view.get().openConfirmDeleteDialog();
+        }
+    }
+
+    public void onEditTrip() {
+        if (view.get() != null) {
+            view.get().startEditTripActivity();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private Map<LocalDate, List<Activity>> parseActivities(List<Activity> activities, Set<LocalDate> datesSet) {
         Map<LocalDate, List<Activity>> activitiesOnEachDayMap = new HashMap<>();
         LocalDate from = trip.getFrom();
@@ -119,4 +135,21 @@ public class DetailsPresenter {
         return activitiesOnEachDayMap;
     }
 
+    public void onConfirmEditTrip(Trip trip) {
+        AsyncTask.execute(() -> {
+            this.tripRepository.updateTrip(trip);
+        });
+        if (view.get() != null) {
+            view.get().showDeletedTripSuccessMessage();
+        }
+    }
+
+    public void onConfirmDeleteTrip() {
+        AsyncTask.execute(() -> {
+            this.tripRepository.deleteTrip(trip);
+        });
+        if (view.get() != null) {
+            view.get().showDeletedTripSuccessMessage();
+        }
+    }
 }

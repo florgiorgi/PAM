@@ -8,6 +8,9 @@ import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
 import ar.edu.itba.pam.travelapp.model.weather.repository.WeatherForecastService;
 import ar.edu.itba.pam.travelapp.model.weather.repository.WeatherLocationService;
 import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
+import ar.edu.itba.pam.travelapp.model.trip.TripDao;
+import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
+import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 
 public class ProductionDetailsContainer implements DetailsContainer {
@@ -19,6 +22,9 @@ public class ProductionDetailsContainer implements DetailsContainer {
     private WeatherRepository weatherRepository;
     private WeatherLocationService locationService;
     private WeatherForecastService forecastService;
+    private TripDao tripDao;
+    private TripRepository tripRepository;
+    private TripMapper tripMapper;
     private SchedulerProvider schedulerProvider;
 
     public ProductionDetailsContainer(final Context context) {
@@ -68,6 +74,28 @@ public class ProductionDetailsContainer implements DetailsContainer {
             this.forecastService = detailsModule.provideForecastService();
         }
         return forecastService;
+    }
+
+    @Override
+    public TripRepository getTripRepository() {
+        if (tripRepository == null) {
+            this.tripRepository = detailsModule.provideTripRepository(getTripMapper(), getTripDao());
+        }
+        return tripRepository;
+    }
+
+    private TripDao getTripDao() {
+        if (tripDao == null) {
+            this.tripDao = detailsModule.provideTripDao();
+        }
+        return tripDao;
+    }
+
+    private TripMapper getTripMapper() {
+        if (tripMapper == null) {
+            this.tripMapper = detailsModule.provideTripMapper();
+        }
+        return tripMapper;
     }
 
     private ActivityDao getActivityDao() {

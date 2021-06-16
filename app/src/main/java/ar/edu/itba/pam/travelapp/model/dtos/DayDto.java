@@ -34,4 +34,20 @@ public class DayDto {
     public void addActivityToDay(Activity activity) {
         dayActivities.add(activity);
     }
+
+    public void editActivityFromDay(Activity activity) {
+        for (Activity a: dayActivities) {
+            if (a.getId() == activity.getId()) {
+                a.setName(activity.getName());
+            }
+        }
+    }
+
+    public void deleteActivityFromDay(Activity activity) {
+        for (Activity a: dayActivities) {
+            if (a.getId() == activity.getId()) {
+                dayActivities.remove(a);
+            }
+        }
+    }
 }

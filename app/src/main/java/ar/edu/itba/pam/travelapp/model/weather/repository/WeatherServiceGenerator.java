@@ -11,7 +11,7 @@ public class WeatherServiceGenerator {
     private static final String PROTOCOL = "https";
     private static final String DOMAIN = "dataservice.accuweather.com";
     private static final String API_VERSION = "v1";
-    private static final String API_KEY = "owAXGCVhiwtl9MoIw2tBxeylmwELKTlg";
+    private static final String API_KEY = "7UpVBPqZOAarMocErsBzBC2VHFiy6j5h";
 
     public static WeatherLocationService getWeatherLocationService() {
         String baseUrl = PROTOCOL + "://" + DOMAIN + "/locations/" + API_VERSION + "/cities/";

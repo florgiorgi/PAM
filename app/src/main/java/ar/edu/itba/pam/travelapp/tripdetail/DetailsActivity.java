@@ -166,7 +166,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
 
     @Override
     public void onCityError() {
-        Toast.makeText(DetailsActivity.this, "No city found with that name", Toast.LENGTH_LONG).show();
+        Toast.makeText(DetailsActivity.this, "Weather data not available: No city found with that name", Toast.LENGTH_LONG).show();
     }
 
     @Override

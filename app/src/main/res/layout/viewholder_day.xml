@@ -101,15 +101,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="16dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="-10dp"
+            android:layout_marginBottom="14dp"
+            android:layout_marginEnd="8dp"
             android:visibility="gone">
 
                 <EditText
                 android:id="@+id/enter_new_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="12dp"
                 android:layout_marginEnd="4dp"
                 android:hint="@string/enter_activity"
                 android:imeOptions="actionSend"

@@ -92,7 +92,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
             editParams.setMargins(0,0,0,0);
             confirmButtonParams.setMargins(20,50,20,0);
             deleteButtonParams.setMargins(20,42,15,0);
-            editAndCancelParams.setMargins(0,0,0,0);
+            editAndCancelParams.setMargins(-10,-20,0,-20);
 
             textView.setLayoutParams(params);
             editText.setLayoutParams(editParams);
@@ -119,7 +119,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 editAndCancel.setVisibility(View.VISIBLE);
             });
             confirmButton.setOnClickListener(v1 -> {
-                //TODO edit activity
                 listener.onEditActivity(a,editText.getText().toString());
                 editText.setText(a.getName());
                 textView.setVisibility(View.VISIBLE);
@@ -129,7 +128,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 editAndCancel.setVisibility(View.GONE);
             });
             deleteButton.setOnClickListener(v2 -> {
-                //TODO delete activity
                 listener.onDeleteActivity(a);
                 editText.setVisibility(View.GONE);
                 confirmButton.setVisibility(View.GONE);
@@ -140,7 +138,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     if (actionId == EditorInfo.IME_ACTION_SEND) {
-                        //TODO edit activity
                         listener.onEditActivity(a,editText.getText().toString());
                         editText.setText(a.getName());
                         textView.setVisibility(View.VISIBLE);

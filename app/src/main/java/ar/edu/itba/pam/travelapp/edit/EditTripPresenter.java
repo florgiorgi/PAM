@@ -59,6 +59,23 @@ public class EditTripPresenter {
         if (fromDate == null || toDate == null) {
             return;
         }
+        if(toDate != null) {
+            if(toDate.isBefore(fromDate)) {
+                if (view.get() != null) {
+                    view.get().setErrorMessage(to, "Trip end date can't be before its start date");
+                }
+                return;
+            }
+        }
+        if(departureDateTime != null) {
+            if (departureDateTime.toLocalDate().isBefore(fromDate)) {
+                if (view.get() != null) {
+                    view.get().setErrorMessage(departureTime, "Departure time can't be before the trip's start date");
+                }
+                return;
+            }
+        }
+
         updateTrip(destination.getText().toString(), fromDate, toDate, travelMethod, flightNumber.getText().toString(), departureDateTime);
     }
 

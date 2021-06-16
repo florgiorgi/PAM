@@ -67,6 +67,7 @@ public class CreateTripPresenter {
         LocalDate fromDate = parseDate(from);
         LocalDate toDate = parseDate(to);
         LocalDateTime departureDateTime = parseDateTime(departureTime);
+
         if (fromDate == null) {
             if (view.get() != null) {
                 view.get().setErrorMessage(from, "Invalid date format");
@@ -80,6 +81,24 @@ public class CreateTripPresenter {
         if (fromDate == null || toDate == null) {
             return;
         }
+
+        if(toDate != null) {
+            if(toDate.isBefore(fromDate)) {
+                if (view.get() != null) {
+                    view.get().setErrorMessage(to, "Trip end date can't be before its start date");
+                }
+                return;
+            }
+        }
+        if(departureDateTime != null) {
+            if (departureDateTime.toLocalDate().isBefore(fromDate)) {
+                if (view.get() != null) {
+                    view.get().setErrorMessage(departureTime, "Departure time can't be before the trip's start date");
+                }
+                return;
+            }
+        }
+
         this.trip = new Trip(destination.getText().toString(), fromDate, toDate, travelMethod, departureDateTime, flightNumber.getText().toString());
         createTrip(trip);
     }

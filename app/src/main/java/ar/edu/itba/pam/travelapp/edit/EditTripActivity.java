@@ -197,6 +197,7 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
     @Override
     public void setErrorMessage(EditText field, String message) {
         field.setError(message);
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

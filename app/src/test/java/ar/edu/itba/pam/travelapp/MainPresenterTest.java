@@ -2,10 +2,8 @@ package ar.edu.itba.pam.travelapp;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
 import ar.edu.itba.pam.travelapp.main.MainPresenter;
@@ -15,7 +13,6 @@ import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
-import io.reactivex.disposables.Disposable;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;

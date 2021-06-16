@@ -13,6 +13,7 @@ import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
+import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -25,7 +26,7 @@ public class MainPresenterTest {
     private FtuStorage storage;
     private NightModeStorage nightModeStorage;
     private TripRepository tripRepository;
-    private AndroidSchedulerProvider provider;
+    private SchedulerProvider provider;
 
     private LocalDate now;
 
@@ -36,7 +37,7 @@ public class MainPresenterTest {
         view = mock(MainView.class);
         storage = mock(FtuStorage.class);
         nightModeStorage = mock(NightModeStorage.class);
-        provider = mock(AndroidSchedulerProvider.class);
+        provider = new SchedulerProviderTest();
         tripRepository = mock(TripRepository.class);
         now = LocalDate.now();
 

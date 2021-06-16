@@ -29,6 +29,7 @@ import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainer;
 import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainerLocator;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
+import ar.edu.itba.pam.travelapp.utils.DateUtils;
 
 
 public class CreateTripActivity extends AppCompatActivity implements Validator.ValidationListener, CreateTripView {
@@ -61,7 +62,6 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_trip);
-
         createPresenter();
         initView();
         initValidator();
@@ -110,6 +110,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 travelMethod = (TravelMethod) adapterView.getItemAtPosition(i);
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
                 // do nothing :)
@@ -119,7 +120,17 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     @Override
     public void showDateDialog(EditText inputView) {
-        LocalDate date = LocalDate.now();
+        LocalDate date = null;
+        if (inputView.getText().length() > 0 && DateUtils.parseDate(inputView) != null) {
+            date = DateUtils.parseDate(inputView);
+        } else {
+            if (inputView.equals(to) && DateUtils.parseDate(from) != null) {
+                date = DateUtils.parseDate(from);
+            }
+        }
+        if (date == null) {
+            date = LocalDate.now();
+        }
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
             LocalDate chosenDate = LocalDate.of(year, month + 1, dayOfMonth);
             inputView.setText(chosenDate.format(dateFormatter));
@@ -134,10 +145,20 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     @Override
     public void showDateTimeDialog(EditText inputView) {
-        LocalDateTime now = LocalDateTime.now();
-        dateTimeBuilder = new StringBuilder();
+        LocalDateTime now = null;
+        if (inputView.getText().length() > 0 && DateUtils.parseDateTime(inputView) != null) {
+            now = DateUtils.parseDateTime(inputView);
+        } else {
+            if (inputView.equals(departureTime) && DateUtils.parseDate(from) != null) {
+                now = DateUtils.parseDate(from).atStartOfDay();
+            }
+        }
+        if (now == null) {
+            now = LocalDateTime.now();
+        }
 
-        //Calendar calendar = Calendar.getInstance();
+        dateTimeBuilder = new StringBuilder();
+        LocalDateTime finalNow = now;
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
 
             LocalDate chosenDate = LocalDate.of(year, month + 1, dayOfMonth);
@@ -145,15 +166,15 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
             dateTimeBuilder.append(dateString).append(" ");
 
             TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hour, minute) -> {
-                LocalDateTime chosenTime = LocalDateTime.of(now.getYear(), now.getMonthValue(), now.getDayOfMonth(), hour, minute);
+                LocalDateTime chosenTime = LocalDateTime.of(finalNow.getYear(), finalNow.getMonthValue(), finalNow.getDayOfMonth(), hour, minute);
                 String timeString = chosenTime.format(timeFormatter);
                 dateTimeBuilder.append(timeString);
                 inputView.setText(dateTimeBuilder.toString());
             };
 
             new TimePickerDialog(CreateTripActivity.this, timeSetListener,
-                    now.getHour(),
-                    now.getMinute(),
+                    finalNow.getHour(),
+                    finalNow.getMinute(),
                     false).show();
         };
         new DatePickerDialog(CreateTripActivity.this, dateSetListener,

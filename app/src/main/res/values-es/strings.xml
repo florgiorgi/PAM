@@ -11,14 +11,14 @@
     <string name="from">Desde</string>
     <string name="to">Hasta</string>
     <string name="how_are_you_traveling">¿Cómo viajás?</string>
-    <string name="flight_number">Número de vuelo</string>
+    <string name="flight_number">Número de ticket</string>
     <string name="date_time">Fecha y hora de salida</string>
     <string name="where_are_you_going_hint">Ingresá tu destino</string>
     <string name="from_hint">dd/mm/aaaa</string>
     <string name="to_hint">dd/mm/aaaa</string>
-    <string name="flight_number_hint">Ingresá el número de vuelo</string>
-    <string name="date_time_hint">dd/mm/aaaa hh:mm</string>
-    <string name="flight_title">Vuelo #</string>
+    <string name="flight_number_hint">Ingresá tu número de ticket (opcional)</string>
+    <string name="date_time_hint">dd/mm/aaaa hh:mm (opcional)</string>
+    <string name="flight_title">Ticket #</string>
     <string name="climate1">20/21</string>
     <string name="climate2">21/27</string>
     <string name="climate3">18/22</string>
@@ -42,7 +42,13 @@
     <string name="cancel">Cancelar</string>
     <string name="confirm">Confirmar</string>
     <string name="enter_activity">Ingresá una actividad</string>
-
+    <string name="menu_edit_trip">Editar</string>
+    <string name="menu_delete_trip">Eliminar</string>
+    <string name="trip_edit_dest_hint">Destino</string>
+    <string name="from_edit">Desde</string>
+    <string name="to_edit">Hasta</string>
+    <string name="edit_button">Editar</string>
+    <string name="cancel_edit">Cancelar</string>
     <string-array name="transport_options">
         <item>Avión</item>
         <item>Bus</item>

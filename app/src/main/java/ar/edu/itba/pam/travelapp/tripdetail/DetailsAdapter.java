@@ -1,6 +1,5 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +23,9 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private final List<LocalDate> dataset;
     private final Map<LocalDate, DayDto> allData;
 
-    // TODO: remove this!
-    private final Context context;
+    private ActivityEventListener listener;
 
-    private OnNewActivityClickedListener listener;
-
-    public DetailsAdapter(Context context) {
-        this.context = context;
+    public DetailsAdapter() {
         this.dataset = new ArrayList<>();
         this.allData = new HashMap<>();
     }
@@ -54,7 +49,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         final View viewDay = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_day, parent, false);
-        return new DayViewHolder(viewDay, context);
+        return new DayViewHolder(viewDay);
     }
 
     @Override
@@ -68,7 +63,7 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return dataset.size();
     }
 
-    public void setOnClickListener(OnNewActivityClickedListener listener) {
+    public void setOnClickListener(ActivityEventListener listener) {
         this.listener = listener;
     }
 }

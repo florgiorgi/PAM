@@ -12,6 +12,11 @@ import ar.edu.itba.pam.travelapp.model.weather.repository.WeatherLocationService
 import ar.edu.itba.pam.travelapp.model.weather.repository.WeatherServiceGenerator;
 import ar.edu.itba.pam.travelapp.model.weather.WeatherApiRepository;
 import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
+import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.model.trip.TripDao;
+import ar.edu.itba.pam.travelapp.model.trip.TripMapper;
+import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
+import ar.edu.itba.pam.travelapp.model.trip.TripRoomRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 
@@ -56,4 +61,17 @@ public class DetailsModule {
     public WeatherForecastService provideForecastService() {
         return WeatherServiceGenerator.getWeatherForecastService();
     }
+
+    public TripDao provideTripDao() {
+        return appDatabase.getTripDao();
+    }
+
+    public TripRepository provideTripRepository(final TripMapper mapper, final TripDao tripDao) {
+        return new TripRoomRepository(tripDao, mapper);
+    }
+
+    public TripMapper provideTripMapper() {
+        return new TripMapper();
+    }
+
 }

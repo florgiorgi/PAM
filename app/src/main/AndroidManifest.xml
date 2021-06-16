@@ -25,6 +25,8 @@
         <activity android:name=".landing.FtuActivity"/>
         <activity android:name=".tripdetail.DetailsActivity"/>
 
+        <activity android:name=".edit.EditTripActivity"/>
+
         <activity android:name=".newtrip.CreateTripActivity"/>
 
     </application>

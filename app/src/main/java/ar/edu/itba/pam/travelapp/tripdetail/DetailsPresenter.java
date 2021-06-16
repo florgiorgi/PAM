@@ -16,6 +16,7 @@ import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
 import ar.edu.itba.pam.travelapp.model.dtos.DayDto;
 import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.location.City;
@@ -30,12 +31,15 @@ public class DetailsPresenter {
     private final WeakReference<DetailsView> view;
     private final AndroidSchedulerProvider schedulerProvider;
     private final Trip trip;
+    private final TripRepository tripRepository;
     private Disposable disposable;
     private Map<LocalDate, DayDto> tripDaysMap;
 
     public DetailsPresenter(final DetailsView view, final Trip trip, final ActivityRepository activityRepository,
-                            final AndroidSchedulerProvider schedulerProvider, final WeatherRepository weatherRepository) {
+                            final TripRepository tripRepository, final AndroidSchedulerProvider schedulerProvider,
+                            final WeatherRepository weatherRepository) {
         this.activityRepository = activityRepository;
+        this.tripRepository = tripRepository;
         this.view = new WeakReference<>(view);
         this.schedulerProvider = schedulerProvider;
         this.weatherRepository = weatherRepository;
@@ -43,10 +47,10 @@ public class DetailsPresenter {
     }
 
     public void onViewAttached() {
-        fetchTrip();
+        fetchActivities();
     }
 
-    private void fetchTrip() {
+    private void fetchActivities() {
         this.disposable = activityRepository.findByTripId(this.trip.getId())
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
@@ -153,6 +157,18 @@ public class DetailsPresenter {
         }
     }
 
+    public void onDeleteTrip() {
+        if (view.get() != null) {
+            view.get().openConfirmDeleteDialog();
+        }
+    }
+
+    public void onEditTrip() {
+        if (view.get() != null) {
+            view.get().startEditTripActivity();
+        }
+    }
+
     private void parseActivities(List<Activity> activities, Set<LocalDate> datesSet) {
         if (tripDaysMap == null) tripDaysMap = new HashMap<>();
         LocalDate from = trip.getFrom();
@@ -171,5 +187,31 @@ public class DetailsPresenter {
             }
             activitiesOfTheDay.addActivityToDay(a);
         }
+    }
+
+    public void onConfirmDeleteTrip() {
+        AsyncTask.execute(() -> {
+            this.tripRepository.deleteTrip(trip);
+        });
+        if (view.get() != null) {
+            view.get().showDeletedTripSuccessMessage();
+        }
+    }
+
+    // todo: ver si se puede omitir el update trayendo toda la data, con el insert anda (wtf?)
+    public void onActivityDelete(Activity activity) {
+        AsyncTask.execute(() -> {
+            System.out.println("Executed delete activity async task");
+            this.activityRepository.delete(activity);
+        });
+        this.fetchActivities();
+    }
+
+    public void onActivityEdit(Activity activity, String name) {
+        activity.setName(name);
+        AsyncTask.execute(() -> {
+            this.activityRepository.update(activity);
+        });
+        this.fetchActivities();
     }
 }

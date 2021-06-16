@@ -17,7 +17,7 @@
             android:textAppearance="?attr/textAppearanceHeadline6" />
 
         <EditText
-            android:id="@+id/destination_input"
+            android:id="@+id/destination_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -28,7 +28,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:baselineAligned="false"
             android:orientation="horizontal">
 
@@ -47,15 +47,15 @@
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
                 <EditText
-                    android:id="@+id/from_input"
+                    android:id="@+id/from_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
                     android:ems="10"
                     android:hint="@string/from_hint"
                     android:importantForAutofill="no"
                     android:inputType="date"
-                    android:maxLength="10"/>
+                    android:maxLength="10"
+                    android:focusable="false"/>
             </LinearLayout>
 
             <LinearLayout
@@ -73,15 +73,15 @@
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
                 <EditText
-                    android:id="@+id/to_input"
+                    android:id="@+id/to_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
                     android:ems="10"
                     android:hint="@string/to_hint"
                     android:importantForAutofill="no"
                     android:inputType="date"
-                    android:maxLength="10"/>
+                    android:maxLength="10"
+                    android:focusable="false"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -96,7 +96,7 @@
             android:visibility="gone"/>
 
         <Spinner
-            android:id="@+id/transport_spinner"
+            android:id="@+id/transport_method_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="15dp"
@@ -112,7 +112,7 @@
             android:textAppearance="?attr/textAppearanceHeadline6" />
 
         <EditText
-            android:id="@+id/flight_number_input"
+            android:id="@+id/flight_number_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -130,24 +130,40 @@
             android:textAppearance="?attr/textAppearanceHeadline6" />
 
         <EditText
-            android:id="@+id/date_time_of_departure_input"
+            android:id="@+id/departure_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
             android:ems="10"
             android:hint="@string/date_time_hint"
             android:importantForAutofill="no"
             android:inputType="datetime"
-            android:maxLength="16"/>
+            android:maxLength="16"
+            android:focusable="false"/>
 
-        <Button
-            android:id="@+id/create_btn"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="170dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="50dp"
-            android:text="@string/create" />
+            android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/cancel_edit_btn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cancel_edit"
+                android:layout_weight="0.5"/>
+
+            <Button
+                android:id="@+id/edit_btn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="@string/edit_button"
+                android:layout_marginTop="20dp"
+                android:layout_weight="0.5"/>
+            
+        </LinearLayout>
     </LinearLayout>
+
 </ScrollView>

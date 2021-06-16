@@ -16,4 +16,10 @@ public interface DetailsView {
     void onForecastError();
 
     void onCityError();
+
+    void showDeletedTripSuccessMessage();
+
+    void openConfirmDeleteDialog();
+
+    void startEditTripActivity();
 }

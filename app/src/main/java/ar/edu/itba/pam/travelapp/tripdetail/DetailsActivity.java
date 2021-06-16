@@ -1,6 +1,10 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,10 +22,14 @@ import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainer;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainerLocator;
 import ar.edu.itba.pam.travelapp.model.dtos.DayDto;
+import ar.edu.itba.pam.travelapp.edit.EditTripActivity;
+import ar.edu.itba.pam.travelapp.main.MainActivity;
+import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 
-public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener {
+
+public class DetailsActivity extends AppCompatActivity implements DetailsView, ActivityEventListener, ConfirmDialog.ConfirmDialogListener {
 
     private Trip trip;
     private DetailsPresenter presenter;
@@ -34,6 +42,13 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
         this.trip = (Trip) getIntent().getSerializableExtra("trip");
         createPresenter();
         initView();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.trip_detail_menu, menu);
+        return true;
     }
 
     @Override
@@ -53,8 +68,8 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
         final TextView tripDate = findViewById(R.id.trip_date);
         final TextView tripFlightNumber = findViewById(R.id.trip_flight_number);
         final TextView tripDepartureDate = findViewById(R.id.trip_departure_date);
-        DateTimeFormatter dateFormatter =  DateTimeFormatter.ofPattern("MMM dd");
-        DateTimeFormatter dateTimeFormatter =  DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMM dd");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy HH:mm");
         String departureTime = "";
         if (trip.getDepartureTime() != null) {
             departureTime = trip.getDepartureTime().format(dateTimeFormatter);
@@ -75,10 +90,24 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
         initRecyclerView();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_edit_trip:
+                presenter.onEditTrip();
+                return true;
+            case R.id.menu_delete_trip:
+                presenter.onDeleteTrip();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void initRecyclerView() {
         RecyclerView detailsRecyclerView = findViewById(R.id.trip_details);
         detailsRecyclerView.setHasFixedSize(true);
-        detailsAdapter = new DetailsAdapter(this);
+        detailsAdapter = new DetailsAdapter();
         detailsAdapter.setOnClickListener(this);
         detailsRecyclerView.setAdapter(detailsAdapter);
         detailsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -92,7 +121,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
         if (presenter == null) {
             DetailsContainer container = DetailsContainerLocator.locateComponent(this);
             presenter = new DetailsPresenter(this, trip, container.getActivityRepository(),
-                    (AndroidSchedulerProvider) container.getSchedulerProvider(),
+                    container.getTripRepository(), (AndroidSchedulerProvider) container.getSchedulerProvider(),
                     container.getWeatherRepository());
         }
     }
@@ -114,6 +143,18 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     @Override
+    public void showDeletedTripSuccessMessage() {
+        Toast.makeText(DetailsActivity.this, "Trip deleted successfully", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(DetailsActivity.this, MainActivity.class));
+    }
+
+    @Override
+    public void openConfirmDeleteDialog() {
+        ConfirmDialog dialog = new ConfirmDialog();
+        dialog.show(getSupportFragmentManager(), "confirm-dialog");
+    }
+
+    @Override
     public void bindDaysDataset(Set<LocalDate> dates, Map<LocalDate, DayDto> datesData)  {
         detailsAdapter.update(dates, datesData);
     }
@@ -129,7 +170,35 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
     }
 
     @Override
-    public void onClick(String name, LocalDate date) {
+    public void startEditTripActivity() {
+        Intent intent = new Intent(this, EditTripActivity.class);
+        intent.putExtra("trip", trip);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClickNewActivity(String name, LocalDate date) {
         presenter.onActivityCreate(name, date);
+    }
+
+    @Override
+    public void onDeleteActivity(Activity activity) {
+        System.out.println("ON DELETE ACTIVITY");
+        System.out.println(activity.getId());
+        presenter.onActivityDelete(activity);
+    }
+
+    @Override
+    public void onEditActivity(Activity activity, String name) {
+        System.out.println("ON EDIT ACTIVITY");
+        System.out.println(activity.getId());
+        System.out.println(activity.getName());
+        System.out.println(name);
+        presenter.onActivityEdit(activity, name);
+    }
+
+    @Override
+    public void confirmDelete() {
+        presenter.onConfirmDeleteTrip();
     }
 }

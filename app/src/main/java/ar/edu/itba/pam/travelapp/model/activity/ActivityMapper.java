@@ -7,7 +7,7 @@ import java.util.List;
 public class ActivityMapper {
 
     public Activity toModel(ActivityEntity entity) {
-        return new Activity(entity.getName(), entity.getTripId(), entity.getDate());
+        return new Activity(entity.getId(), entity.getName(), entity.getTripId(), entity.getDate());
     }
 
     public List<Activity> toModel(List<ActivityEntity> entities) {
@@ -17,7 +17,7 @@ public class ActivityMapper {
     }
 
     public ActivityEntity toEntity(Activity activity) {
-        return new ActivityEntity(activity.getName(), activity.getTripId(), activity.getDate());
+        return new ActivityEntity(activity.getId(), activity.getName(), activity.getTripId(), activity.getDate());
     }
 
     public List<ActivityEntity> toEntity(List<Activity> activities) {

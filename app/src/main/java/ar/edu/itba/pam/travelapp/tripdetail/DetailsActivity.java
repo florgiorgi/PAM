@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,10 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainer;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainerLocator;
-import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.dtos.DayDto;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
-import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 
 public class DetailsActivity extends AppCompatActivity implements DetailsView, OnNewActivityClickedListener {
@@ -121,23 +118,14 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, O
         detailsAdapter.update(dates, datesData);
     }
 
-//    @Override
-//    public void bindForecastToDay(ForecastResponse response) {
-//        // todo: bind forecast to day
-//        System.out.println("Max: " + response.getDailyForecasts().get(0).getTemperature().getMaximum().getValue());
-//        System.out.println("Min: " + response.getDailyForecasts().get(0).getTemperature().getMinimum().getValue());
-//        System.out.println("Day icon (sunny/nublado/etc): " + response.getDailyForecasts().get(0).getDay().getIcon());
-////        view.bind(model);
-//    }
-
     @Override
     public void onForecastError() {
-        // todo: explain the error to the user
+        Toast.makeText(DetailsActivity.this, "No forecast found for trip", Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onCityError() {
-        // todo: show user that no city was found with that name
+        Toast.makeText(DetailsActivity.this, "No city found with that name", Toast.LENGTH_LONG).show();
     }
 
     @Override

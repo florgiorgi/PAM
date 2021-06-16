@@ -39,6 +39,7 @@ public class DayDto {
         for (Activity a: dayActivities) {
             if (a.getId() == activity.getId()) {
                 a.setName(activity.getName());
+                return;
             }
         }
     }
@@ -47,6 +48,7 @@ public class DayDto {
         for (Activity a: dayActivities) {
             if (a.getId() == activity.getId()) {
                 dayActivities.remove(a);
+                return;
             }
         }
     }

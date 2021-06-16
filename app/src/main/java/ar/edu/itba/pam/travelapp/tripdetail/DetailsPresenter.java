@@ -90,7 +90,7 @@ public class DetailsPresenter {
                 .observeOn(schedulerProvider.ui())
                 .subscribe(this::onForecastReceived, error -> {
                     if (view.get() != null) {
-                        view.get().onForecastError();
+                        view.get().onForecastError(error);
                     }
                 });
     }
@@ -101,7 +101,7 @@ public class DetailsPresenter {
                 .observeOn(schedulerProvider.ui())
                 .subscribe(this::onForecastReceived, error -> {
                     if (view.get() != null) {
-                        view.get().onForecastError();
+                        view.get().onForecastError(error);
                     }
                 });
     }
@@ -112,7 +112,7 @@ public class DetailsPresenter {
                 .observeOn(schedulerProvider.ui())
                 .subscribe(this::onCityReceived, error -> {
                     if (view.get() != null) {
-                        view.get().onCityError();
+                        view.get().onCityError(error);
                     }
                 });
     }

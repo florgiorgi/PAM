@@ -22,7 +22,7 @@ public interface ActivityDao {
     Flowable<ActivityEntity> findById(long id);
 
     @Insert
-    void insert(ActivityEntity activity);
+    long insert(ActivityEntity activity);
 
     @Delete
     void delete(ActivityEntity activity);

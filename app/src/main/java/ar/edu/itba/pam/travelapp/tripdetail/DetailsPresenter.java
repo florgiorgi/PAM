@@ -149,8 +149,11 @@ public class DetailsPresenter {
     public void onActivityCreate(String name, LocalDate date) {
         if (name != null && name.length() > 0) {
             Activity activity = new Activity(name, this.trip.getId(), date);
-            AsyncTask.execute(() -> this.activityRepository.insert(activity));
-            tripDaysMap.get(date).addActivityToDay(activity);
+            AsyncTask.execute(() -> {
+                long newActivityId = this.activityRepository.insert(activity);
+                activity.setId(newActivityId);
+                tripDaysMap.get(date).addActivityToDay(activity);
+            });
         }
         if (view.get() != null) {
             view.get().showNewActivitySuccessMessage();
@@ -205,7 +208,7 @@ public class DetailsPresenter {
     public void onActivityEdit(Activity activity, String name) {
         activity.setName(name);
         AsyncTask.execute(() -> this.activityRepository.update(activity));
-        tripDaysMap.get(activity.getDate()).editActivityFromDay(activity);
+        tripDaysMap.get(activity.getDate()).editActivityNameFromDay(activity.getId(), name);
         this.fetchActivities();
     }
 }

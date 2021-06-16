@@ -35,10 +35,11 @@ public class DayDto {
         dayActivities.add(activity);
     }
 
-    public void editActivityFromDay(Activity activity) {
+    public void editActivityNameFromDay(long activityId, String newName) {
         for (Activity a: dayActivities) {
-            if (a.getId() == activity.getId()) {
-                a.setName(activity.getName());
+            if (a.getId() == activityId) {
+                a.setName(newName);
+                return;
             }
         }
     }
@@ -47,6 +48,7 @@ public class DayDto {
         for (Activity a: dayActivities) {
             if (a.getId() == activity.getId()) {
                 dayActivities.remove(a);
+                return;
             }
         }
     }

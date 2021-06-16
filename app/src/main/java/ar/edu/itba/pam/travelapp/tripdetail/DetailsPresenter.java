@@ -90,7 +90,7 @@ public class DetailsPresenter {
                 .observeOn(schedulerProvider.ui())
                 .subscribe(this::onForecastReceived, error -> {
                     if (view.get() != null) {
-                        view.get().onForecastError();
+                        view.get().onForecastError(error);
                     }
                 });
     }
@@ -101,7 +101,7 @@ public class DetailsPresenter {
                 .observeOn(schedulerProvider.ui())
                 .subscribe(this::onForecastReceived, error -> {
                     if (view.get() != null) {
-                        view.get().onForecastError();
+                        view.get().onForecastError(error);
                     }
                 });
     }
@@ -112,7 +112,7 @@ public class DetailsPresenter {
                 .observeOn(schedulerProvider.ui())
                 .subscribe(this::onCityReceived, error -> {
                     if (view.get() != null) {
-                        view.get().onCityError();
+                        view.get().onCityError(error);
                     }
                 });
     }
@@ -190,28 +190,23 @@ public class DetailsPresenter {
     }
 
     public void onConfirmDeleteTrip() {
-        AsyncTask.execute(() -> {
-            this.tripRepository.deleteTrip(trip);
-        });
+        AsyncTask.execute(() -> this.tripRepository.deleteTrip(trip));
         if (view.get() != null) {
             view.get().showDeletedTripSuccessMessage();
         }
     }
 
-    // todo: ver si se puede omitir el update trayendo toda la data, con el insert anda (wtf?)
+    // todo: ver si se puede omitir el update trayendo toda la data, con el insert anda
     public void onActivityDelete(Activity activity) {
-        AsyncTask.execute(() -> {
-            System.out.println("Executed delete activity async task");
-            this.activityRepository.delete(activity);
-        });
+        AsyncTask.execute(() -> this.activityRepository.delete(activity));
+        tripDaysMap.get(activity.getDate()).deleteActivityFromDay(activity);
         this.fetchActivities();
     }
 
     public void onActivityEdit(Activity activity, String name) {
         activity.setName(name);
-        AsyncTask.execute(() -> {
-            this.activityRepository.update(activity);
-        });
+        AsyncTask.execute(() -> this.activityRepository.update(activity));
+        tripDaysMap.get(activity.getDate()).editActivityFromDay(activity);
         this.fetchActivities();
     }
 }

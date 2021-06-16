@@ -13,9 +13,9 @@ public interface DetailsView {
 
     void bindDaysDataset(Set<LocalDate> dates, Map<LocalDate, DayDto> datesData);
 
-    void onForecastError();
+    void onForecastError(Throwable error);
 
-    void onCityError();
+    void onCityError(Throwable error);
 
     void showDeletedTripSuccessMessage();
 

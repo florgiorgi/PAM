@@ -160,13 +160,31 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
     }
 
     @Override
-    public void onForecastError() {
-        Toast.makeText(DetailsActivity.this, "No forecast found for trip", Toast.LENGTH_LONG).show();
+    public void onForecastError(Throwable error) {
+        String errorMessage = error.getMessage();
+        if (errorMessage == null) {
+            Toast.makeText(DetailsActivity.this, "Weather data not available: no forecast found for trip", Toast.LENGTH_LONG).show();
+        } else if (errorMessage.contains("503")) {
+            Toast.makeText(DetailsActivity.this, "Weather data not available: your app has low priority and its request was discarded due to high traffic", Toast.LENGTH_LONG).show();
+        } else if (errorMessage.contains("401")) {
+            Toast.makeText(DetailsActivity.this, "Weather data not available: your free trial requests have expired for today", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(DetailsActivity.this, "Weather data not available: no forecast found for trip", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
-    public void onCityError() {
-        Toast.makeText(DetailsActivity.this, "Weather data not available: No city found with that name", Toast.LENGTH_LONG).show();
+    public void onCityError(Throwable error) {
+        String errorMessage = error.getMessage();
+        if (errorMessage == null) {
+            Toast.makeText(DetailsActivity.this, "Weather data not available: no city found with that name", Toast.LENGTH_LONG).show();
+        } else if (errorMessage.contains("503")) {
+            Toast.makeText(DetailsActivity.this, "Weather data not available: your app has low priority and its request was discarded due to high traffic", Toast.LENGTH_LONG).show();
+        } else if (errorMessage.contains("401")) {
+            Toast.makeText(DetailsActivity.this, "Weather data not available: your free trial requests have expired for today", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(DetailsActivity.this, "Weather data not available: no city found with that name", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

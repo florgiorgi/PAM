@@ -14,9 +14,9 @@ import java.util.Set;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
 import ar.edu.itba.pam.travelapp.model.dtos.DayDto;
-import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
+import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.location.City;
@@ -125,7 +125,7 @@ public class DetailsPresenter {
     private void onForecastReceived(ForecastResponse forecast) {
         int i = 0;
         List<Forecast> daysForecasts = forecast.getDailyForecasts();
-        for (LocalDate day: tripDaysMap.keySet()) {
+        for (LocalDate day : tripDaysMap.keySet()) {
             if (!day.isBefore(LocalDate.now())) {
                 if (i < MAX_AMOUNT_OF_FORECASTS) {
                     tripDaysMap.get(day).setDayForecast(daysForecasts.get(i));
@@ -196,7 +196,6 @@ public class DetailsPresenter {
         }
     }
 
-    // todo: ver si se puede omitir el update trayendo toda la data, con el insert anda
     public void onActivityDelete(Activity activity) {
         AsyncTask.execute(() -> this.activityRepository.delete(activity));
         tripDaysMap.get(activity.getDate()).deleteActivityFromDay(activity);

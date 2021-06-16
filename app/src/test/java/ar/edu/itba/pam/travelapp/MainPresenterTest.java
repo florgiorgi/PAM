@@ -4,6 +4,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
 import ar.edu.itba.pam.travelapp.main.MainPresenter;
@@ -14,7 +16,9 @@ import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
+import io.reactivex.Flowable;
 
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -54,13 +58,35 @@ public class MainPresenterTest {
     @Test
     public void givenTheViewWasAttachedWhenFtuMustBeShownThenShowTheLandingScreen() {
         when(storage.isActive()).thenReturn(true);
+        final Trip[] tripArray = {mock(Trip.class), mock(Trip.class)};
+        final List<Trip> trips = Arrays.asList(tripArray);
+        final Flowable<List<Trip>> tripsFlowable = Flowable.just(trips);
+        doReturn(tripsFlowable).when(tripRepository).getTrips();
         presenter.onViewAttached();
         verify(view).launchFtu();
     }
 
     @Test
+    public void givenTheViewWasAttachedWhenErrorFetchingTripsOccurredThenShowErrorMessage() {
+        when(storage.isActive()).thenReturn(true);
+
+        doReturn(
+                Flowable.fromCallable(() -> {
+                    throw new Exception("Broken");
+                })
+        ).when(tripRepository).getTrips();
+
+        presenter.onViewAttached();
+        verify(view).onTripsError();
+    }
+
+    @Test
     public void givenTheViewWasAttachedWhenFtuMustBeShownThenDeactivateFtuScreen() {
         when(storage.isActive()).thenReturn(true);
+        final Trip[] tripArray = {mock(Trip.class), mock(Trip.class)};
+        final List<Trip> trips = Arrays.asList(tripArray);
+        final Flowable<List<Trip>> tripsFlowable = Flowable.just(trips);
+        doReturn(tripsFlowable).when(tripRepository).getTrips();
         presenter.onViewAttached();
         verify(storage).deactivate();
     }
@@ -68,6 +94,10 @@ public class MainPresenterTest {
     @Test
     public void givenTheViewWasAttachedWhenFtuMustNotBeShownThenDontDeactivateIt() {
         when(storage.isActive()).thenReturn(false);
+        final Trip[] tripArray = {mock(Trip.class), mock(Trip.class)};
+        final List<Trip> trips = Arrays.asList(tripArray);
+        final Flowable<List<Trip>> tripsFlowable = Flowable.just(trips);
+        doReturn(tripsFlowable).when(tripRepository).getTrips();
         presenter.onViewAttached();
         verify(storage, never()).deactivate();
     }

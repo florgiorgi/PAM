@@ -113,7 +113,6 @@ public class MainPresenter {
         }
     }
 
-    // Todo: code cleanup
     private List<Object> parsedHistoryTrips(List<Trip> dataset) {
         Map<String, List<Trip>> tripsMap = new HashMap<>();
         Map<Trip, String> auxMap = new HashMap<>();

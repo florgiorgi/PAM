@@ -166,11 +166,10 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         dayNum.setText("Day " + (position + 1));
         //    private OnNewActivityClickedListener listener;
         Forecast forecasts = activitiesAndForecast.getDayForecast();
-        minTemp.setText(forecasts == null ? "--" : activitiesAndForecast.getDayForecast().getTemperature().getMinimum().getValue() + "ºC");
-        maxTemp.setText(forecasts == null ? "--" : activitiesAndForecast.getDayForecast().getTemperature().getMaximum().getValue() + "ºC");
+        minTemp.setText(forecasts == null ? "--" : Math.round(activitiesAndForecast.getDayForecast().getTemperature().getMinimum().getValue()) + "ºC");
+        maxTemp.setText(forecasts == null ? "--" : Math.round(activitiesAndForecast.getDayForecast().getTemperature().getMaximum().getValue()) + "ºC");
         if (forecasts != null) {
             int iconography = forecasts.getDay().getIcon();
-            System.out.println("icon: " + iconography);
             switch (iconography) {
                 case 1: case 2: case 3: case 4: case 5: case 32: case 33: case 34:
                     weatherIcon.setBackgroundResource(R.drawable.sunny);

@@ -19,12 +19,9 @@
     <string name="flight_number_hint">Ingresá tu número de ticket (opcional)</string>
     <string name="date_time_hint">dd/mm/aaaa hh:mm (opcional)</string>
     <string name="flight_title">Ticket #</string>
-    <string name="climate1">20/21</string>
-    <string name="climate2">21/27</string>
-    <string name="climate3">18/22</string>
-    <string name="climate4">15/19</string>
-    <string name="climate5">17/21</string>
     <string name="climate_separator">/</string>
+    <string name="climate_default">--</string>
+    <string name="day_today"> - Hoy</string>
     <string name="sunny">Soleado</string>
     <string name="cloudy">Nublado</string>
     <string name="rainy">Lluvioso</string>
@@ -49,6 +46,8 @@
     <string name="to_edit">Hasta</string>
     <string name="edit_button">Editar</string>
     <string name="cancel_edit">Cancelar</string>
+    <string name="delete_activity">Eliminar actividad</string>
+
     <string-array name="transport_options">
         <item>Avión</item>
         <item>Bus</item>

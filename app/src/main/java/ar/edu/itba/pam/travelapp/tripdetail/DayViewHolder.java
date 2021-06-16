@@ -42,10 +42,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         activityList = view.findViewById(R.id.list_of_activities);
         titleView = view.findViewById(R.id.day_card_title);
         addButton = view.findViewById(R.id.add_button);
-//        editText = view.findViewById(R.id.enter_new_activity);
-//        confirm = view.findViewById(R.id.confirm);
-//        cancel = view.findViewById(R.id.cancel);
-//        buttons = view.findViewById(R.id.new_activity_buttons);
         add_activity = view.findViewById(R.id.add_activity);
 
         setUpClickOnCardToExpand();
@@ -162,12 +158,15 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         final TextView dayNum = itemView.findViewById(R.id.day_number);
         final TextView minTemp = itemView.findViewById(R.id.min_temperature);
         final TextView maxTemp = itemView.findViewById(R.id.max_temperature);
+        final TextView tempDivider = itemView.findViewById(R.id.temp_divider);
         final ImageView weatherIcon = itemView.findViewById(R.id.weather_icon);
         dayNum.setText("Day " + (position + 1));
         //    private OnNewActivityClickedListener listener;
         Forecast forecasts = activitiesAndForecast.getDayForecast();
-        minTemp.setText(forecasts == null ? "--" : Math.round(activitiesAndForecast.getDayForecast().getTemperature().getMinimum().getValue()) + "ºC");
-        maxTemp.setText(forecasts == null ? "--" : Math.round(activitiesAndForecast.getDayForecast().getTemperature().getMaximum().getValue()) + "ºC");
+        minTemp.setText(forecasts == null ? "" : Math.round(activitiesAndForecast.getDayForecast().getTemperature().getMinimum().getValue()) + "ºC");
+        if(forecasts != null)
+            tempDivider.setVisibility(View.VISIBLE);
+        maxTemp.setText(forecasts == null ? "" : Math.round(activitiesAndForecast.getDayForecast().getTemperature().getMaximum().getValue()) + "ºC");
         if (forecasts != null) {
             int iconography = forecasts.getDay().getIcon();
             switch (iconography) {

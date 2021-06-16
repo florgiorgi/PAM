@@ -183,17 +183,11 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
 
     @Override
     public void onDeleteActivity(Activity activity) {
-        System.out.println("ON DELETE ACTIVITY");
-        System.out.println(activity.getId());
         presenter.onActivityDelete(activity);
     }
 
     @Override
     public void onEditActivity(Activity activity, String name) {
-        System.out.println("ON EDIT ACTIVITY");
-        System.out.println(activity.getId());
-        System.out.println(activity.getName());
-        System.out.println(name);
         presenter.onActivityEdit(activity, name);
     }
 

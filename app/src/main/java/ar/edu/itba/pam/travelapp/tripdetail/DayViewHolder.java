@@ -19,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
+import ar.edu.itba.pam.travelapp.model.dtos.DayDto;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
 
 
 public class DayViewHolder extends RecyclerView.ViewHolder {
@@ -39,7 +41,11 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         this.view = itemView;
         activityList = view.findViewById(R.id.list_of_activities);
         titleView = view.findViewById(R.id.day_card_title);
-        addButton = (ImageButton) view.findViewById(R.id.add_button);
+        addButton = view.findViewById(R.id.add_button);
+//        editText = view.findViewById(R.id.enter_new_activity);
+//        confirm = view.findViewById(R.id.confirm);
+//        cancel = view.findViewById(R.id.cancel);
+//        buttons = view.findViewById(R.id.new_activity_buttons);
         add_activity = view.findViewById(R.id.add_activity);
 
         setUpClickOnCardToExpand();
@@ -134,31 +140,53 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 deleteButton.setVisibility(View.GONE);
                 editAndCancel.setVisibility(View.GONE);
             });
-            editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_SEND) {
-                        listener.onEditActivity(a,editText.getText().toString());
-                        editText.setText(a.getName());
-                        textView.setVisibility(View.VISIBLE);
-                        editText.setVisibility(View.GONE);
-                        confirmButton.setVisibility(View.GONE);
-                        deleteButton.setVisibility(View.GONE);
-                        editAndCancel.setVisibility(View.GONE);
-                        return true;
-                    }
-                    return false;
+            editText.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    listener.onEditActivity(a,editText.getText().toString());
+                    editText.setText(a.getName());
+                    textView.setVisibility(View.VISIBLE);
+                    editText.setVisibility(View.GONE);
+                    confirmButton.setVisibility(View.GONE);
+                    deleteButton.setVisibility(View.GONE);
+                    editAndCancel.setVisibility(View.GONE);
+                    return true;
                 }
+                return false;
             });
             activityList.addView(textView);
             activityList.addView(editAndCancel);
         }
     }
 
-    public void bind(final List<Activity> activities, final int position, LocalDate date) {
+    public void bind(final DayDto activitiesAndForecast, final int position, LocalDate date) {
         final TextView dayNum = itemView.findViewById(R.id.day_number);
+        final TextView minTemp = itemView.findViewById(R.id.min_temperature);
+        final TextView maxTemp = itemView.findViewById(R.id.max_temperature);
+        final ImageView weatherIcon = itemView.findViewById(R.id.weather_icon);
         dayNum.setText("Day " + (position + 1));
-        setUpActivities(activities);
+        //    private OnNewActivityClickedListener listener;
+        Forecast forecasts = activitiesAndForecast.getDayForecast();
+        minTemp.setText(forecasts == null ? "--" : activitiesAndForecast.getDayForecast().getTemperature().getMinimum().getValue() + "ºC");
+        maxTemp.setText(forecasts == null ? "--" : activitiesAndForecast.getDayForecast().getTemperature().getMaximum().getValue() + "ºC");
+        if (forecasts != null) {
+            int iconography = forecasts.getDay().getIcon();
+            System.out.println("icon: " + iconography);
+            switch (iconography) {
+                case 1: case 2: case 3: case 4: case 5: case 32: case 33: case 34:
+                    weatherIcon.setBackgroundResource(R.drawable.sunny);
+                    break;
+                case 6: case 35: case 36: case 37:
+                    weatherIcon.setBackgroundResource(R.drawable.partly_cloudy);
+                    break;
+                case 7: case 8: case 9: case 38:
+                    weatherIcon.setBackgroundResource(R.drawable.cloudy);
+                    break;
+                default:
+                    weatherIcon.setBackgroundResource(R.drawable.rainy);
+                    break;
+            }
+        }
+        setUpActivities(activitiesAndForecast.getDayActivities());
         setUpAddButton(date);
     }
 
@@ -244,5 +272,4 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
             });
         });
     }
-
 }

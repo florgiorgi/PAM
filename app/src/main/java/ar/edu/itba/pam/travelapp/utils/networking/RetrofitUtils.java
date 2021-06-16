@@ -1,7 +1,10 @@
 package ar.edu.itba.pam.travelapp.utils.networking;
 
+import org.reactivestreams.Publisher;
+
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.Single;
@@ -18,13 +21,12 @@ public class RetrofitUtils {
                 .map(RetrofitUtils::unwrapResponse);
     }
 
-//    public static <T> Flowable<T> performRequest(final Flowable<Response<T>> request) {
-//        return request
-//                .onErrorResumeNext(
-//                        (Function<? super Throwable, ? extends Publisher<? extends Response<T>>>)
-//                                (t -> Flowable.error(RetrofitUtils.convertException(t))))
-//                .map(RetrofitUtils::unwrapResponse);
-//    }
+    public static <T> Flowable<List<T>> performRequest(final Flowable<Response<List<T>>> request) {
+        return request.onErrorResumeNext(
+                (Function<? super Throwable, ? extends Publisher<? extends Response<List<T>>>>)
+                t -> Flowable.error(RetrofitUtils.convertException(t)))
+                .map(RetrofitUtils::unwrapResponse);
+    }
 
     private static <T> T unwrapResponse(Response<T> tResponse) throws RequestException {
         if (RetrofitUtils.isRequestFailed(tResponse)) {
@@ -46,7 +48,7 @@ public class RetrofitUtils {
         return throwable;
     }
 
-    private static boolean isRequestFailed(final Response response) {
+    private static <T> boolean isRequestFailed(final Response<T> response) {
         return !response.isSuccessful() || isErrorCode(response.code());
     }
 

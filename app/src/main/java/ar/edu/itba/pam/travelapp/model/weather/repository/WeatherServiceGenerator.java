@@ -14,7 +14,7 @@ public class WeatherServiceGenerator {
     private static final String API_KEY = "owAXGCVhiwtl9MoIw2tBxeylmwELKTlg";
 
     public static WeatherLocationService getWeatherLocationService() {
-        String baseUrl = PROTOCOL + "://" + DOMAIN + "/location/" + API_VERSION + "/cities/";
+        String baseUrl = PROTOCOL + "://" + DOMAIN + "/locations/" + API_VERSION + "/cities/";
         GsonConverterFactory gsonConverterFactory = create(
                 new GsonBuilder()
                         .setFieldNamingPolicy(UPPER_CAMEL_CASE)

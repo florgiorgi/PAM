@@ -25,6 +25,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import ar.edu.itba.pam.travelapp.R;
+import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainer;
 import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainerLocator;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
@@ -77,8 +78,8 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
             this.presenter = (CreateTripPresenter) possibleCreateTripPresenter;
         }
         if (this.presenter == null) {
-            this.presenter = new CreateTripPresenter(this,
-                    NewTripContainerLocator.locateComponent(this));
+            NewTripContainer container = NewTripContainerLocator.locateComponent(this);
+            this.presenter = new CreateTripPresenter(this, container.getTripRepository());
         }
     }
 
@@ -223,5 +224,4 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
-
 }

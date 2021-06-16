@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,12 +19,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import ar.edu.itba.pam.travelapp.R;
+import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainer;
 import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainerLocator;
+import ar.edu.itba.pam.travelapp.model.dtos.DayDto;
 import ar.edu.itba.pam.travelapp.edit.EditTripActivity;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
-import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
+import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 
 
 public class DetailsActivity extends AppCompatActivity implements DetailsView, ActivityEventListener, ConfirmDialog.ConfirmDialogListener {
@@ -118,8 +119,10 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
             presenter = (DetailsPresenter) getLastNonConfigurationInstance();
         }
         if (presenter == null) {
-            presenter = new DetailsPresenter(this, trip,
-                    DetailsContainerLocator.locateComponent(this));
+            DetailsContainer container = DetailsContainerLocator.locateComponent(this);
+            presenter = new DetailsPresenter(this, trip, container.getActivityRepository(),
+                    container.getTripRepository(), (AndroidSchedulerProvider) container.getSchedulerProvider(),
+                    container.getWeatherRepository());
         }
     }
 
@@ -152,22 +155,18 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
     }
 
     @Override
-    public void bindDataset(Set<LocalDate> dates, Map<LocalDate, List<Activity>> activities) {
-        detailsAdapter.update(dates, activities);
-    }
-
-    @Override
-    public void bindForecastToDay(ForecastResponse response) {
-        // todo: bind forecast to day
-        System.out.println("Max: " + response.getDailyForecasts().get(0).getTemperature().getMaximum().getValue());
-        System.out.println("Min: " + response.getDailyForecasts().get(0).getTemperature().getMinimum().getValue());
-        System.out.println("Day icon (sunny/nublado/etc): " + response.getDailyForecasts().get(0).getDay().getIcon());
-//        view.bind(model);
+    public void bindDaysDataset(Set<LocalDate> dates, Map<LocalDate, DayDto> datesData)  {
+        detailsAdapter.update(dates, datesData);
     }
 
     @Override
     public void onForecastError() {
-        // todo: explain the error to the user
+        Toast.makeText(DetailsActivity.this, "No forecast found for trip", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCityError() {
+        Toast.makeText(DetailsActivity.this, "No city found with that name", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -202,5 +201,4 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
     public void confirmDelete() {
         presenter.onConfirmDeleteTrip();
     }
-
 }

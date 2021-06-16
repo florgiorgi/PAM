@@ -31,12 +31,13 @@ public class MainPresenter {
     private final TripRepository tripRepository;
     private final WeakReference<MainView> view;
 
-    public MainPresenter(final MainView view, final TripContainer container) {
-        this.ftuStorage = container.getFtuStorage();
-        this.nightModeStorage = container.getNightModeStorage();
-        this.tripRepository = container.getTripRepository();
+    public MainPresenter(final MainView view, final FtuStorage ftuStorage, final NightModeStorage nightModeStorage,
+                         final TripRepository tripRepository, final AndroidSchedulerProvider schedulerProvider) {
+        this.ftuStorage = ftuStorage;
+        this.nightModeStorage = nightModeStorage;
+        this.tripRepository = tripRepository;
         this.view = new WeakReference<>(view);
-        this.schedulerProvider = (AndroidSchedulerProvider) container.getSchedulerProvider();
+        this.schedulerProvider = schedulerProvider;
     }
 
     public void onViewAttached() {

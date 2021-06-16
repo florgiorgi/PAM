@@ -24,6 +24,7 @@
     <string name="climate3">18/22</string>
     <string name="climate4">15/19</string>
     <string name="climate5">17/21</string>
+    <string name="climate_separator">/</string>
     <string name="sunny">Soleado</string>
     <string name="cloudy">Nublado</string>
     <string name="rainy">Lluvioso</string>

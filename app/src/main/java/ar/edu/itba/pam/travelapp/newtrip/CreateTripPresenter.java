@@ -12,7 +12,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
-import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainer;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
@@ -25,8 +24,10 @@ public class CreateTripPresenter {
     private final TripRepository tripRepository;
     private final WeakReference<CreateTripView> view;
 
-    public CreateTripPresenter(final CreateTripView view, final NewTripContainer newTripContainer) {
-        this.tripRepository = newTripContainer.getTripRepository();
+    private Trip trip;
+
+    public CreateTripPresenter(final CreateTripView view, final TripRepository tripRepository) {
+        this.tripRepository = tripRepository;
         this.view = new WeakReference<>(view);
     }
 
@@ -79,7 +80,7 @@ public class CreateTripPresenter {
         if (fromDate == null || toDate == null) {
             return;
         }
-        Trip trip = new Trip(destination.getText().toString(), fromDate, toDate, travelMethod, departureDateTime, flightNumber.getText().toString());
+        this.trip = new Trip(destination.getText().toString(), fromDate, toDate, travelMethod, departureDateTime, flightNumber.getText().toString());
         createTrip(trip);
     }
 

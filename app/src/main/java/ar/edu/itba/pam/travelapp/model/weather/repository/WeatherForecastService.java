@@ -1,8 +1,5 @@
 package ar.edu.itba.pam.travelapp.model.weather.repository;
 
-import java.util.List;
-
-import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 import ar.edu.itba.pam.travelapp.model.weather.repository.interfaces.WeatherApiService;
 import io.reactivex.Single;
@@ -16,7 +13,7 @@ public interface WeatherForecastService extends WeatherApiService {
     Single<Response<ForecastResponse>> getCurrentForecast(@Path("locationKey") String locationKey,
                                                           @Query("metric") Boolean bool);
 
-    @GET("10day/{locationKey}")
+    @GET("5day/{locationKey}")
     Single<Response<ForecastResponse>> getFiveDaysForecast(@Path("locationKey") String locationKey,
                                                         @Query("metric") Boolean bool);
 }

@@ -48,7 +48,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         //activityAndButtonList = view.findViewById(R.id.list_of_activities_and_button);
         activityList = view.findViewById(R.id.list_of_activities);
         titleView = view.findViewById(R.id.day_card_title);
-        addButton = (ImageButton) view.findViewById(R.id.add_button);
+        addButton = view.findViewById(R.id.add_button);
         editText = view.findViewById(R.id.enter_new_activity);
         confirm = view.findViewById(R.id.confirm);
         cancel = view.findViewById(R.id.cancel);
@@ -76,24 +76,34 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void bind(final DayDto activities, final int position, LocalDate date) {
+    public void bind(final DayDto activitiesAndForecast, final int position, LocalDate date) {
         final TextView dayNum = itemView.findViewById(R.id.day_number);
         final TextView minTemp = itemView.findViewById(R.id.min_temperature);
         final TextView maxTemp = itemView.findViewById(R.id.max_temperature);
         final ImageView weatherIcon = itemView.findViewById(R.id.weather_icon);
         dayNum.setText("Day " + (position + 1));
-        forecasts = activities.getDayForecast();
-        minTemp.setText(forecasts == null ? "--" : activities.getDayForecast().getTemperature().getMinimum().getValue() + "ºC");
-        maxTemp.setText(forecasts == null ? "--" : activities.getDayForecast().getTemperature().getMaximum().getValue() + "ºC");
+        forecasts = activitiesAndForecast.getDayForecast();
+        minTemp.setText(forecasts == null ? "--" : activitiesAndForecast.getDayForecast().getTemperature().getMinimum().getValue() + "ºC");
+        maxTemp.setText(forecasts == null ? "--" : activitiesAndForecast.getDayForecast().getTemperature().getMaximum().getValue() + "ºC");
         if (forecasts != null) {
-            switch (forecasts.getDay().getIcon()) {
-                case 1: case 2: case 3: case 4: case 5:
-                    System.out.println("it's sunny");
-//                    weatherIcon.setImageDrawable(R.drawable.sunny);
+            int iconography = forecasts.getDay().getIcon();
+            System.out.println("icon: " + iconography);
+            switch (iconography) {
+                case 1: case 2: case 3: case 4: case 5: case 32: case 33: case 34:
+                    weatherIcon.setBackgroundResource(R.drawable.sunny);
+                    break;
+                case 6: case 35: case 36: case 37:
+                    weatherIcon.setBackgroundResource(R.drawable.partly_cloudy);
+                    break;
+                case 7: case 8: case 9: case 38:
+                    weatherIcon.setBackgroundResource(R.drawable.cloudy);
+                    break;
+                default:
+                    weatherIcon.setBackgroundResource(R.drawable.rainy);
                     break;
             }
         }
-        setUpActivities(activities.getDayActivities());
+        setUpActivities(activitiesAndForecast.getDayActivities());
         setUpAddButton(date);
     }
 
@@ -153,5 +163,4 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
             });
         });
     }
-
 }

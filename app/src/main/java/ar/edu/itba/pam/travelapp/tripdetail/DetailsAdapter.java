@@ -14,12 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 import ar.edu.itba.pam.travelapp.R;
-import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.dtos.DayDto;
-import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 
 public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

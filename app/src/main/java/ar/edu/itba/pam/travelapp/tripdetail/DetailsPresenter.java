@@ -23,6 +23,7 @@ import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
 public class DetailsPresenter {
+    public static final int MAX_AMOUNT_OF_FORECASTS = 5;
 
     private final ActivityRepository activityRepository;
     private final WeatherRepository weatherRepository;
@@ -33,8 +34,7 @@ public class DetailsPresenter {
     private Map<LocalDate, DayDto> tripDaysMap;
 
     public DetailsPresenter(final DetailsView view, final Trip trip, final ActivityRepository activityRepository,
-                            final AndroidSchedulerProvider schedulerProvider,
-                            final WeatherRepository weatherRepository) {
+                            final AndroidSchedulerProvider schedulerProvider, final WeatherRepository weatherRepository) {
         this.activityRepository = activityRepository;
         this.view = new WeakReference<>(view);
         this.schedulerProvider = schedulerProvider;
@@ -44,7 +44,6 @@ public class DetailsPresenter {
 
     public void onViewAttached() {
         fetchTrip();
-        fetchWeatherForecasts();
     }
 
     private void fetchTrip() {
@@ -61,15 +60,14 @@ public class DetailsPresenter {
     private void onActivitiesReceived(List<Activity> activities) {
         if (tripDaysMap == null) {
             Set<LocalDate> datesSet = new LinkedHashSet<>();
-//        tripDaysMap = parseActivities(activities, datesSet);
             parseActivities(activities, datesSet);
         }
         updateDays();
+        fetchWeatherForecasts();
     }
 
     private void fetchWeatherForecasts() {
         if (!trip.isLocationKeySet()) {
-//            trip.setLocationKey("7894");
             fetchLocationKey();
         } else {
             int amountOfDays = tripDaysMap.keySet().size();
@@ -77,11 +75,7 @@ public class DetailsPresenter {
             if (amountOfDays == 1) {
                 fetchWeatherForecastForCityOneDay(locationKey);
             } else {
-                int amountOfWeatherFetches = (amountOfDays / 6) + 1;
-                for (int i = 0; i <= amountOfWeatherFetches; i++) {
-                    System.out.println("----one more----");
-                    fetchWeatherForecastForCityFiveDays(locationKey);
-                }
+                fetchWeatherForecastForCityFiveDays(locationKey);
             }
         }
     }
@@ -120,8 +114,6 @@ public class DetailsPresenter {
     }
 
     private void onCityReceived(City city) {
-        System.out.println("----city: " + city);
-        System.out.println("--------city key: " + city.getKey());
         trip.setLocationKey(city.getKey());
         fetchWeatherForecasts();
     }
@@ -130,15 +122,19 @@ public class DetailsPresenter {
         int i = 0;
         List<Forecast> daysForecasts = forecast.getDailyForecasts();
         for (LocalDate day: tripDaysMap.keySet()) {
-            tripDaysMap.get(day).setDayForecast(daysForecasts.get(i));
-            i++;
+            if (!day.isBefore(LocalDate.now())) {
+                if (i < MAX_AMOUNT_OF_FORECASTS) {
+                    tripDaysMap.get(day).setDayForecast(daysForecasts.get(i));
+                    i++;
+                }
+            }
         }
         updateDays();
     }
 
     private void updateDays() {
         if (view.get() != null) {
-            view.get().bindDaysDataset(tripDaysMap.keySet(), tripDaysMap);  // todo: move parse out of here and add forecasts to map
+            view.get().bindDaysDataset(tripDaysMap.keySet(), tripDaysMap);
         }
     }
 

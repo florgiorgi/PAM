@@ -19,6 +19,4 @@ public interface CreateTripView {
     void setErrorMessage(EditText field, String message);
 
     void launchMainActivity();
-
-    void onCityError();
 }

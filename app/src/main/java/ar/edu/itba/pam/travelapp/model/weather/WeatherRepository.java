@@ -12,7 +12,7 @@ public interface WeatherRepository {
 
     Single<City> findFirstMatchCity(String city);
 
-    Single<ForecastResponse> getForecastForCity(String cityKey);
+    Single<ForecastResponse> getForecastForCityForOneDay(String cityKey);
 
-    Single<ForecastResponse> getForecastForCity(City city);
+    Single<ForecastResponse> getForecastForCityForFiveDays(String cityKey);
 }

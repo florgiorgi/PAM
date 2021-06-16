@@ -35,24 +35,50 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/min_temperature"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:text="@string/climate1"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingStart="16dp"
+                android:text="12"
                 android:textAppearance="?attr/textAppearanceHeadline6"
                 android:textColor="?android:attr/textColorSecondary"
-                android:textSize="18sp"
-                android:visibility="gone" />
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                android:text="@string/climate_separator"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/max_temperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:paddingEnd="16dp"
+                android:text="22"
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="18sp"/>
 
             <ImageView
+                android:id="@+id/weather_icon"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
                 android:contentDescription="@string/sunny"
                 android:src="@drawable/sunny"
-                android:textAppearance="?attr/textAppearanceHeadline6"
-                android:visibility="gone" />
+                android:textAppearance="?attr/textAppearanceHeadline6"/>
 
             <ImageView
                 android:id="@+id/arrow_down"

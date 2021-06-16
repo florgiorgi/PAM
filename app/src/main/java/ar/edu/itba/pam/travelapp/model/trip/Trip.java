@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Trip implements Serializable {
-
     private long id;
     private String location;
     private LocalDate from;

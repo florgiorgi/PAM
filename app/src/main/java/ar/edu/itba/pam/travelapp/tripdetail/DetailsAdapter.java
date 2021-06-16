@@ -18,13 +18,14 @@ import java.util.TreeMap;
 
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
+import ar.edu.itba.pam.travelapp.model.dtos.DayDto;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 
 
 public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final List<LocalDate> dataset;
-    private final Map<LocalDate, List<Activity>> allData;
+    private final Map<LocalDate, DayDto> allData;
 
     // TODO: remove this!
     private final Context context;
@@ -37,12 +38,12 @@ public class DetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.allData = new HashMap<>();
     }
 
-    public void update(Set<LocalDate> dates, Map<LocalDate, List<Activity>> activities) {
+    public void update(Set<LocalDate> dates, Map<LocalDate, DayDto> dayInfo) {
         dataset.clear();
         allData.clear();
-        if (dates != null && activities != null) {
+        if (dates != null && dayInfo != null) {
             this.dataset.addAll(dates);
-            this.allData.putAll(activities);
+            this.allData.putAll(dayInfo);
         }
         notifyDataSetChanged();
     }

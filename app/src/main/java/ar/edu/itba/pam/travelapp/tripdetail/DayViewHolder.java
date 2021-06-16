@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
+import ar.edu.itba.pam.travelapp.model.dtos.DayDto;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
 
 public class DayViewHolder extends RecyclerView.ViewHolder {
 
@@ -37,6 +39,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     private Context context;
 
     private OnNewActivityClickedListener listener;
+    private Forecast forecasts;
 
     public DayViewHolder(@NonNull View itemView, Context context) {
         super(itemView);
@@ -73,10 +76,24 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         }
     }
 
-    public void bind(final List<Activity> activities, final int position, LocalDate date) {
+    public void bind(final DayDto activities, final int position, LocalDate date) {
         final TextView dayNum = itemView.findViewById(R.id.day_number);
+        final TextView minTemp = itemView.findViewById(R.id.min_temperature);
+        final TextView maxTemp = itemView.findViewById(R.id.max_temperature);
+        final ImageView weatherIcon = itemView.findViewById(R.id.weather_icon);
         dayNum.setText("Day " + (position + 1));
-        setUpActivities(activities);
+        forecasts = activities.getDayForecast();
+        minTemp.setText(forecasts == null ? "--" : activities.getDayForecast().getTemperature().getMinimum().getValue() + "ºC");
+        maxTemp.setText(forecasts == null ? "--" : activities.getDayForecast().getTemperature().getMaximum().getValue() + "ºC");
+        if (forecasts != null) {
+            switch (forecasts.getDay().getIcon()) {
+                case 1: case 2: case 3: case 4: case 5:
+                    System.out.println("it's sunny");
+//                    weatherIcon.setImageDrawable(R.drawable.sunny);
+                    break;
+            }
+        }
+        setUpActivities(activities.getDayActivities());
         setUpAddButton(date);
     }
 

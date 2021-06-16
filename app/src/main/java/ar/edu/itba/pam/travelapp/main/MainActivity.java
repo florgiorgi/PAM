@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 import ar.edu.itba.pam.travelapp.R;
+import ar.edu.itba.pam.travelapp.di.main.TripContainer;
 import ar.edu.itba.pam.travelapp.landing.FtuActivity;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
 import ar.edu.itba.pam.travelapp.main.trips.TripListAdapter;
@@ -30,6 +31,7 @@ import ar.edu.itba.pam.travelapp.newtrip.CreateTripActivity;
 import ar.edu.itba.pam.travelapp.main.trips.OnTripClickedListener;
 import ar.edu.itba.pam.travelapp.main.trips.TripsView;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 
 
 public class MainActivity extends AppCompatActivity implements MainView, OnTripClickedListener {
@@ -76,8 +78,9 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
             this.presenter = (MainPresenter) possibleMainPresenter;
         }
         if (this.presenter == null) {
-            this.presenter = new MainPresenter(this,
-                    TripContainerLocator.locateComponent(this));
+            TripContainer container = TripContainerLocator.locateComponent(this);
+            this.presenter = new MainPresenter(this, container.getFtuStorage(), container.getNightModeStorage(),
+                    container.getTripRepository(), (AndroidSchedulerProvider) container.getSchedulerProvider());
         }
     }
 

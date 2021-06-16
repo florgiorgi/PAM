@@ -16,7 +16,7 @@ public interface WeatherForecastService extends WeatherApiService {
     Single<Response<ForecastResponse>> getCurrentForecast(@Path("locationKey") String locationKey,
                                                           @Query("metric") Boolean bool);
 
-    @GET("10day/{locationKey}")   // todo check if Single vs Flowable
-    Single<Response<List<Forecast>>> getTenDaysForecast(@Path("locationKey") String locationKey,
+    @GET("10day/{locationKey}")
+    Single<Response<ForecastResponse>> getFiveDaysForecast(@Path("locationKey") String locationKey,
                                                         @Query("metric") Boolean bool);
 }

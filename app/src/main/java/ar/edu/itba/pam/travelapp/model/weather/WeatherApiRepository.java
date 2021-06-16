@@ -21,9 +21,15 @@ public class WeatherApiRepository implements WeatherRepository {
     }
 
     @Override
-    public Single<ForecastResponse> getForecastForCity(String cityKey) {
+    public Single<ForecastResponse> getForecastForCityForOneDay(String cityKey) {
         return RetrofitUtils.performRequest(
                 weatherForecastService.getCurrentForecast(cityKey, true));
+    }
+
+    @Override
+    public Single<ForecastResponse> getForecastForCityForFiveDays(String cityKey) {
+        return RetrofitUtils.performRequest(
+                weatherForecastService.getFiveDaysForecast(cityKey, true));
     }
 
     @Override
@@ -36,11 +42,5 @@ public class WeatherApiRepository implements WeatherRepository {
         return RetrofitUtils.performRequest(weatherLocationService.findCity(city))
                 .filter(citiesList -> !citiesList.isEmpty())
                 .map(citiesList -> citiesList.get(0)).firstOrError();
-    }
-
-    @Override
-    public Single<ForecastResponse> getForecastForCity(City city) {
-        return RetrofitUtils.performRequest(
-                weatherForecastService.getCurrentForecast(city.getKey(), true));
     }
 }

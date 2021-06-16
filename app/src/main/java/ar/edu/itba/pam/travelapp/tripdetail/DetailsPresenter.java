@@ -1,23 +1,22 @@
 package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.os.AsyncTask;
-import android.os.Build;
 
 import java.lang.ref.WeakReference;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import ar.edu.itba.pam.travelapp.di.tripdetail.DetailsContainer;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
+import ar.edu.itba.pam.travelapp.model.dtos.DayDto;
 import ar.edu.itba.pam.travelapp.model.weather.WeatherRepository;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.ForecastResponse;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.location.City;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
@@ -31,12 +30,15 @@ public class DetailsPresenter {
     private final AndroidSchedulerProvider schedulerProvider;
     private final Trip trip;
     private Disposable disposable;
+    private Map<LocalDate, DayDto> tripDaysMap;
 
-    public DetailsPresenter(final DetailsView view, final Trip trip, final DetailsContainer container) {
-        this.activityRepository = container.getActivityRepository();
+    public DetailsPresenter(final DetailsView view, final Trip trip, final ActivityRepository activityRepository,
+                            final AndroidSchedulerProvider schedulerProvider,
+                            final WeatherRepository weatherRepository) {
+        this.activityRepository = activityRepository;
         this.view = new WeakReference<>(view);
-        this.schedulerProvider = (AndroidSchedulerProvider) container.getSchedulerProvider();
-        this.weatherRepository = container.getWeatherRepository();
+        this.schedulerProvider = schedulerProvider;
+        this.weatherRepository = weatherRepository;
         this.trip = trip;
     }
 
@@ -57,20 +59,46 @@ public class DetailsPresenter {
     }
 
     private void onActivitiesReceived(List<Activity> activities) {
-        Set<LocalDate> datesSet = new LinkedHashSet<>();
-        Map<LocalDate, List<Activity>> map = parseActivities(activities, datesSet);
-        if (view.get() != null) {
-            view.get().bindDataset(datesSet, map);
+        if (tripDaysMap == null) {
+            Set<LocalDate> datesSet = new LinkedHashSet<>();
+//        tripDaysMap = parseActivities(activities, datesSet);
+            parseActivities(activities, datesSet);
         }
+        updateDays();
     }
 
     private void fetchWeatherForecasts() {
         if (!trip.isLocationKeySet()) {
-////            trip.setLocationKey("7894");
+//            trip.setLocationKey("7894");
             fetchLocationKey();
-            System.out.println("--------------is null---------------");
+        } else {
+            int amountOfDays = tripDaysMap.keySet().size();
+            String locationKey = trip.getLocationKey();
+            if (amountOfDays == 1) {
+                fetchWeatherForecastForCityOneDay(locationKey);
+            } else {
+                int amountOfWeatherFetches = (amountOfDays / 6) + 1;
+                for (int i = 0; i <= amountOfWeatherFetches; i++) {
+                    System.out.println("----one more----");
+                    fetchWeatherForecastForCityFiveDays(locationKey);
+                }
+            }
         }
-        this.disposable = weatherRepository.getForecastForCity(trip.getLocationKey())
+    }
+
+    private void fetchWeatherForecastForCityOneDay(String locationKey) {
+        this.disposable = weatherRepository.getForecastForCityForOneDay(locationKey)
+                .subscribeOn(schedulerProvider.io())
+                .observeOn(schedulerProvider.ui())
+                .subscribe(this::onForecastReceived, error -> {
+                    if (view.get() != null) {
+                        view.get().onForecastError();
+                    }
+                });
+    }
+
+    private void fetchWeatherForecastForCityFiveDays(String locationKey) {
+        this.disposable = weatherRepository.getForecastForCityForFiveDays(locationKey)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .subscribe(this::onForecastReceived, error -> {
@@ -95,11 +123,22 @@ public class DetailsPresenter {
         System.out.println("----city: " + city);
         System.out.println("--------city key: " + city.getKey());
         trip.setLocationKey(city.getKey());
+        fetchWeatherForecasts();
     }
 
     private void onForecastReceived(ForecastResponse forecast) {
+        int i = 0;
+        List<Forecast> daysForecasts = forecast.getDailyForecasts();
+        for (LocalDate day: tripDaysMap.keySet()) {
+            tripDaysMap.get(day).setDayForecast(daysForecasts.get(i));
+            i++;
+        }
+        updateDays();
+    }
+
+    private void updateDays() {
         if (view.get() != null) {
-            view.get().bindForecastToDay(forecast);
+            view.get().bindDaysDataset(tripDaysMap.keySet(), tripDaysMap);  // todo: move parse out of here and add forecasts to map
         }
     }
 
@@ -109,33 +148,32 @@ public class DetailsPresenter {
 
     public void onActivityCreate(String name, LocalDate date) {
         if (name != null && name.length() > 0) {
-            AsyncTask.execute(() -> {
-                Activity activity = new Activity(name, this.trip.getId(), date);
-                this.activityRepository.insert(activity);
-            });
+            Activity activity = new Activity(name, this.trip.getId(), date);
+            AsyncTask.execute(() -> this.activityRepository.insert(activity));
+            tripDaysMap.get(date).addActivityToDay(activity);
         }
         if (view.get() != null) {
             view.get().showNewActivitySuccessMessage();
         }
     }
 
-    private Map<LocalDate, List<Activity>> parseActivities(List<Activity> activities, Set<LocalDate> datesSet) {
-        Map<LocalDate, List<Activity>> activitiesOnEachDayMap = new HashMap<>();
+    private void parseActivities(List<Activity> activities, Set<LocalDate> datesSet) {
+        if (tripDaysMap == null) tripDaysMap = new HashMap<>();
         LocalDate from = trip.getFrom();
         LocalDate to = trip.getTo();
         long duration = ChronoUnit.DAYS.between(from, to) + 1;
         for (int i = 0; i < duration; i++) {
             datesSet.add(from.plusDays(i));
-            activitiesOnEachDayMap.put(from.plusDays(i), new ArrayList<>());
+            if (!tripDaysMap.containsKey(from.plusDays(i))) {
+                tripDaysMap.put(from.plusDays(i), new DayDto());
+            }
         }
         for (Activity a : activities) {
-            List<Activity> activitiesOfTheDay = activitiesOnEachDayMap.get(a.getDate());
+            DayDto activitiesOfTheDay = tripDaysMap.get(a.getDate());
             if (activitiesOfTheDay == null) {
-                activitiesOfTheDay = new ArrayList<>();
+                activitiesOfTheDay = new DayDto();
             }
-            activitiesOfTheDay.add(a);
+            activitiesOfTheDay.addActivityToDay(a);
         }
-        return activitiesOnEachDayMap;
     }
-
 }

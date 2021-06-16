@@ -59,6 +59,12 @@ public class EditTripPresenter {
         if (fromDate == null || toDate == null) {
             return;
         }
+        if (fromDate.isAfter(toDate)) {
+            if (view.get() != null) {
+                view.get().setErrorMessage(from, "Invalid date");
+            }
+            return;
+        }
         updateTrip(destination.getText().toString(), fromDate, toDate, travelMethod, flightNumber.getText().toString(), departureDateTime);
     }
 

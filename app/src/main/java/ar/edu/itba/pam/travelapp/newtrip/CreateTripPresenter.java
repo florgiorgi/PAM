@@ -80,6 +80,12 @@ public class CreateTripPresenter {
         if (fromDate == null || toDate == null) {
             return;
         }
+        if (fromDate.isAfter(toDate)) {
+            if (view.get() != null) {
+                view.get().setErrorMessage(from, "Invalid date");
+            }
+            return;
+        }
         this.trip = new Trip(destination.getText().toString(), fromDate, toDate, travelMethod, departureDateTime, flightNumber.getText().toString());
         createTrip(trip);
     }

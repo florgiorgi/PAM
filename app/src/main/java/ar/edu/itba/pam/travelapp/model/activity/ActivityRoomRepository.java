@@ -35,9 +35,9 @@ public class ActivityRoomRepository implements ActivityRepository {
     }
 
     @Override
-    public void insert(Activity activity) {
+    public long insert(Activity activity) {
         this.activities = null;
-        dao.insert(mapper.toEntity(activity));
+        return dao.insert(mapper.toEntity(activity));
     }
 
     @Override

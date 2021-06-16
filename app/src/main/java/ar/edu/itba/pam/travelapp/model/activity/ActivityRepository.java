@@ -12,7 +12,7 @@ public interface ActivityRepository {
 
     Flowable<Activity> findById(long id);
 
-    void insert(Activity activity);
+    long insert(Activity activity);
 
     void delete(Activity activity);
 

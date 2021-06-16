@@ -3,7 +3,6 @@ package ar.edu.itba.pam.travelapp.model.activity;
 import java.time.LocalDate;
 
 public class Activity {
-
     private long id;
     private String name;
     private long tripId;

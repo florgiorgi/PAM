@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 
-import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainer;
+import ar.edu.itba.pam.travelapp.di.newtrip.createtrip.NewTripContainer;
 import ar.edu.itba.pam.travelapp.edit.EditTripPresenter;
 import ar.edu.itba.pam.travelapp.edit.EditTripView;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;

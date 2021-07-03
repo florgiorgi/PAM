@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <AutoCompleteTextView
+        android:id="@+id/city_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:labelFor="@+id/city_name"
+        android:layout_gravity="top"
+        android:textAppearance="?attr/textAppearanceHeadline6" />
+
+    <ar.edu.itba.pam.travelapp.newtrip.autocomplete.cities.CitiesViewImpl
+        android:id="@+id/cities_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        tools:context=".newtrip.autocomplete.AutocompleteActivity" />
+
+</LinearLayout>

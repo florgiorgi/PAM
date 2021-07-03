@@ -6,8 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
-import ar.edu.itba.pam.travelapp.newtrip.CreateTripPresenter;
-import ar.edu.itba.pam.travelapp.newtrip.CreateTripView;
+import ar.edu.itba.pam.travelapp.newtrip.createtrip.CreateTripPresenter;
+import ar.edu.itba.pam.travelapp.newtrip.createtrip.CreateTripView;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

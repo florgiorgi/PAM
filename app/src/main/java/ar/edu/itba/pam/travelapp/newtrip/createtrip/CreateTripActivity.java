@@ -1,5 +1,6 @@
-package ar.edu.itba.pam.travelapp.newtrip;
+package ar.edu.itba.pam.travelapp.newtrip.createtrip;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -12,6 +13,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Length;
@@ -22,17 +26,17 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import ar.edu.itba.pam.travelapp.R;
-import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainer;
-import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainerLocator;
+import ar.edu.itba.pam.travelapp.di.newtrip.createtrip.NewTripContainer;
+import ar.edu.itba.pam.travelapp.di.newtrip.createtrip.NewTripContainerLocator;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
+import ar.edu.itba.pam.travelapp.newtrip.autocomplete.AutocompleteActivity;
 import ar.edu.itba.pam.travelapp.utils.DateUtils;
 
 
 public class CreateTripActivity extends AppCompatActivity implements Validator.ValidationListener, CreateTripView {
+    private static final int AUTOCOMPLETE = 99;
 
     @NotEmpty
     private EditText from;
@@ -91,6 +95,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     private void initView() {
         this.destination = findViewById(R.id.destination_input);
+        this.destination.setOnClickListener(view -> presenter.onDestinationSelected(destination));
         this.flightNumber = findViewById(R.id.flight_number_input);
         this.from = findViewById(R.id.from_input);
         this.from.setShowSoftInputOnFocus(false);
@@ -104,7 +109,8 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         this.submitButton = findViewById(R.id.create_btn);
         this.submitButton.setOnClickListener(view -> validator.validate());
         this.travelMethodSpinner = findViewById(R.id.transport_spinner);
-        this.travelMethodSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, TravelMethod.values()));
+        this.travelMethodSpinner.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, TravelMethod.values()));
         this.travelMethodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -116,6 +122,29 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
                 // do nothing :)
             }
         });
+    }
+
+    @Override
+    public void launchAutocompleteActivity(String city) {
+        System.out.println("la ciudad es " + city);
+        Intent intent = new Intent(this, AutocompleteActivity.class);
+        intent.putExtra("city", city);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityForResult(intent, AUTOCOMPLETE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        String cityKey = "nothing";
+        if (requestCode == AUTOCOMPLETE) {
+            if(resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    cityKey = data.getStringExtra("cityKey");
+                }
+            }
+        }
+        System.out.println("cityKey: " + cityKey);
     }
 
     @Override
@@ -166,7 +195,8 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
             dateTimeBuilder.append(dateString).append(" ");
 
             TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hour, minute) -> {
-                LocalDateTime chosenTime = LocalDateTime.of(finalNow.getYear(), finalNow.getMonthValue(), finalNow.getDayOfMonth(), hour, minute);
+                LocalDateTime chosenTime = LocalDateTime.of(finalNow.getYear(),
+                        finalNow.getMonthValue(), finalNow.getDayOfMonth(), hour, minute);
                 String timeString = chosenTime.format(timeFormatter);
                 dateTimeBuilder.append(timeString);
                 inputView.setText(dateTimeBuilder.toString());

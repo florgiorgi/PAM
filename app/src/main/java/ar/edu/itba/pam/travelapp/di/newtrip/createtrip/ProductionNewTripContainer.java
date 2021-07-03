@@ -1,4 +1,4 @@
-package ar.edu.itba.pam.travelapp.di.newtrip;
+package ar.edu.itba.pam.travelapp.di.newtrip.createtrip;
 
 import android.content.Context;
 

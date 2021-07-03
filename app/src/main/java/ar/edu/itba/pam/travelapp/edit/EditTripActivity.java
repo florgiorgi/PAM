@@ -25,7 +25,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import ar.edu.itba.pam.travelapp.R;
-import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainerLocator;
+import ar.edu.itba.pam.travelapp.di.newtrip.createtrip.NewTripContainerLocator;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.tripdetail.DetailsActivity;

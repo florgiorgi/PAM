@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainer;
+import ar.edu.itba.pam.travelapp.di.newtrip.createtrip.NewTripContainer;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;

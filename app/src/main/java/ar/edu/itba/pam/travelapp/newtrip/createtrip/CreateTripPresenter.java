@@ -1,4 +1,4 @@
-package ar.edu.itba.pam.travelapp.newtrip;
+package ar.edu.itba.pam.travelapp.newtrip.createtrip;
 
 import android.os.AsyncTask;
 import android.widget.EditText;
@@ -32,9 +32,7 @@ public class CreateTripPresenter {
     }
 
     private void createTrip(Trip trip) {
-        AsyncTask.execute(() -> {
-            tripRepository.insertTrip(trip);
-        });
+        AsyncTask.execute(() -> tripRepository.insertTrip(trip));
         if (view.get() != null) {
             view.get().showSuccessMessage();
             view.get().launchMainActivity();
@@ -82,15 +80,13 @@ public class CreateTripPresenter {
             return;
         }
 
-        if(toDate != null) {
-            if(toDate.isBefore(fromDate)) {
-                if (view.get() != null) {
-                    view.get().setErrorMessage(to, "Trip end date can't be before its start date");
-                }
-                return;
+        if (toDate.isBefore(fromDate)) {
+            if (view.get() != null) {
+                view.get().setErrorMessage(to, "Trip end date can't be before its start date");
             }
+            return;
         }
-        if(departureDateTime != null) {
+        if (departureDateTime != null) {
             if (departureDateTime.toLocalDate().isBefore(fromDate)) {
                 if (view.get() != null) {
                     view.get().setErrorMessage(departureTime, "Departure time can't be before the trip's start date");
@@ -106,6 +102,12 @@ public class CreateTripPresenter {
     public void onValidationErrors(List<ValidationError> errors) {
         if (view.get() != null) {
             view.get().showErrorMessages(errors);
+        }
+    }
+
+    public void onDestinationSelected(EditText inputWritten) {
+        if (view.get() != null) {
+            view.get().launchAutocompleteActivity(inputWritten.getText().toString());
         }
     }
 

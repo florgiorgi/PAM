@@ -58,6 +58,26 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
     }
 
     @Override
+    public void onBackPressed()
+    {
+        Bundle extras = getIntent().getExtras();
+        boolean launchedFromNotif = false;
+
+        if (extras.containsKey("EXTRA_LAUNCHED_BY_NOTIFICATION")) {
+            launchedFromNotif = extras.getBoolean("EXTRA_LAUNCHED_BY_NOTIFICATION");
+        }
+
+        if (launchedFromNotif) {
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+            startActivity(intent);
+            finish();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         presenter.onViewDetached();

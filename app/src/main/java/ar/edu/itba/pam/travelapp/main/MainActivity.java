@@ -258,16 +258,15 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     @Override
     public void setUpNotifications() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
-        calendar.set(Calendar.MINUTE, 38);
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 37);
         calendar.set(Calendar.SECOND, 0);
 
         if (calendar.getTimeInMillis() > System.currentTimeMillis()) {
             alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(this, AlarmReceiver.class);
             pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),/*AlarmManager.INTERVAL_FIFTEEN_MINUTES*/2*60*1000, pendingIntent);
-
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
         }
     }
 

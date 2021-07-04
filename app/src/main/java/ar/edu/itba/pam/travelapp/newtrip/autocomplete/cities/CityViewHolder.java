@@ -24,7 +24,6 @@ public class CityViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(final City city) {
-        System.out.println("city found: " + city.getLocalizedName());
         final TextView title = itemView.findViewById(R.id.city_name);
         title.setText(city.getLocalizedName() + ", " + city.getCountry().getLocalizedName());
         view.setOnClickListener(v -> listener.onClick(city));

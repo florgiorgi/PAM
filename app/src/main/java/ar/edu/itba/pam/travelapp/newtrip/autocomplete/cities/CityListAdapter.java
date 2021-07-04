@@ -35,7 +35,7 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CityViewHolder holder, int position) {
-        printArray(cities);
+//        printArray(cities);
         holder.bind(cities.get(position));
         holder.setOnClickListener(listener);
     }

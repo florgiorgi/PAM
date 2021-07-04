@@ -46,13 +46,14 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     @NotEmpty
     @Length(max = 20)
+    private EditText tripName;
     private EditText destination;
-
     private EditText flightNumber;
     private EditText departureTime;
     private Spinner travelMethodSpinner;
     private Button submitButton;
     private Validator validator;
+    private String cityKey;
 
     private CreateTripPresenter presenter;
 
@@ -94,6 +95,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     }
 
     private void initView() {
+        this.tripName = findViewById(R.id.tripName_input);
         this.destination = findViewById(R.id.destination_input);
         this.destination.setOnClickListener(view -> presenter.onDestinationSelected(destination));
         this.flightNumber = findViewById(R.id.flight_number_input);
@@ -126,7 +128,6 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     @Override
     public void launchAutocompleteActivity(String city) {
-        System.out.println("la ciudad es " + city);
         Intent intent = new Intent(this, AutocompleteActivity.class);
         intent.putExtra("city", city);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
@@ -136,15 +137,14 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String cityKey = "nothing";
         if (requestCode == AUTOCOMPLETE) {
             if(resultCode == Activity.RESULT_OK) {
                 if (data != null) {
-                    cityKey = data.getStringExtra("cityKey");
+                    this.cityKey = data.getStringExtra("cityKey");
                 }
             }
         }
-        System.out.println("cityKey: " + cityKey);
+        System.out.println("cityKey: " + this.cityKey);
     }
 
     @Override
@@ -216,7 +216,7 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     @Override
     public void onValidationSucceeded() {
-        presenter.onValidationSuccess(from, to, departureTime, destination, travelMethod, flightNumber);
+        presenter.onValidationSuccess(tripName, from, to, departureTime, destination, travelMethod, flightNumber, cityKey);
     }
 
     @Override

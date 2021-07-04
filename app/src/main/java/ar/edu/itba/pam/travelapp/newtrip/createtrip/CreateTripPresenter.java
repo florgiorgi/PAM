@@ -61,7 +61,8 @@ public class CreateTripPresenter {
         return parsedDateTime;
     }
 
-    public void onValidationSuccess(EditText from, EditText to, EditText departureTime, EditText destination, TravelMethod travelMethod, EditText flightNumber) {
+    public void onValidationSuccess(EditText tripName, EditText from, EditText to, EditText departureTime, EditText destination, TravelMethod travelMethod, EditText flightNumber, String cityKey) {
+        // todo: add tripName
         LocalDate fromDate = parseDate(from);
         LocalDate toDate = parseDate(to);
         LocalDateTime departureDateTime = parseDateTime(departureTime);
@@ -95,7 +96,7 @@ public class CreateTripPresenter {
             }
         }
 
-        this.trip = new Trip(destination.getText().toString(), fromDate, toDate, travelMethod, departureDateTime, flightNumber.getText().toString());
+        this.trip = new Trip(tripName.getText().toString(), destination.getText().toString(), fromDate, toDate, travelMethod, departureDateTime, flightNumber.getText().toString(), cityKey);
         createTrip(trip);
     }
 

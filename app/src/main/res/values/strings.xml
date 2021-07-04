@@ -7,6 +7,7 @@
     <string name="upcoming">Upcoming</string>
     <string name="history">History</string>
     <string name="settings">Settings</string>
+    <string name="name_for_trip">Give your trip a name</string>
     <string name="where_are_you_going">Where are you going?</string>
     <string name="from">From</string>
     <string name="to">To</string>
@@ -47,6 +48,7 @@
     <string name="edit_button">Edit</string>
     <string name="cancel_edit">Cancel</string>
     <string name="delete_activity">delete_activity_button</string>
+    <string name="name_for_trip_hint">My Super Trip</string>
 
     <string-array name="transport_options">
         <item>Plane</item>
@@ -54,6 +56,9 @@
         <item>Train</item>
         <item>Car</item>
         <item>Ship</item>
+        <item>Bicycle</item>
+        <item>Walking</item>
+        <item>Other</item>
     </string-array>
 
     <string-array name="language_options">

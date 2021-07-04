@@ -10,6 +10,23 @@
         android:padding="32dp">
 
         <TextView
+            android:id="@+id/tripName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/name_for_trip"
+            android:textAppearance="?attr/textAppearanceHeadline6" />
+
+        <EditText
+            android:id="@+id/tripName_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/name_for_trip_hint"
+            android:importantForAutofill="no"
+            android:inputType="textCapSentences"
+            android:maxLength="50"/>
+
+        <TextView
             android:id="@+id/destination"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

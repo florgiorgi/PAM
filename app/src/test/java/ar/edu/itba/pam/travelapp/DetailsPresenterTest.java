@@ -1,13 +1,10 @@
 package ar.edu.itba.pam.travelapp;
 
-import android.os.AsyncTask;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
 
-import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
@@ -38,7 +35,7 @@ public class DetailsPresenterTest {
         now = LocalDate.now();
         view = mock(DetailsView.class);
         activityRepository = mock(ActivityRepository.class);
-        trip = new Trip(1, "Buenos Aires", now, now, TravelMethod.Airplane, now.atStartOfDay(), "123");
+        trip = new Trip(1, "Buenos Aires", now, now, TravelMethod.Airplane, now.atStartOfDay(), "123", locationKey);
         tripRepository = mock(TripRepository.class);
         schedulerProvider = mock(AndroidSchedulerProvider.class);
         weatherRepository = mock(WeatherRepository.class);

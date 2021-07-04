@@ -30,7 +30,7 @@ public class EditTripPresenterTest {
     public void setup() {
         now = LocalDate.now();
         view = mock(EditTripView.class);
-        trip = new Trip(1, "Buenos Aires", now, now, TravelMethod.Airplane, now.atStartOfDay(), "123");
+        trip = new Trip(1, "Buenos Aires", now, now, TravelMethod.Airplane, now.atStartOfDay(), "123", locationKey);
         newTripContainer = mock(NewTripContainer.class);
         editText = mock(EditText.class);
 

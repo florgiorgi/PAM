@@ -1,5 +1,6 @@
 package ar.edu.itba.pam.travelapp.newtrip.autocomplete.cities;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -11,12 +12,13 @@ import ar.edu.itba.pam.travelapp.model.weather.dtos.location.City;
 
 public class CityViewHolder extends RecyclerView.ViewHolder {
     public View view;
-
+    private final Context context;
     private OnCityClickedListener listener;
 
-    public CityViewHolder(@NonNull View itemView) {
+    public CityViewHolder(@NonNull View itemView, Context context) {
         super(itemView);
-        view = itemView;
+        this.view = itemView;
+        this.context = context;
     }
 
     public void setOnClickListener(OnCityClickedListener listener) {
@@ -25,7 +27,12 @@ public class CityViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(final City city) {
         final TextView title = itemView.findViewById(R.id.city_name);
-        title.setText(city.getLocalizedName() + ", " + city.getCountry().getLocalizedName());
+        String cityName = city.getLocalizedName();
+        String stateName = city.getAdministrativeArea().getLocalizedName();
+        String countryName = city.getCountry().getLocalizedName();
+        String titleText = context.getResources().getString(R.string.select_location_city,
+                cityName, stateName, countryName);
+        title.setText(titleText);
         view.setOnClickListener(v -> listener.onClick(city));
     }
 }

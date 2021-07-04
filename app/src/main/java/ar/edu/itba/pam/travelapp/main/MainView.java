@@ -23,4 +23,8 @@ public interface MainView {
     void bindHistoryTrips(List<Object> model);
 
     void onTripsError();
+
+    void createNotificationChannel();
+
+    void setUpNotifications();
 }

@@ -28,7 +28,7 @@
         <activity android:name=".edit.EditTripActivity"/>
 
         <activity android:name=".newtrip.CreateTripActivity"/>
-
+        <receiver android:name=".main.notifications.AlarmReceiver"/>
     </application>
 
 </manifest>

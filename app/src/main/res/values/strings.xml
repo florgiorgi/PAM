@@ -47,6 +47,13 @@
     <string name="edit_button">Edit</string>
     <string name="cancel_edit">Cancel</string>
     <string name="delete_activity">delete_activity_button</string>
+    <string name="english">English</string>
+    <string name="espa_ol">Español</string>
+    <string name="english_flag">English Flag</string>
+    <string name="spanish_flag">Spanish flag</string>
+    <string name="change_language">Change language to Spanish?</string>
+    <string name="delete_trip">Delete Trip?</string>
+    <string name="day">Day</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

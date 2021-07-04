@@ -43,15 +43,14 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/language"
+        android:id="@+id/lang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="5dp"
-        app:cardElevation="3dp"
-        android:visibility="gone">
+        app:cardElevation="3dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -60,24 +59,36 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:layout_weight="1"
                 android:text="@string/language"
-                android:textAppearance="?attr/textAppearanceHeadline6" />
+                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:layout_weight="0.8"/>
 
-            <!-- Buttons -->
-            <Spinner
-                android:id="@+id/language_spinner"
+            <ImageButton
+                android:id="@+id/english_button"
+                android:scaleType="fitXY"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:entries="@array/language_options"
+                android:layout_height="wrap_content"
+                android:background="@drawable/uk2"
                 android:paddingTop="16dp"
-                android:paddingBottom="16dp" />
+                android:paddingBottom="16dp"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="@string/english_flag" />
+
+            <ImageButton
+                android:id="@+id/spanish_button"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spain_flag"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/spanish_flag" />
 
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
-
 </merge>

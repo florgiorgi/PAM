@@ -54,7 +54,8 @@ public class TripEntity {
     @ColumnInfo(name = "location_key")
     private String locationKey;
 
-    public TripEntity(String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber, String locationKey) {
+    public TripEntity(String tripName, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber, String locationKey) {
+        this.tripName = tripName;
         this.location = location;
         this.from = from;
         this.to = to;
@@ -65,8 +66,9 @@ public class TripEntity {
     }
 
     @Ignore
-    public TripEntity(long id, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber, String locationKey) {
+    public TripEntity(long id, String tripName, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber, String locationKey) {
         this.id = id;
+        this.tripName = tripName;
         this.location = location;
         this.from = from;
         this.to = to;

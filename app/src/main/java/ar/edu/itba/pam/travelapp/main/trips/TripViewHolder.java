@@ -13,9 +13,7 @@ import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class TripViewHolder extends RecyclerView.ViewHolder {
-
     public View view;
-
     private OnTripClickedListener listener;
 
     public TripViewHolder(@NonNull View itemView) {
@@ -23,8 +21,16 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         view = itemView;
     }
 
+    public void setOnClickListener(OnTripClickedListener listener) {
+        this.listener = listener;
+    }
+
     public void bind(final Trip trip) {
+        System.out.println("trip name: " + trip.getTripName());
+        System.out.println("trip location: " + trip.getLocation());
+        System.out.println("trip location key: " + trip.getLocationKey());
         final TextView title = itemView.findViewById(R.id.title);
+        final TextView location = itemView.findViewById(R.id.location);
         final TextView date = itemView.findViewById(R.id.date);
         final TextView daysLeft = itemView.findViewById(R.id.expand);
 
@@ -36,7 +42,9 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         String dateToMonth = trip.getTo().getMonth().toString().substring(0,1).concat(trip.getTo().getMonth().toString().substring(1,3).toLowerCase());
         int dateToDay = trip.getTo().getDayOfMonth();
 
-        title.setText(trip.getLocation());
+        String tripName = trip.getTripName();
+        title.setText(tripName != null && !tripName.isEmpty() ? tripName : trip.getLocation());
+        location.setText(trip.getLocation());
         date.setText(dateFromMonth + " " + dateFromDay + " - " + dateToMonth + " " + dateToDay);
 
         LocalDate today = LocalDate.now();
@@ -52,9 +60,5 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         view.setOnClickListener(v -> {
             listener.onClick(trip);
         });
-    }
-
-    public void setOnClickListener(OnTripClickedListener listener) {
-        this.listener = listener;
     }
 }

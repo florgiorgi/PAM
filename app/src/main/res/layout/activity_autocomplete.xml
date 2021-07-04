@@ -20,7 +20,6 @@
         android:labelFor="@+id/city_name"
         android:layout_gravity="top"
         android:hint="@string/where_are_you_going_hint"
-        android:imeOptions="actionDone"
         android:inputType="textCapSentences" />
 
     <ar.edu.itba.pam.travelapp.newtrip.autocomplete.cities.CitiesViewImpl

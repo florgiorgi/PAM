@@ -248,7 +248,7 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
 
     @Override
     public void onValidationSucceeded() {
-        presenter.onValidationSuccess(from, to, departureTime, destination, travelMethod, flightNumber);
+        presenter.onValidationSuccess(tripName, from, to, departureTime, destination, travelMethod, flightNumber, cityKey);
     }
 
     @Override

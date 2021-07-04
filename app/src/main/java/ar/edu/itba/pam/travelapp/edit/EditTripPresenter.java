@@ -42,7 +42,7 @@ public class EditTripPresenter {
         }
     }
 
-    public void onValidationSuccess(EditText from, EditText to, EditText departureTime, EditText destination, TravelMethod travelMethod, EditText flightNumber) {
+    public void onValidationSuccess(EditText tripName, EditText from, EditText to, EditText departureTime, EditText destination, TravelMethod travelMethod, EditText flightNumber, String cityKey) {
         LocalDate fromDate = parseDate(from);
         LocalDate toDate = parseDate(to);
         LocalDateTime departureDateTime = parseDateTime(departureTime);
@@ -76,10 +76,12 @@ public class EditTripPresenter {
             }
         }
 
-        updateTrip(destination.getText().toString(), fromDate, toDate, travelMethod, flightNumber.getText().toString(), departureDateTime);
+        updateTrip(tripName.getText().toString(), destination.getText().toString(), fromDate, toDate, travelMethod, flightNumber.getText().toString(), departureDateTime, cityKey);
     }
 
-    private void updateTrip(String destination, LocalDate fromDate, LocalDate toDate, TravelMethod travelMethod, String flightNumber, LocalDateTime departureDateTime) {
+    private void updateTrip(String tripName, String destination, LocalDate fromDate, LocalDate toDate, TravelMethod travelMethod, String flightNumber, LocalDateTime departureDateTime, String cityKey) {
+        trip.setTripName(tripName);
+        trip.setLocationKey(cityKey);
         trip.setLocation(destination);
         trip.setFrom(fromDate);
         trip.setTo(toDate);
@@ -90,9 +92,7 @@ public class EditTripPresenter {
         if (departureDateTime != null) {
             trip.setDepartureTime(departureDateTime);
         }
-        AsyncTask.execute(() -> {
-            tripRepository.updateTrip(trip);
-        });
+        AsyncTask.execute(() -> tripRepository.updateTrip(trip));
         if (view.get() != null) {
             view.get().showSuccessMessage();
             view.get().launchDetailsActivity(trip);

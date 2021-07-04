@@ -69,23 +69,25 @@
             <ImageButton
                 android:id="@+id/english_button"
                 android:scaleType="fitXY"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@drawable/uk2"
+                android:layout_marginTop="4dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="16dp"
                 android:contentDescription="@string/english_flag" />
 
             <ImageButton
                 android:id="@+id/spanish_button"
                 android:scaleType="fitXY"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:background="@drawable/spain_flag"
+                android:layout_marginTop="4dp"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="16dp"
                 android:contentDescription="@string/spanish_flag" />
 
         </LinearLayout>

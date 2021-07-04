@@ -1,5 +1,6 @@
 package ar.edu.itba.pam.travelapp.newtrip.createtrip;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.EditText;
 
@@ -12,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
@@ -21,14 +23,17 @@ public class CreateTripPresenter {
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
+    private final Context applicationContext;
     private final TripRepository tripRepository;
     private final WeakReference<CreateTripView> view;
 
     private Trip trip;
 
-    public CreateTripPresenter(final CreateTripView view, final TripRepository tripRepository) {
+    public CreateTripPresenter(final CreateTripView view, final TripRepository tripRepository,
+                               Context applicationContext) {
         this.tripRepository = tripRepository;
         this.view = new WeakReference<>(view);
+        this.applicationContext = applicationContext;
     }
 
     private void createTrip(Trip trip) {
@@ -62,7 +67,13 @@ public class CreateTripPresenter {
     }
 
     public void onValidationSuccess(EditText tripName, EditText from, EditText to, EditText departureTime, EditText destination, TravelMethod travelMethod, EditText flightNumber, String cityKey) {
-        // todo: add tripName
+        if (destination.getText().toString().isEmpty()) {
+            if (view.get() != null) {
+                view.get().setErrorMessage(destination, applicationContext.getResources().getString(R.string.cannot_be_empty, "Destination"));
+            }
+            return;
+        }
+
         LocalDate fromDate = parseDate(from);
         LocalDate toDate = parseDate(to);
         LocalDateTime departureDateTime = parseDateTime(departureTime);

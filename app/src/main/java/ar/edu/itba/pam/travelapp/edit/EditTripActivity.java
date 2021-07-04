@@ -26,6 +26,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import ar.edu.itba.pam.travelapp.R;
+import ar.edu.itba.pam.travelapp.di.newtrip.createtrip.NewTripContainer;
 import ar.edu.itba.pam.travelapp.di.newtrip.createtrip.NewTripContainerLocator;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
@@ -89,7 +90,8 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
             this.presenter = (EditTripPresenter) possibleEditTripPresenter;
         }
         if (this.presenter == null) {
-            this.presenter = new EditTripPresenter(this, NewTripContainerLocator.locateComponent(this), trip);
+            NewTripContainer container = NewTripContainerLocator.locateComponent(this);
+            this.presenter = new EditTripPresenter(container.getApplicationContext(), this, container.getTripRepository(), trip);
         }
     }
 

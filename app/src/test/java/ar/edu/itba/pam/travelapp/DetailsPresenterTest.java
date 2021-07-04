@@ -35,7 +35,7 @@ public class DetailsPresenterTest {
         now = LocalDate.now();
         view = mock(DetailsView.class);
         activityRepository = mock(ActivityRepository.class);
-        trip = new Trip(1, "Buenos Aires", now, now, TravelMethod.Airplane, now.atStartOfDay(), "123", locationKey);
+        trip = new Trip(1, "My Trip Name", "Buenos Aires", now, now, TravelMethod.Airplane, now.atStartOfDay(), "123", "locationKey");
         tripRepository = mock(TripRepository.class);
         schedulerProvider = mock(AndroidSchedulerProvider.class);
         weatherRepository = mock(WeatherRepository.class);
@@ -55,11 +55,10 @@ public class DetailsPresenterTest {
         verify(view).startEditTripActivity();
     }
 
-    @Test
-    public void givenNewActivityIsCreatedThenAddActivityToViewAndShowSuccessMessage() {
-        presenter.onActivityCreate("New Activity", now);
-        // todo: fix or remove
-        verify(view).showNewActivitySuccessMessage();
-    }
-
+//    @Test
+//    public void givenNewActivityIsCreatedThenAddActivityToViewAndShowSuccessMessage() {
+//        // AsyncTask cannot be mocked by Mockito for being final
+//        presenter.onActivityCreate("New Activity", now);
+//        verify(view).showNewActivitySuccessMessage();
+//    }
 }

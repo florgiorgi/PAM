@@ -82,7 +82,8 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         }
         if (this.presenter == null) {
             NewTripContainer container = NewTripContainerLocator.locateComponent(this);
-            this.presenter = new CreateTripPresenter(this, container.getTripRepository());
+            this.presenter = new CreateTripPresenter(this, container.getTripRepository(),
+                    container.getApplicationContext());
         }
     }
 
@@ -213,7 +214,8 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     @Override
     public void onValidationSucceeded() {
-        presenter.onValidationSuccess(tripName, from, to, departureTime, destination, travelMethod, flightNumber, cityKey);
+        presenter.onValidationSuccess(tripName, from, to, departureTime, destination, travelMethod,
+                flightNumber, cityKey);
     }
 
     @Override

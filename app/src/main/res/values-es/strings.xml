@@ -51,6 +51,7 @@
     <string name="name_for_trip_hint">Mi Súper Viaje</string>
     <string name="new_name_for_trip">El nombre de tu viaje</string>
     <string name="select_location_city">%1$s, %2$s, %3$s</string>
+    <string name="cannot_be_empty">%1$s no puede estar vacío</string>
 
     <string-array name="transport_options">
         <item>Avión</item>

@@ -40,6 +40,15 @@
                     android:textAppearance="?attr/textAppearanceHeadline6" />
 
                 <TextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:textSize="18sp"
+                    android:textColor="?android:attr/textColorSecondary" />
+
+                <TextView
                     android:id="@+id/trip_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

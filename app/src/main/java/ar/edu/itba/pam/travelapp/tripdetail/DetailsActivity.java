@@ -65,6 +65,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
 
     private void initView() {
         final TextView tripName = findViewById(R.id.trip_name);
+        final TextView tripLocation = findViewById(R.id.location);
         final TextView tripDate = findViewById(R.id.trip_date);
         final TextView tripFlightNumber = findViewById(R.id.trip_flight_number);
         final TextView tripDepartureDate = findViewById(R.id.trip_departure_date);
@@ -77,7 +78,8 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
         String fromDate = trip.getFrom().format(dateFormatter);
         String toDate = trip.getTo().format(dateFormatter);
         String flightTitle = getResources().getString(R.string.flight_title);
-        tripName.setText(trip.getLocation());
+        tripName.setText(trip.getTripName());
+        tripLocation.setText(trip.getLocation());
         String parsedDate = fromDate + " - " + toDate;
         tripDate.setText(parsedDate);
         String flightString = flightTitle + trip.getFlightNumber();

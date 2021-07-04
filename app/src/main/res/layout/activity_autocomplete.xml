@@ -3,7 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:padding="32dp"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/destination"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/where_are_you_going"
+        android:textAppearance="?attr/textAppearanceHeadline6" />
 
     <AutoCompleteTextView
         android:id="@+id/city_name"
@@ -11,13 +19,24 @@
         android:layout_height="wrap_content"
         android:labelFor="@+id/city_name"
         android:layout_gravity="top"
-        android:textAppearance="?attr/textAppearanceHeadline6" />
+        android:hint="@string/where_are_you_going_hint"
+        android:imeOptions="actionDone"
+        android:inputType="textCapSentences" />
 
     <ar.edu.itba.pam.travelapp.newtrip.autocomplete.cities.CitiesViewImpl
         android:id="@+id/cities_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="400dp"
         android:layout_marginTop="10dp"
         tools:context=".newtrip.autocomplete.AutocompleteActivity" />
+
+    <Button
+        android:id="@+id/confirm_btn"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:text="@string/confirm" />
 
 </LinearLayout>

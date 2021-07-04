@@ -27,7 +27,6 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(final Trip trip) {
         final TextView title = itemView.findViewById(R.id.title);
-        final TextView location = itemView.findViewById(R.id.location);
         final TextView date = itemView.findViewById(R.id.date);
         final TextView daysLeft = itemView.findViewById(R.id.expand);
 
@@ -43,7 +42,6 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
 
         String tripName = trip.getTripName();
         title.setText(tripName != null && !tripName.isEmpty() ? tripName : trip.getLocation());
-        location.setText(trip.getLocation());
         date.setText(dateFromMonth + " " + dateFromDay + " - " + dateToMonth + " " + dateToDay);
 
         LocalDate today = LocalDate.now();

@@ -3,6 +3,7 @@ package ar.edu.itba.pam.travelapp.newtrip.autocomplete;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class AutocompleteActivity extends AppCompatActivity implements Autocompl
     private TextView cityShown;
     private String cityName;
     private List<City> cities;
+    private Button confirmBtn;
 
     private RecyclerView citiesRecyclerView;
     private CityListAdapter adapter;

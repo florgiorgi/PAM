@@ -243,7 +243,6 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
                 }
             }
         }
-        System.out.println("cityKey: " + this.cityKey);
     }
 
     @Override

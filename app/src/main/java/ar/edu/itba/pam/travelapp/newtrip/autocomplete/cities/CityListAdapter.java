@@ -35,7 +35,6 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull CityViewHolder holder, int position) {
-//        printArray(cities);
         holder.bind(cities.get(position));
         holder.setOnClickListener(listener);
     }
@@ -51,18 +50,5 @@ public class CityListAdapter extends RecyclerView.Adapter<CityViewHolder> {
             this.cities.addAll(cities);
         }
         notifyDataSetChanged();
-    }
-
-    private void printArray(List<City> cities) {
-        if (cities == null) {
-            System.out.println("NULL");
-        } else if (cities.size() == 0) {
-            System.out.println("empty list of cities");
-        } else {
-            for (City c: cities) {
-                System.out.println("next city is " + c.getLocalizedName() + ", " + c.getCountry().getLocalizedName());
-            }
-        }
-        System.out.println("-------------------");
     }
 }

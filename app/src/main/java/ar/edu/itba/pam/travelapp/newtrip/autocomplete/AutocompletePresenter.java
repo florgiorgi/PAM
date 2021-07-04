@@ -28,7 +28,6 @@ public class AutocompletePresenter {
     }
 
     private void getLocation(String city) {
-        System.out.println("fetching city");
         this.disposable = weatherRepository.findCity(city)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())

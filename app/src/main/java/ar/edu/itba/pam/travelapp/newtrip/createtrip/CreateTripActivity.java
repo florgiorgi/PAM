@@ -142,7 +142,6 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
                 }
             }
         }
-        System.out.println("cityKey: " + this.cityKey);
     }
 
     @Override

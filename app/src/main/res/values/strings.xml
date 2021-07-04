@@ -49,6 +49,7 @@
     <string name="cancel_edit">Cancel</string>
     <string name="delete_activity">delete_activity_button</string>
     <string name="name_for_trip_hint">My Super Trip</string>
+    <string name="new_name_for_trip">Your trip\'s name</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

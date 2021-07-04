@@ -23,4 +23,6 @@ public interface EditTripView {
     void launchDetailsActivity(Trip trip);
 
     void launchDetailsActivityOnBack();
+
+    void launchAutocompleteActivity(String city);
 }

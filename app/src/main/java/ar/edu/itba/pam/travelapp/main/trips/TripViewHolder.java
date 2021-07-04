@@ -26,9 +26,6 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(final Trip trip) {
-        System.out.println("trip name: " + trip.getTripName());
-        System.out.println("trip location: " + trip.getLocation());
-        System.out.println("trip location key: " + trip.getLocationKey());
         final TextView title = itemView.findViewById(R.id.title);
         final TextView location = itemView.findViewById(R.id.location);
         final TextView date = itemView.findViewById(R.id.date);
@@ -37,9 +34,11 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         String daysLeftString = view.getResources().getString(R.string.days_left);
         String currentTrip = view.getResources().getString(R.string.current_trip);
 
-        String dateFromMonth = trip.getFrom().getMonth().toString().substring(0,1).concat(trip.getFrom().getMonth().toString().substring(1,3).toLowerCase());
+        String dateFromMonth = trip.getFrom().getMonth().toString().substring(0,1)
+                .concat(trip.getFrom().getMonth().toString().substring(1,3).toLowerCase());
         int dateFromDay = trip.getFrom().getDayOfMonth();
-        String dateToMonth = trip.getTo().getMonth().toString().substring(0,1).concat(trip.getTo().getMonth().toString().substring(1,3).toLowerCase());
+        String dateToMonth = trip.getTo().getMonth().toString().substring(0,1)
+                .concat(trip.getTo().getMonth().toString().substring(1,3).toLowerCase());
         int dateToDay = trip.getTo().getDayOfMonth();
 
         String tripName = trip.getTripName();

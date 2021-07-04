@@ -111,4 +111,10 @@ public class EditTripPresenter {
             view.get().launchDetailsActivityOnBack();
         }
     }
+
+    public void onLocationModified(EditText destination) {
+        if (view.get() != null) {
+            view.get().launchAutocompleteActivity(destination.getText().toString());
+        }
+    }
 }

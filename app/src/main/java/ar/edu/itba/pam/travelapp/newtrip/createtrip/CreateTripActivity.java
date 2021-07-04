@@ -36,24 +36,23 @@ import ar.edu.itba.pam.travelapp.utils.DateUtils;
 
 
 public class CreateTripActivity extends AppCompatActivity implements Validator.ValidationListener, CreateTripView {
-    private static final int AUTOCOMPLETE = 99;
+    public static final int AUTOCOMPLETE = 99;
 
     @NotEmpty
     private EditText from;
-
     @NotEmpty
     private EditText to;
-
     @NotEmpty
     @Length(max = 20)
     private EditText tripName;
     private EditText destination;
+    private String cityKey;
     private EditText flightNumber;
     private EditText departureTime;
     private Spinner travelMethodSpinner;
+    private TravelMethod travelMethod;
     private Button submitButton;
     private Validator validator;
-    private String cityKey;
 
     private CreateTripPresenter presenter;
 
@@ -61,7 +60,6 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    private TravelMethod travelMethod;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

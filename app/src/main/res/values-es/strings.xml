@@ -49,6 +49,7 @@
     <string name="cancel_edit">Cancelar</string>
     <string name="delete_activity">Eliminar actividad</string>
     <string name="name_for_trip_hint">Mi Súper Viaje</string>
+    <string name="new_name_for_trip">El nombre de tu viaje</string>
 
     <string-array name="transport_options">
         <item>Avión</item>

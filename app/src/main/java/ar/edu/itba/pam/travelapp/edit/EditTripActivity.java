@@ -243,6 +243,10 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
                 if (data != null) {
                     this.cityKey = data.getStringExtra("cityKey");
                 }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                if (data != null) {
+                    this.destination.setText(data.getStringExtra("city"));
+                }
             }
         }
     }

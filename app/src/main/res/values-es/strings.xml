@@ -67,6 +67,7 @@
     <string name="weather_free_trial">Pronóstico no disponible: expiró el período de prueba por hoy</string>
     <string name="weather_no_city">Pronóstico no disponible: no se encontró ciudad con ese nombre</string>
     <string name="cannot_drop_there">No se puede dejar actividades ahí</string>
+    <string name="no_activity_found">No se econtró la actividad con id: %1$d</string>
 
     <string-array name="transport_options">
         <item>Avión</item>

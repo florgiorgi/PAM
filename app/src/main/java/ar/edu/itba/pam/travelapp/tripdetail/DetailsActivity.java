@@ -194,7 +194,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
 
     @Override
     public void showActivityNotFoundErrorMessage(long activityId) {
-        Toast.makeText(DetailsActivity.this, "No activity found with id: " + activityId, Toast.LENGTH_LONG).show();
+        Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.no_activity_found, activityId), Toast.LENGTH_LONG).show();
     }
 
     @Override

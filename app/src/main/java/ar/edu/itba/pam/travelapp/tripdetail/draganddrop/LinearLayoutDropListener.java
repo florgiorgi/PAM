@@ -73,7 +73,7 @@ public class LinearLayoutDropListener implements View.OnDragListener {
                     if (view.get() != null) {
                         Toast.makeText(view.get().getView().getContext(), view.get().getView()
                                 .getContext().getResources().getString(R.string.cannot_drop_there),
-                                Toast.LENGTH_LONG).show();
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
                 return true;

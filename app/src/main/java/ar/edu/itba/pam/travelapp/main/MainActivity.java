@@ -7,6 +7,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,6 +35,7 @@ import android.widget.ViewFlipper;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,6 +44,7 @@ import ar.edu.itba.pam.travelapp.di.main.TripContainer;
 import ar.edu.itba.pam.travelapp.landing.FtuActivity;
 import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
+import ar.edu.itba.pam.travelapp.main.notifications.AlarmReceiver;
 import ar.edu.itba.pam.travelapp.main.trips.TripListAdapter;
 import ar.edu.itba.pam.travelapp.di.main.TripContainerLocator;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
@@ -296,5 +305,34 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     protected void onDestroy() {
         presenter.onViewDestroyed();
         super.onDestroy();
+    }
+
+    @Override
+    public void createNotificationChannel() {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "UpcomingTripReminderChannel";
+            String description = "Channel for Alarm Manager";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("TravelBuddy", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    @Override
+    public void setUpNotifications() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        if (calendar.getTimeInMillis() > System.currentTimeMillis()) {
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent = new Intent(this, AlarmReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY, pendingIntent);
+        }
     }
 }

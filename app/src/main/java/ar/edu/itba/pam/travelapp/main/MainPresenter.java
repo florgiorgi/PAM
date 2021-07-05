@@ -17,7 +17,6 @@ import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
 import ar.edu.itba.pam.travelapp.main.storage.NightModeStorage;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
-import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import ar.edu.itba.pam.travelapp.utils.SchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
@@ -51,6 +50,8 @@ public class MainPresenter {
             nightModeStorage.reactivateNightMode();
         }
         fetchTrips();
+        setUpNotifications();
+
     }
 
     public void onViewDestroyed() {
@@ -76,6 +77,13 @@ public class MainPresenter {
         if (view.get() != null) {
             view.get().bindUpcomingTrips(upcoming);
             view.get().bindHistoryTrips(historyObjects);
+        }
+    }
+
+    private void setUpNotifications() {
+        if (view.get() != null) {
+            view.get().createNotificationChannel();
+            view.get().setUpNotifications();
         }
     }
 

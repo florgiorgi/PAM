@@ -25,6 +25,7 @@
 
         <activity android:name=".edit.EditTripActivity"/>
 
+        <receiver android:name=".main.notifications.AlarmReceiver"/>
         <activity android:name=".newtrip.createtrip.CreateTripActivity"/>
         <activity android:name=".newtrip.autocomplete.AutocompleteActivity"/>
 

@@ -2,7 +2,6 @@ package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.graphics.Color;
 import android.text.InputType;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -20,29 +19,33 @@ import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.dtos.DayDto;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
+import ar.edu.itba.pam.travelapp.tripdetail.draganddrop.LinearLayoutDropListener;
+import ar.edu.itba.pam.travelapp.tripdetail.draganddrop.DayActivityDragOnLongClickListener;
 
 
 public class DayViewHolder extends RecyclerView.ViewHolder {
-
     public View view;
     public View titleView;
     public ImageButton addButton;
 
-    private LinearLayout activityList;
-    private View divider;
-    private ImageView arrow;
-    private LinearLayout add_activity;
+    private final LinearLayout activityList;
+    private final LinearLayout add_activity;
 
     private ActivityEventListener listener;
+    private ImageView arrow;
+    private View divider;
+
+    private LocalDate date;
 
     public DayViewHolder(@NonNull View itemView) {
         super(itemView);
         this.view = itemView;
-        activityList = view.findViewById(R.id.list_of_activities);
-        titleView = view.findViewById(R.id.day_card_title);
-        addButton = view.findViewById(R.id.add_button);
-        add_activity = view.findViewById(R.id.add_activity);
-
+        this.activityList = view.findViewById(R.id.list_of_activities);
+        this.activityList.setOnDragListener(new LinearLayoutDropListener(this));
+        this.titleView = view.findViewById(R.id.day_card_title);
+        this.titleView.setOnDragListener(new LinearLayoutDropListener(this));
+        this.addButton = view.findViewById(R.id.add_button);
+        this.add_activity = view.findViewById(R.id.add_activity);
         setUpClickOnCardToExpand();
     }
 
@@ -54,6 +57,8 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         activityList.removeAllViews();
         for (Activity a : activities) {
             TextView textView = new TextView(view.getContext());
+            textView.setOnLongClickListener(new DayActivityDragOnLongClickListener(a, textView));
+
             EditText editText = new EditText(view.getContext());
             ImageButton deleteButton = new ImageButton(view.getContext());
             ImageButton confirmButton = new ImageButton(view.getContext());
@@ -154,6 +159,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(final DayDto activitiesAndForecast, final int position, LocalDate date) {
+        this.date = date;
         final TextView dayNum = itemView.findViewById(R.id.day_number);
         final TextView minTemp = itemView.findViewById(R.id.min_temperature);
         final TextView maxTemp = itemView.findViewById(R.id.max_temperature);
@@ -161,7 +167,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         final ImageView weatherIcon = itemView.findViewById(R.id.weather_icon);
         String dayString = view.getContext().getString(R.string.day) + " " + (position + 1);
         dayNum.setText(dayString);
-        //    private OnNewActivityClickedListener listener;
         Forecast forecasts = activitiesAndForecast.getDayForecast();
         minTemp.setText(forecasts == null ? "" : Math.round(activitiesAndForecast.getDayForecast().getTemperature().getMinimum().getValue()) + "ºC");
         if (forecasts != null)
@@ -260,27 +265,41 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 cancelButton.setVisibility(View.GONE);
                 addButton.setVisibility(View.VISIBLE);
             });
-            editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_SEND) {
-                        if (!editText.getText().toString().equals("")) {
-                            listener.onClickNewActivity(editText.getText().toString(), date);
-                            layout.setVisibility(View.GONE);
-                            editText.setText("");
-                            editText.setHintTextColor(Color.GRAY);
-                            editText.setVisibility(View.GONE);
-                            confirmButton.setVisibility(View.GONE);
-                            cancelButton.setVisibility(View.GONE);
-                            addButton.setVisibility(View.VISIBLE);
-                            return true;
-                        } else {
-                            editText.setHintTextColor(Color.RED);
-                        }
+            editText.setOnEditorActionListener((v12, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    if (!editText.getText().toString().equals("")) {
+                        listener.onClickNewActivity(editText.getText().toString(), date);
+                        layout.setVisibility(View.GONE);
+                        editText.setText("");
+                        editText.setHintTextColor(Color.GRAY);
+                        editText.setVisibility(View.GONE);
+                        confirmButton.setVisibility(View.GONE);
+                        cancelButton.setVisibility(View.GONE);
+                        addButton.setVisibility(View.VISIBLE);
+                        return true;
+                    } else {
+                        editText.setHintTextColor(Color.RED);
                     }
-                    return false;
                 }
+                return false;
             });
         });
+    }
+
+    public void handleDragAndDrop() {
+        if (view != null) {
+        }
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public ActivityEventListener getListener() {
+        return listener;
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 }

@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
@@ -192,6 +193,25 @@ public class DetailsPresenter {
         }
     }
 
+    public void moveActivity(LocalDate from, long activityId, LocalDate to) {
+        Optional<Activity> activity;
+        DayDto fromDay = tripDaysMap.get(from);
+        activity = fromDay.getDayActivities().stream().filter(activity1 -> activity1.getId() == activityId).findFirst();
+        if (activity.isPresent()) {
+            fromDay.deleteActivityFromDay(activity.get());
+            tripDaysMap.get(to).addActivityToDay(activity.get());
+            fetchActivities();
+            return;
+        }
+        couldNotFindActivity(activityId);
+    }
+
+    private void couldNotFindActivity(long activityId) {
+        if (view.get() != null) {
+            view.get().showActivityNotFoundErrorMessage(activityId);
+        }
+    }
+
     public void onConfirmDeleteTrip() {
         AsyncTask.execute(() -> this.tripRepository.deleteTrip(trip));
         if (view.get() != null) {
@@ -202,13 +222,13 @@ public class DetailsPresenter {
     public void onActivityDelete(Activity activity) {
         AsyncTask.execute(() -> this.activityRepository.delete(activity));
         tripDaysMap.get(activity.getDate()).deleteActivityFromDay(activity);
-        this.fetchActivities();
+        fetchActivities();
     }
 
     public void onActivityEdit(Activity activity, String name) {
         activity.setName(name);
         AsyncTask.execute(() -> this.activityRepository.update(activity));
         tripDaysMap.get(activity.getDate()).editActivityNameFromDay(activity.getId(), name);
-        this.fetchActivities();
+        fetchActivities();
     }
 }

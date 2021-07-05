@@ -19,12 +19,9 @@ public class DayActivityDragOnLongClickListener implements View.OnLongClickListe
 
     @Override
     public boolean onLongClick(View v) {
-        System.out.println("id before " + v.getId());
         String data = a.getDate() + "," + a.getId();
-        System.out.println("data: " + data);
         // Create a new ClipData.Item from the ImageView object's tag
         ClipData.Item item = new ClipData.Item(data);
-
         // Create a new ClipData using the tag as a label, the plain text MIME type, and
         // the already-created item. This will create a new ClipDescription object within the
         // ClipData, and set its MIME type entry to "text/plain"
@@ -38,7 +35,6 @@ public class DayActivityDragOnLongClickListener implements View.OnLongClickListe
                 null,      // no need to use local data
                 0          // flags (not currently used, set to 0)
         );
-//                textView.setVisibility(View.INVISIBLE); todo: add once it's working
         return false;
     }
 }

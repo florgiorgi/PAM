@@ -286,11 +286,6 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void handleDragAndDrop() {
-        if (view != null) {
-        }
-    }
-
     public View getView() {
         return view;
     }

@@ -54,6 +54,7 @@
     <string name="change_language">Cambiar idioma a Inglés?</string>
     <string name="delete_trip">Eliminar viaje?</string>
     <string name="day">Día</string>
+    <string name="cannot_drop_there">No se puede dejar actividades ahí</string>
 
     <string-array name="transport_options">
         <item>Avión</item>

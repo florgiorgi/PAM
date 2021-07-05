@@ -9,6 +9,7 @@ import android.widget.Toast;
 import java.lang.ref.WeakReference;
 import java.time.LocalDate;
 
+import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.tripdetail.DayViewHolder;
 
 public class LinearLayoutDropListener implements View.OnDragListener {
@@ -53,8 +54,10 @@ public class LinearLayoutDropListener implements View.OnDragListener {
                 // Displays a message containing the dragged data.
                 if (view.get() != null) {
                     String[] dataPackage = dragData.split(",");
-                    Toast.makeText(view.get().getView().getContext(), "Dragged data is " + dragData, Toast.LENGTH_LONG).show();
-                    view.get().getListener().onMoveActivity(LocalDate.parse(dataPackage[0]), Long.parseLong(dataPackage[1]), view.get().getDate());
+                    view.get().getListener().onMoveActivity(
+                            LocalDate.parse(dataPackage[0]),
+                            Long.parseLong(dataPackage[1]),
+                            view.get().getDate());
                 }
 
                 // Invalidates the view to force a redraw
@@ -66,19 +69,16 @@ public class LinearLayoutDropListener implements View.OnDragListener {
             case DragEvent.ACTION_DRAG_ENDED:
                 // Invalidates the view to force a redraw
                 v.invalidate();
-                if (event.getResult()) {
+                if (!event.getResult()) {
                     if (view.get() != null) {
-                        Toast.makeText(view.get().getView().getContext(), "The drop was handled.", Toast.LENGTH_LONG).show();
-                    }
-                } else {
-                    if (view.get() != null) {
-                        Toast.makeText(view.get().getView().getContext(), "The drop didn't work.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(view.get().getView().getContext(), view.get().getView()
+                                .getContext().getResources().getString(R.string.cannot_drop_there),
+                                Toast.LENGTH_LONG).show();
                     }
                 }
                 return true;
 
             default:
-                System.out.println("Unknown action type received by OnDragListener.");
                 break;
         }
         return false;

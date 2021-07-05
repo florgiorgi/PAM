@@ -3,12 +3,12 @@ package ar.edu.itba.pam.travelapp.tripdetail;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 import ar.edu.itba.pam.travelapp.R;
+
 
 public class ConfirmDialog extends DialogFragment {
 
@@ -40,5 +40,4 @@ public class ConfirmDialog extends DialogFragment {
     public interface ConfirmDialogListener {
         void confirmDelete();
     }
-
 }

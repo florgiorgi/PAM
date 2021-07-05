@@ -80,13 +80,13 @@ public class AutocompleteActivity extends AppCompatActivity implements Autocompl
     public void onCityError(Throwable error) {
         String errorMessage = error.getMessage();
         if (errorMessage == null) {
-            Toast.makeText(AutocompleteActivity.this, "Weather data not available: no city found with that name", Toast.LENGTH_LONG).show();
+            Toast.makeText(AutocompleteActivity.this, this.getResources().getString(R.string.weather_no_city), Toast.LENGTH_SHORT).show();
         } else if (errorMessage.contains("503")) {
-            Toast.makeText(AutocompleteActivity.this, "Weather data not available: your app has low priority and its request was discarded due to high traffic", Toast.LENGTH_LONG).show();
+            Toast.makeText(AutocompleteActivity.this, this.getResources().getString(R.string.weather_high_traffic), Toast.LENGTH_SHORT).show();
         } else if (errorMessage.contains("401")) {
-            Toast.makeText(AutocompleteActivity.this, "Weather data not available: your free trial requests have expired for today", Toast.LENGTH_LONG).show();
+            Toast.makeText(AutocompleteActivity.this, this.getResources().getString(R.string.weather_free_trial), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(AutocompleteActivity.this, "Weather data not available: no city found with that name", Toast.LENGTH_LONG).show();
+            Toast.makeText(AutocompleteActivity.this, this.getResources().getString(R.string.weather_no_city), Toast.LENGTH_SHORT).show();
         }
     }
 

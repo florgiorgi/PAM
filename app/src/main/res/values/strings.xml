@@ -54,6 +54,7 @@
     <string name="change_language">Change language to Spanish?</string>
     <string name="delete_trip">Delete Trip?</string>
     <string name="day">Day</string>
+    <string name="cannot_drop_there">Can\'t drop activities there</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

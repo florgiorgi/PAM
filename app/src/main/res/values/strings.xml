@@ -67,7 +67,7 @@
     <string name="weather_free_trial">Weather data not available: your free trial requests have expired for today</string>
     <string name="weather_no_city">Weather data not available: no city found with that name</string>
     <string name="cannot_drop_there">Can\'t drop activities there</string>
-    <string name="no_activity_found">No activity found with id: </string>
+    <string name="no_activity_found">No activity found with id: %1$d</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

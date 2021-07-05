@@ -1,5 +1,6 @@
 package ar.edu.itba.pam.travelapp.edit;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -25,21 +26,26 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import ar.edu.itba.pam.travelapp.R;
-import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainerLocator;
+import ar.edu.itba.pam.travelapp.di.newtrip.createtrip.NewTripContainer;
+import ar.edu.itba.pam.travelapp.di.newtrip.createtrip.NewTripContainerLocator;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
+import ar.edu.itba.pam.travelapp.newtrip.autocomplete.AutocompleteActivity;
 import ar.edu.itba.pam.travelapp.tripdetail.DetailsActivity;
 import ar.edu.itba.pam.travelapp.utils.DateUtils;
 
-public class EditTripActivity extends AppCompatActivity implements Validator.ValidationListener, EditTripView {
+import static ar.edu.itba.pam.travelapp.newtrip.createtrip.CreateTripActivity.AUTOCOMPLETE;
 
+public class EditTripActivity extends AppCompatActivity implements Validator.ValidationListener, EditTripView {
     @NotEmpty
     private EditText from;
     @NotEmpty
     private EditText to;
     @NotEmpty
     @Length(max = 20)
+    private EditText tripName;
     private EditText destination;
+    private String cityKey;
     private EditText flightNumber;
     private EditText departureTime;
     private Spinner transportSpinner;
@@ -84,7 +90,8 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
             this.presenter = (EditTripPresenter) possibleEditTripPresenter;
         }
         if (this.presenter == null) {
-            this.presenter = new EditTripPresenter(this, NewTripContainerLocator.locateComponent(this), trip);
+            NewTripContainer container = NewTripContainerLocator.locateComponent(this);
+            this.presenter = new EditTripPresenter(container.getApplicationContext(), this, container.getTripRepository(), trip);
         }
     }
 
@@ -105,6 +112,10 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
 
         destination = findViewById(R.id.destination_edit);
         destination.setText(trip.getLocation());
+        destination.setOnClickListener(v -> presenter.onLocationModified(destination));
+
+        tripName = findViewById(R.id.tripName_editText);
+        tripName.setText(trip.getTripName());
 
         flightNumber = findViewById(R.id.flight_number_edit);
         if (trip.getFlightNumber() != null) {
@@ -217,8 +228,32 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
     }
 
     @Override
+    public void launchAutocompleteActivity(String city) {
+        Intent intent = new Intent(this, AutocompleteActivity.class);
+        intent.putExtra("city", city);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityForResult(intent, AUTOCOMPLETE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AUTOCOMPLETE) {
+            if(resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    this.cityKey = data.getStringExtra("cityKey");
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                if (data != null) {
+                    this.destination.setText(data.getStringExtra("city"));
+                }
+            }
+        }
+    }
+
+    @Override
     public void onValidationSucceeded() {
-        presenter.onValidationSuccess(from, to, departureTime, destination, travelMethod, flightNumber);
+        presenter.onValidationSuccess(tripName, from, to, departureTime, destination, travelMethod, flightNumber, cityKey);
     }
 
     @Override
@@ -228,19 +263,19 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
 
     @Override
     public void showSuccessMessage() {
-        Toast.makeText(this, "Trip edited successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, this.getResources().getString(R.string.trip_edited_successfully), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showErrorMessages(List<ValidationError> errors) {
-        Toast.makeText(this, "Error updating trip", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, this.getResources().getString(R.string.error_updating_trip), Toast.LENGTH_SHORT).show();
         for (ValidationError error : errors) {
             View view = error.getView();
             String message = error.getCollatedErrorMessage(this);
             if (view instanceof EditText) {
                 ((EditText) view).setError(message);
             } else {
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             }
         }
     }

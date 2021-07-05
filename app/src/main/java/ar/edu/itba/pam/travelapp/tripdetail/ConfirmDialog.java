@@ -3,11 +3,12 @@ package ar.edu.itba.pam.travelapp.tripdetail;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+import ar.edu.itba.pam.travelapp.R;
+
 
 public class ConfirmDialog extends DialogFragment {
 
@@ -16,11 +17,11 @@ public class ConfirmDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Delete Trip?")
-                .setPositiveButton("Confirm", (dialog, id) -> {
+        builder.setMessage(R.string.delete_trip)
+                .setPositiveButton(R.string.confirm, (dialog, id) -> {
                     listener.confirmDelete();
                 })
-                .setNegativeButton("Cancel", (dialog, id) -> {
+                .setNegativeButton(R.string.cancel, (dialog, id) -> {
                 });
 
         return builder.create();
@@ -39,5 +40,4 @@ public class ConfirmDialog extends DialogFragment {
     public interface ConfirmDialogListener {
         void confirmDelete();
     }
-
 }

@@ -18,6 +18,9 @@ public class TripEntity {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
+    @ColumnInfo(name = "trip_name")
+    private String tripName;
+
     @ColumnInfo(name = "location")
     private String location;
 
@@ -48,24 +51,31 @@ public class TripEntity {
     @ColumnInfo(name = "google_id")
     private String googleId;
 
-    public TripEntity(String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber) {
+    @ColumnInfo(name = "location_key")
+    private String locationKey;
+
+    public TripEntity(String tripName, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber, String locationKey) {
+        this.tripName = tripName;
         this.location = location;
         this.from = from;
         this.to = to;
         this.travelMethod = travelMethod;
         this.flightNumber = flightNumber;
         this.departureTime = departureTime;
+        this.locationKey = locationKey;
     }
 
     @Ignore
-    public TripEntity(long id, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber) {
+    public TripEntity(long id, String tripName, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime,  String flightNumber, String locationKey) {
         this.id = id;
+        this.tripName = tripName;
         this.location = location;
         this.from = from;
         this.to = to;
         this.travelMethod = travelMethod;
         this.flightNumber = flightNumber;
         this.departureTime = departureTime;
+        this.locationKey = locationKey;
     }
 
     public long getId() {
@@ -74,6 +84,14 @@ public class TripEntity {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getTripName() {
+        return tripName;
+    }
+
+    public void setTripName(String tripName) {
+        this.tripName = tripName;
     }
 
     public String getLocation() {
@@ -128,6 +146,10 @@ public class TripEntity {
         return flightNumber;
     }
 
+    public String getLocationKey() {
+        return locationKey;
+    }
+
     public void setFlightNumber(String flightNumber) {
         this.flightNumber = flightNumber;
     }
@@ -148,4 +170,7 @@ public class TripEntity {
         this.googleId = googleId;
     }
 
+    public void setLocationKey(String locationKey) {
+        this.locationKey = locationKey;
+    }
 }

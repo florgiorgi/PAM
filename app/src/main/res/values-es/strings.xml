@@ -7,7 +7,8 @@
     <string name="upcoming">Próximos</string>
     <string name="history">Historial</string>
     <string name="settings">Configuración</string>
-    <string name="where_are_you_going">¿Dónde vas?</string>
+    <string name="name_for_trip">Un nombre para tu viaje</string>
+    <string name="where_are_you_going">¿A dónde vas?</string>
     <string name="from">Desde</string>
     <string name="to">Hasta</string>
     <string name="how_are_you_traveling">¿Cómo viajás?</string>
@@ -47,6 +48,31 @@
     <string name="edit_button">Editar</string>
     <string name="cancel_edit">Cancelar</string>
     <string name="delete_activity">Eliminar actividad</string>
+    <string name="name_for_trip_hint">Mi Súper Viaje</string>
+    <string name="new_name_for_trip">El nombre de tu viaje</string>
+    <string name="select_location_city">%1$s, %2$s, %3$s</string>
+    <string name="cannot_be_empty">%1$s no puede estar vacío</string>
+    <string name="english">English</string>
+    <string name="espa_ol">Español</string>
+    <string name="english_flag">English Flag</string>
+    <string name="spanish_flag">Spanish flag</string>
+    <string name="change_language">Cambiar idioma a Inglés?</string>
+    <string name="delete_trip">Eliminar viaje?</string>
+    <string name="day">Día</string>
+    <string name="trip_created_successfully">Viaje creado con éxito</string>
+    <string name="error_creating_trip">Error al crear el viaje</string>
+    <string name="error_fetching_trips">Error al obtener los viajes</string>
+    <string name="trip_edited_successfully">Viaje editado con éxito</string>
+    <string name="error_updating_trip">Error al editar el viaje</string>
+    <string name="error_fetching_activities">Error al obtener las actividades</string>
+    <string name="activity_created_successfully">Actividad creada con éxito</string>
+    <string name="trip_deleted_successfully">Viaje eliminado con éxito</string>
+    <string name="weather_no_forecast">Pronóstico no disponible: no se encontró pronóstico para el viaje</string>
+    <string name="weather_high_traffic">Pronóstico no disponible: la aplicación tiene baja prioridad y el tráfico actual es demasiado alto</string>
+    <string name="weather_free_trial">Pronóstico no disponible: expiró el período de prueba por hoy</string>
+    <string name="weather_no_city">Pronóstico no disponible: no se encontró ciudad con ese nombre</string>
+    <string name="cannot_drop_there">No se puede dejar actividades ahí</string>
+    <string name="no_activity_found">No se econtró la actividad con id: %1$d</string>
 
     <string-array name="transport_options">
         <item>Avión</item>

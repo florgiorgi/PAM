@@ -5,4 +5,8 @@ public interface FtuStorage {
     boolean isActive();
 
     void deactivate();
+
+    String getLang();
+
+    void setLang(String lang);
 }

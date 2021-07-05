@@ -85,6 +85,7 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
 
     private void initView() {
         final TextView tripName = findViewById(R.id.trip_name);
+        final TextView tripLocation = findViewById(R.id.location);
         final TextView tripDate = findViewById(R.id.trip_date);
         final TextView tripFlightNumber = findViewById(R.id.trip_flight_number);
         final TextView tripDepartureDate = findViewById(R.id.trip_departure_date);
@@ -97,7 +98,8 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
         String fromDate = trip.getFrom().format(dateFormatter);
         String toDate = trip.getTo().format(dateFormatter);
         String flightTitle = getResources().getString(R.string.flight_title);
-        tripName.setText(trip.getLocation());
+        tripName.setText(trip.getTripName());
+        tripLocation.setText(trip.getLocation());
         String parsedDate = fromDate + " - " + toDate;
         tripDate.setText(parsedDate);
         String flightString = flightTitle + trip.getFlightNumber();
@@ -154,17 +156,17 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
 
     @Override
     public void showActivitiesErrorMessage() {
-        Toast.makeText(DetailsActivity.this, "Error getting trip activities", Toast.LENGTH_LONG).show();
+        Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.error_fetching_activities), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showNewActivitySuccessMessage() {
-        Toast.makeText(DetailsActivity.this, "Activity created successfully", Toast.LENGTH_LONG).show();
+        Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.activity_created_successfully), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showDeletedTripSuccessMessage() {
-        Toast.makeText(DetailsActivity.this, "Trip deleted successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.trip_deleted_successfully), Toast.LENGTH_SHORT).show();
         startActivity(new Intent(DetailsActivity.this, MainActivity.class));
     }
 
@@ -183,13 +185,13 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
     public void onForecastError(Throwable error) {
         String errorMessage = error.getMessage();
         if (errorMessage == null) {
-            Toast.makeText(DetailsActivity.this, "Weather data not available: no forecast found for trip", Toast.LENGTH_LONG).show();
+            Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.weather_no_forecast), Toast.LENGTH_SHORT).show();
         } else if (errorMessage.contains("503")) {
-            Toast.makeText(DetailsActivity.this, "Weather data not available: your app has low priority and its request was discarded due to high traffic", Toast.LENGTH_LONG).show();
+            Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.weather_high_traffic), Toast.LENGTH_SHORT).show();
         } else if (errorMessage.contains("401")) {
-            Toast.makeText(DetailsActivity.this, "Weather data not available: your free trial requests have expired for today", Toast.LENGTH_LONG).show();
+            Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.weather_free_trial), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(DetailsActivity.this, "Weather data not available: no forecast found for trip", Toast.LENGTH_LONG).show();
+            Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.weather_no_forecast), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -197,14 +199,24 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
     public void onCityError(Throwable error) {
         String errorMessage = error.getMessage();
         if (errorMessage == null) {
-            Toast.makeText(DetailsActivity.this, "Weather data not available: no city found with that name", Toast.LENGTH_LONG).show();
+            Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.weather_no_city), Toast.LENGTH_SHORT).show();
         } else if (errorMessage.contains("503")) {
-            Toast.makeText(DetailsActivity.this, "Weather data not available: your app has low priority and its request was discarded due to high traffic", Toast.LENGTH_LONG).show();
+            Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.weather_high_traffic), Toast.LENGTH_SHORT).show();
         } else if (errorMessage.contains("401")) {
-            Toast.makeText(DetailsActivity.this, "Weather data not available: your free trial requests have expired for today", Toast.LENGTH_LONG).show();
+            Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.weather_free_trial), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(DetailsActivity.this, "Weather data not available: no city found with that name", Toast.LENGTH_LONG).show();
+            Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.weather_no_city), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onMoveActivity(LocalDate from, long activityId, LocalDate to) {
+        presenter.moveActivity(from, activityId, to);
+    }
+
+    @Override
+    public void showActivityNotFoundErrorMessage(long activityId) {
+        Toast.makeText(DetailsActivity.this, this.getResources().getString(R.string.no_activity_found, activityId), Toast.LENGTH_SHORT).show();
     }
 
     @Override

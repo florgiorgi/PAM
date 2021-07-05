@@ -2,7 +2,6 @@ package ar.edu.itba.pam.travelapp.tripdetail;
 
 import android.graphics.Color;
 import android.text.InputType;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -16,34 +15,37 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.dtos.DayDto;
 import ar.edu.itba.pam.travelapp.model.weather.dtos.forecast.Forecast;
+import ar.edu.itba.pam.travelapp.tripdetail.draganddrop.LinearLayoutDropListener;
+import ar.edu.itba.pam.travelapp.tripdetail.draganddrop.DayActivityDragOnLongClickListener;
 
 
 public class DayViewHolder extends RecyclerView.ViewHolder {
-
     public View view;
     public View titleView;
     public ImageButton addButton;
 
-    private LinearLayout activityList;
-    private View divider;
-    private ImageView arrow;
-    private LinearLayout add_activity;
+    private final LinearLayout activityList;
+    private final LinearLayout add_activity;
 
     private ActivityEventListener listener;
+    private ImageView arrow;
+    private View divider;
+
+    private LocalDate date;
 
     public DayViewHolder(@NonNull View itemView) {
         super(itemView);
         this.view = itemView;
-        activityList = view.findViewById(R.id.list_of_activities);
-        titleView = view.findViewById(R.id.day_card_title);
-        addButton = view.findViewById(R.id.add_button);
-        add_activity = view.findViewById(R.id.add_activity);
-
+        this.activityList = view.findViewById(R.id.list_of_activities);
+        this.activityList.setOnDragListener(new LinearLayoutDropListener(this));
+        this.titleView = view.findViewById(R.id.day_card_title);
+        this.titleView.setOnDragListener(new LinearLayoutDropListener(this));
+        this.addButton = view.findViewById(R.id.add_button);
+        this.add_activity = view.findViewById(R.id.add_activity);
         setUpClickOnCardToExpand();
     }
 
@@ -55,6 +57,8 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
         activityList.removeAllViews();
         for (Activity a : activities) {
             TextView textView = new TextView(view.getContext());
+            textView.setOnLongClickListener(new DayActivityDragOnLongClickListener(a, textView));
+
             EditText editText = new EditText(view.getContext());
             ImageButton deleteButton = new ImageButton(view.getContext());
             ImageButton confirmButton = new ImageButton(view.getContext());
@@ -91,10 +95,10 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                     150
             );
             params.setMargins(2, 4, 2, 4);
-            editParams.setMargins(0,0,0,0);
-            confirmButtonParams.setMargins(20,50,20,0);
-            deleteButtonParams.setMargins(20,42,15,0);
-            editAndCancelParams.setMargins(-10,-20,0,-20);
+            editParams.setMargins(0, 0, 0, 0);
+            confirmButtonParams.setMargins(20, 50, 20, 0);
+            deleteButtonParams.setMargins(20, 42, 15, 0);
+            editAndCancelParams.setMargins(-10, -20, 0, -20);
 
             textView.setLayoutParams(params);
             editText.setLayoutParams(editParams);
@@ -108,7 +112,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
             editAndCancel.addView(deleteButton);
 
             textView.setTextSize(1, 16);
-            editText.setTextSize(1,16);
+            editText.setTextSize(1, 16);
             editText.setInputType(InputType.TYPE_CLASS_TEXT);
             editText.setMaxLines(1);
             editText.setImeOptions(EditorInfo.IME_ACTION_SEND);
@@ -121,7 +125,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 editAndCancel.setVisibility(View.VISIBLE);
             });
             confirmButton.setOnClickListener(v1 -> {
-                listener.onEditActivity(a,editText.getText().toString());
+                listener.onEditActivity(a, editText.getText().toString());
                 editText.setText(a.getName());
                 textView.setVisibility(View.VISIBLE);
                 editText.setVisibility(View.GONE);
@@ -138,7 +142,7 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
             });
             editText.setOnEditorActionListener((v, actionId, event) -> {
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    listener.onEditActivity(a,editText.getText().toString());
+                    listener.onEditActivity(a, editText.getText().toString());
                     editText.setText(a.getName());
                     textView.setVisibility(View.VISIBLE);
                     editText.setVisibility(View.GONE);
@@ -155,28 +159,42 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(final DayDto activitiesAndForecast, final int position, LocalDate date) {
+        this.date = date;
         final TextView dayNum = itemView.findViewById(R.id.day_number);
         final TextView minTemp = itemView.findViewById(R.id.min_temperature);
         final TextView maxTemp = itemView.findViewById(R.id.max_temperature);
         final TextView tempDivider = itemView.findViewById(R.id.temp_divider);
         final ImageView weatherIcon = itemView.findViewById(R.id.weather_icon);
-        dayNum.setText("Day " + (position + 1));
-        //    private OnNewActivityClickedListener listener;
+        String dayString = view.getContext().getString(R.string.day) + " " + (position + 1);
+        dayNum.setText(dayString);
         Forecast forecasts = activitiesAndForecast.getDayForecast();
         minTemp.setText(forecasts == null ? "" : Math.round(activitiesAndForecast.getDayForecast().getTemperature().getMinimum().getValue()) + "ºC");
-        if(forecasts != null)
+        if (forecasts != null)
             tempDivider.setVisibility(View.VISIBLE);
         maxTemp.setText(forecasts == null ? "" : Math.round(activitiesAndForecast.getDayForecast().getTemperature().getMaximum().getValue()) + "ºC");
         if (forecasts != null) {
             int iconography = forecasts.getDay().getIcon();
             switch (iconography) {
-                case 1: case 2: case 3: case 4: case 5: case 32: case 33: case 34:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 32:
+                case 33:
+                case 34:
                     weatherIcon.setBackgroundResource(R.drawable.sunny);
                     break;
-                case 6: case 35: case 36: case 37:
+                case 6:
+                case 35:
+                case 36:
+                case 37:
                     weatherIcon.setBackgroundResource(R.drawable.partly_cloudy);
                     break;
-                case 7: case 8: case 9: case 38:
+                case 7:
+                case 8:
+                case 9:
+                case 38:
                     weatherIcon.setBackgroundResource(R.drawable.cloudy);
                     break;
                 default:
@@ -247,27 +265,36 @@ public class DayViewHolder extends RecyclerView.ViewHolder {
                 cancelButton.setVisibility(View.GONE);
                 addButton.setVisibility(View.VISIBLE);
             });
-            editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (actionId == EditorInfo.IME_ACTION_SEND) {
-                        if (!editText.getText().toString().equals("")) {
-                            listener.onClickNewActivity(editText.getText().toString(), date);
-                            layout.setVisibility(View.GONE);
-                            editText.setText("");
-                            editText.setHintTextColor(Color.GRAY);
-                            editText.setVisibility(View.GONE);
-                            confirmButton.setVisibility(View.GONE);
-                            cancelButton.setVisibility(View.GONE);
-                            addButton.setVisibility(View.VISIBLE);
-                            return true;
-                        } else {
-                            editText.setHintTextColor(Color.RED);
-                        }
+            editText.setOnEditorActionListener((v12, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    if (!editText.getText().toString().equals("")) {
+                        listener.onClickNewActivity(editText.getText().toString(), date);
+                        layout.setVisibility(View.GONE);
+                        editText.setText("");
+                        editText.setHintTextColor(Color.GRAY);
+                        editText.setVisibility(View.GONE);
+                        confirmButton.setVisibility(View.GONE);
+                        cancelButton.setVisibility(View.GONE);
+                        addButton.setVisibility(View.VISIBLE);
+                        return true;
+                    } else {
+                        editText.setHintTextColor(Color.RED);
                     }
-                    return false;
                 }
+                return false;
             });
         });
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public ActivityEventListener getListener() {
+        return listener;
+    }
+
+    public LocalDate getDate() {
+        return date;
     }
 }

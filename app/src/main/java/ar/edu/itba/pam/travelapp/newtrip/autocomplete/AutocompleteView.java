@@ -9,6 +9,8 @@ public interface AutocompleteView {
 
     void bind(List<City> cities);
 
+    void onClickConfirm();
+
 //    void showDateTimeDialog(EditText input);
 
 //    void showSuccessMessage();

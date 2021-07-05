@@ -137,9 +137,14 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == AUTOCOMPLETE) {
-            if(resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
                 if (data != null) {
                     this.cityKey = data.getStringExtra("cityKey");
+                    this.destination.setText(data.getStringExtra("city"));
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                if (data != null) {
+                    this.destination.setText(data.getStringExtra("city"));
                 }
             }
         }

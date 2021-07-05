@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -60,13 +61,14 @@ public class AutocompleteActivity extends AppCompatActivity implements Autocompl
     private void initView() {
         this.cityShown = findViewById(R.id.city_name);
         this.cityShown.setText(this.cityName);
-//        this.cityName.setOnClickListener(view -> presenter.onCitySelected(cityName));
-        citiesRecyclerView = findViewById(R.id.cities_list);
-        citiesRecyclerView.setHasFixedSize(true);
-        adapter = new CityListAdapter();
-        adapter.setOnClickListener(this);
-        citiesRecyclerView.setAdapter(adapter);
-        citiesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        this.confirmBtn = findViewById(R.id.confirm_btn);
+        this.confirmBtn.setOnClickListener(view -> onClickConfirm());
+        this.citiesRecyclerView = findViewById(R.id.cities_list);
+        this.citiesRecyclerView.setHasFixedSize(true);
+        this.adapter = new CityListAdapter();
+        this.adapter.setOnClickListener(this);
+        this.citiesRecyclerView.setAdapter(adapter);
+        this.citiesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
     }
 
     @Override
@@ -92,7 +94,17 @@ public class AutocompleteActivity extends AppCompatActivity implements Autocompl
     public void onClick(City city) {
         Intent returnIntent = new Intent();
         returnIntent.putExtra("cityKey", city.getKey());
-        setResult(Activity.RESULT_OK, returnIntent);
+        putCityShownAndSetResult(Activity.RESULT_OK, returnIntent);
+    }
+
+    @Override
+    public void onClickConfirm() {
+        putCityShownAndSetResult(Activity.RESULT_CANCELED, new Intent());
+    }
+
+    private void putCityShownAndSetResult(int activityStatus, @NonNull Intent intent) {
+        intent.putExtra("city", cityShown.getText().toString());
+        setResult(activityStatus, intent);
         finish();
     }
 }

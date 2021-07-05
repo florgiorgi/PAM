@@ -149,12 +149,7 @@ public class DetailsPresenter {
 
     public void onActivityCreate(String name, LocalDate date) {
         if (name != null && name.length() > 0) {
-            Activity activity = new Activity(name, this.trip.getId(), date);
-            AsyncTask.execute(() -> {
-                long newActivityId = this.activityRepository.insert(activity);
-                activity.setId(newActivityId);
-                tripDaysMap.get(date).addActivityToDay(activity);
-            });
+            createActivityForDay(name, date);
         }
         if (view.get() != null) {
             view.get().showNewActivitySuccessMessage();
@@ -194,12 +189,13 @@ public class DetailsPresenter {
     }
 
     public void moveActivity(LocalDate from, long activityId, LocalDate to) {
-        Optional<Activity> activity;
+        Optional<Activity> possibleActivity;
         DayDto fromDay = tripDaysMap.get(from);
-        activity = fromDay.getDayActivities().stream().filter(activity1 -> activity1.getId() == activityId).findFirst();
-        if (activity.isPresent()) {
-            fromDay.deleteActivityFromDay(activity.get());
-            tripDaysMap.get(to).addActivityToDay(activity.get());
+        possibleActivity = fromDay.getDayActivities().stream().filter(activity1 -> activity1.getId() == activityId).findFirst();
+        if (possibleActivity.isPresent()) {
+            Activity activity = possibleActivity.get();
+            deleteActivityFromItsDay(activity);
+            createActivityForDay(activity.getName(), to);
             fetchActivities();
             return;
         }
@@ -220,8 +216,7 @@ public class DetailsPresenter {
     }
 
     public void onActivityDelete(Activity activity) {
-        AsyncTask.execute(() -> this.activityRepository.delete(activity));
-        tripDaysMap.get(activity.getDate()).deleteActivityFromDay(activity);
+        deleteActivityFromItsDay(activity);
         fetchActivities();
     }
 
@@ -230,5 +225,19 @@ public class DetailsPresenter {
         AsyncTask.execute(() -> this.activityRepository.update(activity));
         tripDaysMap.get(activity.getDate()).editActivityNameFromDay(activity.getId(), name);
         fetchActivities();
+    }
+
+    private void createActivityForDay(String name, LocalDate day) {
+        Activity activity = new Activity(name, this.trip.getId(), day);
+        AsyncTask.execute(() -> {
+            long newActivityId = this.activityRepository.insert(activity);
+            activity.setId(newActivityId);
+            tripDaysMap.get(day).addActivityToDay(activity);
+        });
+    }
+
+    private void deleteActivityFromItsDay(Activity activity) {
+        AsyncTask.execute(() -> this.activityRepository.delete(activity));
+        tripDaysMap.get(activity.getDate()).deleteActivityFromDay(activity);
     }
 }

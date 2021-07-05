@@ -188,6 +188,16 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView, A
     }
 
     @Override
+    public void onMoveActivity(LocalDate from, long activityId, LocalDate to) {
+        presenter.moveActivity(from, activityId, to);
+    }
+
+    @Override
+    public void showActivityNotFoundErrorMessage(long activityId) {
+        Toast.makeText(DetailsActivity.this, "No activity found with id: " + activityId, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void startEditTripActivity() {
         Intent intent = new Intent(this, EditTripActivity.class);
         intent.putExtra("trip", trip);

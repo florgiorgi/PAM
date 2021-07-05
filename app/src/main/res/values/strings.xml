@@ -66,6 +66,7 @@
     <string name="weather_high_traffic">Weather data not available: your app has low priority and its request was discarded due to high traffic</string>
     <string name="weather_free_trial">Weather data not available: your free trial requests have expired for today</string>
     <string name="weather_no_city">Weather data not available: no city found with that name</string>
+    <string name="cannot_drop_there">Can\'t drop activities there</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

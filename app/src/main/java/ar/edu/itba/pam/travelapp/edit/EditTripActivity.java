@@ -263,12 +263,12 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
 
     @Override
     public void showSuccessMessage() {
-        Toast.makeText(this, "Trip edited successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, this.getResources().getString(R.string.trip_edited_successfully), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showErrorMessages(List<ValidationError> errors) {
-        Toast.makeText(this, "Error updating trip", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, this.getResources().getString(R.string.error_updating_trip), Toast.LENGTH_SHORT).show();
         for (ValidationError error : errors) {
             View view = error.getView();
             String message = error.getCollatedErrorMessage(this);

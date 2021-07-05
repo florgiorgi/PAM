@@ -22,4 +22,6 @@ public interface DetailsView {
     void openConfirmDeleteDialog();
 
     void startEditTripActivity();
+
+    void showActivityNotFoundErrorMessage(long activityId);
 }

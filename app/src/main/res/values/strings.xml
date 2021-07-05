@@ -59,6 +59,20 @@
     <string name="change_language">Change language to Spanish?</string>
     <string name="delete_trip">Delete Trip?</string>
     <string name="day">Day</string>
+    <string name="trip_created_successfully">Trip created successfully</string>
+    <string name="error_creating_trip">Error creating trip</string>
+    <string name="error_fetching_trips">Error: couldn\'t fetch trips from database</string>
+    <string name="trip_edited_successfully">Trip edited successfully</string>
+    <string name="error_updating_trip">Error updating trip</string>
+    <string name="error_fetching_activities">Error getting trip activities</string>
+    <string name="activity_created_successfully">Activity created successfully</string>
+    <string name="trip_deleted_successfully">Trip deleted successfully</string>
+    <string name="weather_no_forecast">Weather data not available: no forecast found for trip</string>
+    <string name="weather_high_traffic">Weather data not available: your app has low priority and its request was discarded due to high traffic</string>
+    <string name="weather_free_trial">Weather data not available: your free trial requests have expired for today</string>
+    <string name="weather_no_city">Weather data not available: no city found with that name</string>
+    <string name="cannot_drop_there">Can\'t drop activities there</string>
+    <string name="no_activity_found">No activity found with id: %1$d</string>
 
     <string-array name="transport_options">
         <item>Plane</item>

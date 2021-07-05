@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     @Override
     public void onTripsError() {
         Toast.makeText(MainActivity.this, this.getResources().getString(R.string.error_fetching_trips),
-                Toast.LENGTH_LONG).show();
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override

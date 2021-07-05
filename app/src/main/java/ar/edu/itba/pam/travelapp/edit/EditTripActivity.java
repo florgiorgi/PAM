@@ -275,7 +275,7 @@ public class EditTripActivity extends AppCompatActivity implements Validator.Val
             if (view instanceof EditText) {
                 ((EditText) view).setError(message);
             } else {
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             }
         }
     }

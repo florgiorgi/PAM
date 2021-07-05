@@ -196,12 +196,12 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     @Override
     public void showSuccessMessage() {
-        Toast.makeText(this, "Trip created successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, this.getResources().getString(R.string.trip_created_successfully), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showErrorMessages(List<ValidationError> errors) {
-        Toast.makeText(this, "Error creating trip", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, this.getResources().getString(R.string.error_creating_trip), Toast.LENGTH_SHORT).show();
         for (ValidationError error : errors) {
             View view = error.getView();
             String message = error.getCollatedErrorMessage(this);

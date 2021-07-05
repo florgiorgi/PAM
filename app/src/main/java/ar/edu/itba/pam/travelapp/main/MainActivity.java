@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     private TripListAdapter adapter;
     private HistoryListAdapter historyAdapter;
 
-    private Spinner languageSpinner;
-
     private ViewFlipper flipper;
 
     private TripsView tripsView;
@@ -279,7 +277,7 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
 
     @Override
     public void onTripsError() {
-        Toast.makeText(MainActivity.this, "Error: couldn't fetch trips from database",
+        Toast.makeText(MainActivity.this, this.getResources().getString(R.string.error_fetching_trips),
                 Toast.LENGTH_LONG).show();
     }
 

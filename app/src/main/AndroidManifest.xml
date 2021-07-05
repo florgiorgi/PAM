@@ -25,7 +25,8 @@
 
         <activity android:name=".edit.EditTripActivity"/>
 
-        <activity android:name=".newtrip.CreateTripActivity"/>
+        <activity android:name=".newtrip.createtrip.CreateTripActivity"/>
+        <activity android:name=".newtrip.autocomplete.AutocompleteActivity"/>
 
     </application>
 

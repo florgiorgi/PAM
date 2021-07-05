@@ -42,7 +42,7 @@ import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.tripdetail.DetailsActivity;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;
-import ar.edu.itba.pam.travelapp.newtrip.CreateTripActivity;
+import ar.edu.itba.pam.travelapp.newtrip.createtrip.CreateTripActivity;
 import ar.edu.itba.pam.travelapp.main.trips.OnTripClickedListener;
 import ar.edu.itba.pam.travelapp.main.trips.TripsView;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;

@@ -13,14 +13,16 @@ import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class TripViewHolder extends RecyclerView.ViewHolder {
-
     public View view;
-
     private OnTripClickedListener listener;
 
     public TripViewHolder(@NonNull View itemView) {
         super(itemView);
         view = itemView;
+    }
+
+    public void setOnClickListener(OnTripClickedListener listener) {
+        this.listener = listener;
     }
 
     public void bind(final Trip trip) {
@@ -31,12 +33,15 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         String daysLeftString = view.getResources().getString(R.string.days_left);
         String currentTrip = view.getResources().getString(R.string.current_trip);
 
-        String dateFromMonth = trip.getFrom().getMonth().toString().substring(0,1).concat(trip.getFrom().getMonth().toString().substring(1,3).toLowerCase());
+        String dateFromMonth = trip.getFrom().getMonth().toString().substring(0,1)
+                .concat(trip.getFrom().getMonth().toString().substring(1,3).toLowerCase());
         int dateFromDay = trip.getFrom().getDayOfMonth();
-        String dateToMonth = trip.getTo().getMonth().toString().substring(0,1).concat(trip.getTo().getMonth().toString().substring(1,3).toLowerCase());
+        String dateToMonth = trip.getTo().getMonth().toString().substring(0,1)
+                .concat(trip.getTo().getMonth().toString().substring(1,3).toLowerCase());
         int dateToDay = trip.getTo().getDayOfMonth();
 
-        title.setText(trip.getLocation());
+        String tripName = trip.getTripName();
+        title.setText(tripName != null && !tripName.isEmpty() ? tripName : trip.getLocation());
         date.setText(dateFromMonth + " " + dateFromDay + " - " + dateToMonth + " " + dateToDay);
 
         LocalDate today = LocalDate.now();
@@ -52,9 +57,5 @@ public class TripViewHolder extends RecyclerView.ViewHolder {
         view.setOnClickListener(v -> {
             listener.onClick(trip);
         });
-    }
-
-    public void setOnClickListener(OnTripClickedListener listener) {
-        this.listener = listener;
     }
 }

@@ -1,5 +1,6 @@
-package ar.edu.itba.pam.travelapp.newtrip;
+package ar.edu.itba.pam.travelapp.newtrip.createtrip;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -12,6 +13,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Length;
@@ -22,31 +26,31 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import ar.edu.itba.pam.travelapp.R;
-import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainer;
-import ar.edu.itba.pam.travelapp.di.newtrip.NewTripContainerLocator;
+import ar.edu.itba.pam.travelapp.di.newtrip.createtrip.NewTripContainer;
+import ar.edu.itba.pam.travelapp.di.newtrip.createtrip.NewTripContainerLocator;
 import ar.edu.itba.pam.travelapp.main.MainActivity;
 import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
+import ar.edu.itba.pam.travelapp.newtrip.autocomplete.AutocompleteActivity;
 import ar.edu.itba.pam.travelapp.utils.DateUtils;
 
 
 public class CreateTripActivity extends AppCompatActivity implements Validator.ValidationListener, CreateTripView {
+    public static final int AUTOCOMPLETE = 99;
 
     @NotEmpty
     private EditText from;
-
     @NotEmpty
     private EditText to;
-
     @NotEmpty
     @Length(max = 20)
+    private EditText tripName;
     private EditText destination;
-
+    private String cityKey;
     private EditText flightNumber;
     private EditText departureTime;
     private Spinner travelMethodSpinner;
+    private TravelMethod travelMethod;
     private Button submitButton;
     private Validator validator;
 
@@ -56,7 +60,6 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     private static final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-    private TravelMethod travelMethod;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +82,8 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         }
         if (this.presenter == null) {
             NewTripContainer container = NewTripContainerLocator.locateComponent(this);
-            this.presenter = new CreateTripPresenter(this, container.getTripRepository());
+            this.presenter = new CreateTripPresenter(this, container.getTripRepository(),
+                    container.getApplicationContext());
         }
     }
 
@@ -90,7 +94,9 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
     }
 
     private void initView() {
+        this.tripName = findViewById(R.id.tripName_input);
         this.destination = findViewById(R.id.destination_input);
+        this.destination.setOnClickListener(view -> presenter.onDestinationSelected(destination));
         this.flightNumber = findViewById(R.id.flight_number_input);
         this.from = findViewById(R.id.from_input);
         this.from.setShowSoftInputOnFocus(false);
@@ -104,7 +110,8 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
         this.submitButton = findViewById(R.id.create_btn);
         this.submitButton.setOnClickListener(view -> validator.validate());
         this.travelMethodSpinner = findViewById(R.id.transport_spinner);
-        this.travelMethodSpinner.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, TravelMethod.values()));
+        this.travelMethodSpinner.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item, TravelMethod.values()));
         this.travelMethodSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -116,6 +123,31 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
                 // do nothing :)
             }
         });
+    }
+
+    @Override
+    public void launchAutocompleteActivity(String city) {
+        Intent intent = new Intent(this, AutocompleteActivity.class);
+        intent.putExtra("city", city);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivityForResult(intent, AUTOCOMPLETE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == AUTOCOMPLETE) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (data != null) {
+                    this.cityKey = data.getStringExtra("cityKey");
+                    this.destination.setText(data.getStringExtra("city"));
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                if (data != null) {
+                    this.destination.setText(data.getStringExtra("city"));
+                }
+            }
+        }
     }
 
     @Override
@@ -166,7 +198,8 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
             dateTimeBuilder.append(dateString).append(" ");
 
             TimePickerDialog.OnTimeSetListener timeSetListener = (timePicker, hour, minute) -> {
-                LocalDateTime chosenTime = LocalDateTime.of(finalNow.getYear(), finalNow.getMonthValue(), finalNow.getDayOfMonth(), hour, minute);
+                LocalDateTime chosenTime = LocalDateTime.of(finalNow.getYear(),
+                        finalNow.getMonthValue(), finalNow.getDayOfMonth(), hour, minute);
                 String timeString = chosenTime.format(timeFormatter);
                 dateTimeBuilder.append(timeString);
                 inputView.setText(dateTimeBuilder.toString());
@@ -186,7 +219,8 @@ public class CreateTripActivity extends AppCompatActivity implements Validator.V
 
     @Override
     public void onValidationSucceeded() {
-        presenter.onValidationSuccess(from, to, departureTime, destination, travelMethod, flightNumber);
+        presenter.onValidationSuccess(tripName, from, to, departureTime, destination, travelMethod,
+                flightNumber, cityKey);
     }
 
     @Override

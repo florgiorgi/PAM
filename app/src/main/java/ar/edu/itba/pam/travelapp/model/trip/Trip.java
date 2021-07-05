@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public class Trip implements Serializable {
     private long id;
+    private String tripName;
     private String location;
     private LocalDate from;
     private LocalDate to;
@@ -17,30 +18,36 @@ public class Trip implements Serializable {
     private String googleApiId;
     private String locationKey;
 
-    public Trip(String location, LocalDate from, LocalDate to, TravelMethod travelMethod) {
+    public Trip(String tripName, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, String locationKey) {
+        this.tripName = tripName;
         this.location = location;
         this.from = from;
         this.to = to;
         this.travelMethod = travelMethod;
+        this.locationKey = locationKey;
     }
 
-    public Trip(String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime, String flightNumber) {
+    public Trip(String tripName, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime, String flightNumber, String locationKey) {
+        this.tripName = tripName;
         this.location = location;
         this.from = from;
         this.to = to;
         this.travelMethod = travelMethod;
         this.departureTime = departureTime;
         this.flightNumber = flightNumber;
+        this.locationKey = locationKey;
     }
 
-    public Trip(long id, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime, String flightNumber) {
+    public Trip(long id, String tripName, String location, LocalDate from, LocalDate to, TravelMethod travelMethod, LocalDateTime departureTime, String flightNumber, String locationKey) {
         this.id = id;
+        this.tripName = tripName;
         this.location = location;
         this.from = from;
         this.to = to;
         this.travelMethod = travelMethod;
         this.departureTime = departureTime;
         this.flightNumber = flightNumber;
+        this.locationKey = locationKey;
     }
 
     public long getId() {
@@ -49,6 +56,14 @@ public class Trip implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getTripName() {
+        return tripName;
+    }
+
+    public void setTripName(String tripName) {
+        this.tripName = tripName;
     }
 
     public String getLocation() {

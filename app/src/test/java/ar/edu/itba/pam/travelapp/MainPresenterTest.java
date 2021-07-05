@@ -49,7 +49,7 @@ public class MainPresenterTest {
 
     @Test
     public void givenTripWasClickedThenLaunchDetailsScreen() {
-        Trip trip = new Trip(1, "Buenos Aires", now, now, TravelMethod.Airplane, now.atStartOfDay(), "123");
+        Trip trip = new Trip(1, "My Trip Name",  "Buenos Aires", now, now, TravelMethod.Airplane, now.atStartOfDay(), "123", "locationKey");
         presenter.onTripClicked(trip);
         verify(view).launchTripDetail(trip);
     }

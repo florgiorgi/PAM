@@ -1,19 +1,20 @@
 package ar.edu.itba.pam.travelapp;
 
+import android.content.Context;
 import android.widget.EditText;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import ar.edu.itba.pam.travelapp.model.trip.TripRepository;
-import ar.edu.itba.pam.travelapp.newtrip.CreateTripPresenter;
-import ar.edu.itba.pam.travelapp.newtrip.CreateTripView;
+import ar.edu.itba.pam.travelapp.newtrip.createtrip.CreateTripPresenter;
+import ar.edu.itba.pam.travelapp.newtrip.createtrip.CreateTripView;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 public class CreateTripPresenterTest {
-
+    private Context applicationContext;
     private CreateTripView view;
     private TripRepository tripRepository;
     private EditText editText;
@@ -22,11 +23,12 @@ public class CreateTripPresenterTest {
 
     @Before
     public void setup() {
-        view = mock(CreateTripView.class);
-        tripRepository = mock(TripRepository.class);
-        editText = mock(EditText.class);
+        this.applicationContext = mock(Context.class);
+        this.view = mock(CreateTripView.class);
+        this.tripRepository = mock(TripRepository.class);
+        this.editText = mock(EditText.class);
 
-        presenter = new CreateTripPresenter(view, tripRepository);
+        this.presenter = new CreateTripPresenter(view, tripRepository, applicationContext);
     }
 
     @Test

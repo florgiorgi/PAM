@@ -7,7 +7,8 @@
     <string name="upcoming">Próximos</string>
     <string name="history">Historial</string>
     <string name="settings">Configuración</string>
-    <string name="where_are_you_going">¿Dónde vas?</string>
+    <string name="name_for_trip">Un nombre para tu viaje</string>
+    <string name="where_are_you_going">¿A dónde vas?</string>
     <string name="from">Desde</string>
     <string name="to">Hasta</string>
     <string name="how_are_you_traveling">¿Cómo viajás?</string>
@@ -47,6 +48,10 @@
     <string name="edit_button">Editar</string>
     <string name="cancel_edit">Cancelar</string>
     <string name="delete_activity">Eliminar actividad</string>
+    <string name="name_for_trip_hint">Mi Súper Viaje</string>
+    <string name="new_name_for_trip">El nombre de tu viaje</string>
+    <string name="select_location_city">%1$s, %2$s, %3$s</string>
+    <string name="cannot_be_empty">%1$s no puede estar vacío</string>
     <string name="english">English</string>
     <string name="espa_ol">Español</string>
     <string name="english_flag">English Flag</string>

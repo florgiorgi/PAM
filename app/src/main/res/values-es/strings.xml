@@ -52,6 +52,13 @@
     <string name="new_name_for_trip">El nombre de tu viaje</string>
     <string name="select_location_city">%1$s, %2$s, %3$s</string>
     <string name="cannot_be_empty">%1$s no puede estar vacío</string>
+    <string name="english">English</string>
+    <string name="espa_ol">Español</string>
+    <string name="english_flag">English Flag</string>
+    <string name="spanish_flag">Spanish flag</string>
+    <string name="change_language">Cambiar idioma a Inglés?</string>
+    <string name="delete_trip">Eliminar viaje?</string>
+    <string name="day">Día</string>
 
     <string-array name="transport_options">
         <item>Avión</item>

@@ -7,9 +7,21 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
@@ -17,13 +29,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
+import java.util.Locale;
 
 import ar.edu.itba.pam.travelapp.R;
 import ar.edu.itba.pam.travelapp.di.main.TripContainer;
 import ar.edu.itba.pam.travelapp.landing.FtuActivity;
+import ar.edu.itba.pam.travelapp.landing.storage.FtuStorage;
 import ar.edu.itba.pam.travelapp.main.config.ConfigView;
 import ar.edu.itba.pam.travelapp.main.trips.TripListAdapter;
 import ar.edu.itba.pam.travelapp.di.main.TripContainerLocator;
+import ar.edu.itba.pam.travelapp.model.trip.TravelMethod;
 import ar.edu.itba.pam.travelapp.tripdetail.DetailsActivity;
 import ar.edu.itba.pam.travelapp.main.history.HistoryListAdapter;
 import ar.edu.itba.pam.travelapp.main.history.HistoryView;
@@ -32,6 +47,7 @@ import ar.edu.itba.pam.travelapp.main.trips.OnTripClickedListener;
 import ar.edu.itba.pam.travelapp.main.trips.TripsView;
 import ar.edu.itba.pam.travelapp.model.trip.Trip;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
+import ar.edu.itba.pam.travelapp.utils.LocaleHelper;
 
 
 public class MainActivity extends AppCompatActivity implements MainView, OnTripClickedListener {
@@ -45,6 +61,8 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     private RecyclerView historyRecyclerView;
     private TripListAdapter adapter;
     private HistoryListAdapter historyAdapter;
+
+    private Spinner languageSpinner;
 
     private ViewFlipper flipper;
 
@@ -60,9 +78,11 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initLocale();
         setContentView(R.layout.activity_main);
         createPresenter();
         initView();
+        initLanguageButtons();
         setUpBottomNavigation();
         if (savedInstanceState != null) {
             boolean startAtConfig = savedInstanceState.getBoolean(NIGHT_MODE);
@@ -70,6 +90,21 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
                 startAtConfig();
             }
         }
+    }
+
+    private void initLocale() {
+        String lang = LocaleHelper.getLanguage(getBaseContext());
+        LocaleHelper.setLocale(getBaseContext(), lang);
+    }
+
+    @Override
+    protected void attachBaseContext(Context context) {
+        super.attachBaseContext(LocaleHelper.onAttach(context));
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     private void createPresenter() {
@@ -82,6 +117,41 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
             this.presenter = new MainPresenter(this, container.getFtuStorage(), container.getNightModeStorage(),
                     container.getTripRepository(), (AndroidSchedulerProvider) container.getSchedulerProvider());
         }
+    }
+
+    private void openConfirmLanguageDialog(String lang) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.change_language)
+                .setCancelable(false)
+                .setPositiveButton(R.string.confirm, (dialog, id) -> {
+                    changeLanguage(lang);
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    private void initLanguageButtons() {
+        ImageButton englishButton = findViewById(R.id.english_button);
+        englishButton.setOnClickListener(view -> {
+            if (!LocaleHelper.getLanguage(getBaseContext()).equals("en")) {
+                openConfirmLanguageDialog("en");
+            }
+
+        });
+        ImageButton spanishButton = findViewById(R.id.spanish_button);
+        spanishButton.setOnClickListener(view -> {
+            if(!LocaleHelper.getLanguage(getBaseContext()).equals("es")) {
+                openConfirmLanguageDialog("es");
+            }
+        });
+    }
+
+    private void changeLanguage(String lang) {
+        LocaleHelper.setLocale(getApplicationContext(), lang);
+        Intent intent = new Intent(this, getClass());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Nullable

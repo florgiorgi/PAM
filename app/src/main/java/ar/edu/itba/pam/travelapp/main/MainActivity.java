@@ -65,9 +65,6 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
 
     private MainPresenter presenter;
 
-    private AlarmManager alarmManager;
-    private PendingIntent pendingIntent;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -258,16 +255,15 @@ public class MainActivity extends AppCompatActivity implements MainView, OnTripC
     @Override
     public void setUpNotifications() {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 17);
-        calendar.set(Calendar.MINUTE, 37);
+        calendar.set(Calendar.HOUR_OF_DAY, 9);
+        calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
 
         if (calendar.getTimeInMillis() > System.currentTimeMillis()) {
-            alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             Intent intent = new Intent(this, AlarmReceiver.class);
-            pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),AlarmManager.INTERVAL_HALF_DAY, pendingIntent);
         }
     }
-
 }

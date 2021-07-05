@@ -5,12 +5,12 @@ import android.os.AsyncTask;
 import java.lang.ref.WeakReference;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import ar.edu.itba.pam.travelapp.model.activity.Activity;
 import ar.edu.itba.pam.travelapp.model.activity.ActivityRepository;
@@ -24,6 +24,7 @@ import ar.edu.itba.pam.travelapp.model.weather.dtos.location.City;
 import ar.edu.itba.pam.travelapp.utils.AndroidSchedulerProvider;
 import io.reactivex.disposables.Disposable;
 
+
 public class DetailsPresenter {
     public static final int MAX_AMOUNT_OF_FORECASTS = 5;
 
@@ -34,7 +35,7 @@ public class DetailsPresenter {
     private final Trip trip;
     private final TripRepository tripRepository;
     private Disposable disposable;
-    private Map<LocalDate, DayDto> tripDaysMap;
+    private SortedMap<LocalDate, DayDto> tripDaysMap;
 
     public DetailsPresenter(final DetailsView view, final Trip trip, final ActivityRepository activityRepository,
                             final TripRepository tripRepository, final AndroidSchedulerProvider schedulerProvider,
@@ -169,7 +170,7 @@ public class DetailsPresenter {
     }
 
     private void parseActivities(List<Activity> activities, Set<LocalDate> datesSet) {
-        if (tripDaysMap == null) tripDaysMap = new HashMap<>();
+        if (tripDaysMap == null) tripDaysMap = new TreeMap<>();
         LocalDate from = trip.getFrom();
         LocalDate to = trip.getTo();
         long duration = ChronoUnit.DAYS.between(from, to) + 1;
